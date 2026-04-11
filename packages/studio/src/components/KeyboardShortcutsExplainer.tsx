@@ -5,6 +5,7 @@ import {
 	INPUT_BORDER_COLOR_UNHOVERED,
 } from '../helpers/colors';
 import {areKeyboardShortcutsDisabled} from '../helpers/use-keybinding';
+import {useStudioI18n} from '../i18n';
 import {ArrowLeft, ArrowRight, ShiftIcon} from '../icons/keys';
 import {Column, Row, Spacing} from './layout';
 
@@ -61,23 +62,23 @@ const li: React.CSSProperties = {
 };
 
 export const KeyboardShortcutsExplainer: React.FC = () => {
+	const {t} = useStudioI18n();
+
 	return (
 		<div>
 			{areKeyboardShortcutsDisabled() ? (
 				<div style={keyboardShortcutsDisabled}>
-					Keyboard shortcuts disabled either due to:
+					{t('shortcutsDisabledIntro')}
 					<ul style={ul}>
-						<li style={li}>a) --disable-keyboard-shortcuts being passed</li>
-						<li style={li}>
-							b) Config.setKeyboardShortcutsEnabled(false) being set or
-						</li>
-						<li style={li}> c) a Remotion version mismatch.</li>
+						<li style={li}>{t('shortcutsDisabledReasonA')}</li>
+						<li style={li}>{t('shortcutsDisabledReasonB')}</li>
+						<li style={li}>{t('shortcutsDisabledReasonC')}</li>
 					</ul>
 				</div>
 			) : null}
 			<Row style={container}>
 				<Column>
-					<div style={title}>Playback</div>
+					<div style={title}>{t('shortcutsSectionPlayback')}</div>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>
@@ -88,7 +89,7 @@ export const KeyboardShortcutsExplainer: React.FC = () => {
 								<ArrowLeft />
 							</kbd>
 						</div>
-						<div style={right}>1 second back</div>
+						<div style={right}>{t('shortcutsOneSecondBack')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
@@ -96,13 +97,13 @@ export const KeyboardShortcutsExplainer: React.FC = () => {
 								<ArrowLeft />
 							</kbd>
 						</div>
-						<div style={right}>Previous frame</div>
+						<div style={right}>{t('shortcutsPreviousFrame')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>Space</kbd>
 						</div>
-						<div style={right}>Play / Pause</div>
+						<div style={right}>{t('shortcutsPlayPause')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
@@ -110,7 +111,7 @@ export const KeyboardShortcutsExplainer: React.FC = () => {
 								<ArrowRight />
 							</kbd>
 						</div>
-						<div style={right}>Next frame</div>
+						<div style={right}>{t('shortcutsNextFrame')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
@@ -122,59 +123,61 @@ export const KeyboardShortcutsExplainer: React.FC = () => {
 								<ArrowRight />
 							</kbd>
 						</div>
-						<div style={right}>1 second forward</div>
+						<div style={right}>{t('shortcutsOneSecondForward')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>A</kbd>
 						</div>
-						<div style={right}>Jump to beginning</div>
+						<div style={right}>{t('shortcutsJumpToBeginning')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>E</kbd>
 						</div>
-						<div style={right}>Jump to end</div>
+						<div style={right}>{t('shortcutsJumpToEnd')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>J</kbd>
 						</div>
-						<div style={right}>Reverse playback</div>
+						<div style={right}>{t('shortcutsReversePlayback')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>K</kbd>
 						</div>
-						<div style={right}>Pause</div>
+						<div style={right}>{t('shortcutsPause')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>L</kbd>
 						</div>
-						<div style={right}>Play / Speed up</div>
+						<div style={right}>{t('shortcutsPlaySpeedUp')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>G</kbd>
 						</div>
-						<div style={right}>Go to frame</div>
+						<div style={right}>{t('shortcutsGoToFrame')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>Enter</kbd>
 						</div>
-						<div style={right}>Pause & return to playback start</div>
+						<div style={right}>
+							{t('shortcutsPauseAndReturnToPlaybackStart')}
+						</div>
 					</Row>
 					<br />
-					<div style={title}>Sidebar</div>
+					<div style={title}>{t('shortcutsSectionSidebar')}</div>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>{cmdOrCtrlCharacter}</kbd>
 							<Spacing x={0.3} />
 							<kbd style={key}>B</kbd>
 						</div>
-						<div style={right}>Toggle left sidebar</div>
+						<div style={right}>{t('shortcutsToggleLeftSidebar')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
@@ -182,7 +185,7 @@ export const KeyboardShortcutsExplainer: React.FC = () => {
 							<Spacing x={0.3} />
 							<kbd style={key}>J</kbd>
 						</div>
-						<div style={right}>Toggle right sidebar</div>
+						<div style={right}>{t('shortcutsToggleRightSidebar')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
@@ -190,55 +193,57 @@ export const KeyboardShortcutsExplainer: React.FC = () => {
 							<Spacing x={0.3} />
 							<kbd style={key}>G</kbd>
 						</div>
-						<div style={right}>Toggle both sidebars</div>
+						<div style={right}>{t('shortcutsToggleBothSidebars')}</div>
 					</Row>
 					<br />
-					<div style={title}>View</div>
+					<div style={title}>{t('shortcutsSectionView')}</div>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>F</kbd>
 						</div>
-						<div style={right}>Enter fullscreen</div>
+						<div style={right}>{t('shortcutsEnterFullscreen')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>Esc</kbd>
 						</div>
-						<div style={right}>Exit fullscreen</div>
+						<div style={right}>{t('shortcutsExitFullscreen')}</div>
 					</Row>
 				</Column>
 				<Spacing x={8} />
 				<Column>
-					<div style={title}>Navigation</div>
+					<div style={title}>{t('shortcutsSectionNavigation')}</div>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>PageUp</kbd>
 						</div>
-						<div style={right}>Previous composition</div>
+						<div style={right}>{t('shortcutsPreviousComposition')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>PageDown</kbd>
 						</div>
-						<div style={right}>Next composition</div>
+						<div style={right}>{t('shortcutsNextComposition')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>R</kbd>
 						</div>
-						<div style={right}>Render composition</div>
+						<div style={right}>{t('shortcutsRenderComposition')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>T</kbd>
 						</div>
-						<div style={right}>Toggle checkerboard background</div>
+						<div style={right}>
+							{t('shortcutsToggleCheckerboardBackground')}
+						</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>?</kbd>
 						</div>
-						<div style={right}>Show keyboard shortcuts</div>
+						<div style={right}>{t('shortcutsShowKeyboardShortcuts')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
@@ -246,57 +251,57 @@ export const KeyboardShortcutsExplainer: React.FC = () => {
 							<Spacing x={0.3} />
 							<kbd style={key}>K</kbd>
 						</div>
-						<div style={right}>Quick Switcher</div>
+						<div style={right}>{t('shortcutsQuickSwitcher')}</div>
 					</Row>
 					<br />
-					<div style={title}>Playback range</div>
+					<div style={title}>{t('shortcutsSectionPlaybackRange')}</div>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>I</kbd>
 						</div>
-						<div style={right}>Set In Point</div>
+						<div style={right}>{t('shortcutsSetInPoint')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>O</kbd>
 						</div>
-						<div style={right}>Set Out Point</div>
+						<div style={right}>{t('shortcutsSetOutPoint')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>X</kbd>
 						</div>
-						<div style={right}>Clear In/Out Points</div>
+						<div style={right}>{t('shortcutsClearInOutPoints')}</div>
 					</Row>
 					<br />
-					<div style={title}>Zoom</div>
+					<div style={title}>{t('shortcutsSectionZoom')}</div>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>+</kbd>
 						</div>
-						<div style={right}>Zoom in</div>
+						<div style={right}>{t('shortcutsZoomIn')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>-</kbd>
 						</div>
-						<div style={right}>Zoom out</div>
+						<div style={right}>{t('shortcutsZoomOut')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>0</kbd>
 						</div>
-						<div style={right}>Reset zoom</div>
+						<div style={right}>{t('shortcutsResetZoom')}</div>
 					</Row>{' '}
 					<br />
-					<div style={title}>Props Editor</div>
+					<div style={title}>{t('shortcutsSectionPropsEditor')}</div>
 					<Row align="center">
 						<div style={left}>
 							<kbd style={key}>{cmdOrCtrlCharacter}</kbd>
 							<Spacing x={0.3} />
 							<kbd style={key}>Z</kbd>
 						</div>
-						<div style={right}>Undo</div>
+						<div style={right}>{t('shortcutsUndo')}</div>
 					</Row>
 					<Row align="center">
 						<div style={left}>
@@ -304,19 +309,19 @@ export const KeyboardShortcutsExplainer: React.FC = () => {
 							<Spacing x={0.3} />
 							<kbd style={key}>Y</kbd>
 						</div>
-						<div style={right}>Redo</div>
+						<div style={right}>{t('shortcutsRedo')}</div>
 					</Row>
 					{process.env.ASK_AI_ENABLED && (
 						<>
 							<br />
-							<div style={title}>AI</div>
+							<div style={title}>{t('shortcutsSectionAi')}</div>
 							<Row align="center">
 								<div style={left}>
 									<kbd style={key}>{cmdOrCtrlCharacter}</kbd>
 									<Spacing x={0.3} />
 									<kbd style={key}>I</kbd>
 								</div>
-								<div style={right}>Ask AI</div>
+								<div style={right}>{t('shortcutsAskAi')}</div>
 							</Row>
 						</>
 					)}

@@ -5,6 +5,7 @@ import {Internals} from 'remotion';
 import {showNotification} from '../components/Notifications/NotificationCenter';
 import playBeepSound from '../components/PlayBeepSound';
 import {renderJobsRef} from '../components/RenderQueue/context';
+import {translate} from '../i18n';
 import {reloadUrl} from './url-state';
 
 type PreviewServerState =
@@ -106,7 +107,12 @@ export const PreviewServerConnection: React.FC<{
 			}
 
 			if (newEvent.type === 'render-job-failed') {
-				showNotification(`Rendering "${newEvent.compositionId}" failed`, 2000);
+				showNotification(
+					translate('notificationRenderingFailed', {
+						compositionId: newEvent.compositionId,
+					}),
+					2000,
+				);
 			}
 
 			if (newEvent.type === 'new-public-folder') {

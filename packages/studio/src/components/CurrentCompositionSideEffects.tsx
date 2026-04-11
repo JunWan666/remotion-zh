@@ -3,11 +3,13 @@ import {useCallback, useContext, useEffect} from 'react';
 import {Internals} from 'remotion';
 import {StudioServerConnectionCtx} from '../helpers/client-id';
 import {
+	refreshDocumentTitle,
 	setCurrentCanvasContentId,
 	setRenderJobs,
 } from '../helpers/document-title';
 import {SHOW_BROWSER_RENDERING} from '../helpers/show-browser-rendering';
 import {useKeybinding} from '../helpers/use-keybinding';
+import {useStudioI18n} from '../i18n';
 import {showNotification} from './Notifications/NotificationCenter';
 import {RenderQueueContext} from './RenderQueue/context';
 
@@ -15,6 +17,7 @@ export const TitleUpdater: React.FC = () => {
 	const renderQueue = useContext(RenderQueueContext);
 	const {canvasContent} = useContext(Internals.CompositionManager);
 	const {jobs} = renderQueue;
+	const {locale} = useStudioI18n();
 
 	useEffect(() => {
 		if (!canvasContent) {
@@ -44,6 +47,10 @@ export const TitleUpdater: React.FC = () => {
 		setRenderJobs(jobs);
 	}, [jobs]);
 
+	useEffect(() => {
+		refreshDocumentTitle();
+	}, [locale]);
+
 	return null;
 };
 
@@ -53,6 +60,7 @@ export const CurrentCompositionKeybindings: React.FC<{
 	const keybindings = useKeybinding();
 	const video = Internals.useVideo();
 	const {type} = useContext(StudioServerConnectionCtx).previewServerState;
+	const {t} = useStudioI18n();
 
 	const openRenderModal = useCallback(() => {
 		if (!video) {
@@ -60,7 +68,7 @@ export const CurrentCompositionKeybindings: React.FC<{
 		}
 
 		if (type !== 'connected' && !SHOW_BROWSER_RENDERING && !readOnlyStudio) {
-			showNotification('Studio server is offline', 2000);
+			showNotification(t('notificationStudioServerOffline'), 2000);
 			return;
 		}
 
@@ -69,7 +77,7 @@ export const CurrentCompositionKeybindings: React.FC<{
 		) as HTMLDivElement;
 
 		renderButton.click();
-	}, [readOnlyStudio, type, video]);
+	}, [readOnlyStudio, t, type, video]);
 
 	useEffect(() => {
 		const binding = keybindings.registerKeybinding({

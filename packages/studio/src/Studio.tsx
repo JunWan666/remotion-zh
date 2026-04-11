@@ -7,6 +7,7 @@ import {ServerDisconnected} from './components/Notifications/ServerDisconnected'
 import {StaticFilesProvider} from './components/use-static-files';
 import {FastRefreshProvider} from './FastRefreshProvider';
 import {injectCSS} from './helpers/inject-css';
+import {StudioI18nProvider} from './i18n';
 import {ResolveCompositionConfigInStudio} from './ResolveCompositionConfigInStudio';
 
 const getServerDisconnectedDomElement = () => {
@@ -63,11 +64,13 @@ export const Studio: React.FC<{
 
 	return (
 		<FastRefreshProvider>
-			<StudioInner
-				rootComponent={rootComponent}
-				readOnly={readOnly}
-				visualModeEnabled={visualModeEnabled}
-			/>
+			<StudioI18nProvider>
+				<StudioInner
+					rootComponent={rootComponent}
+					readOnly={readOnly}
+					visualModeEnabled={visualModeEnabled}
+				/>
+			</StudioI18nProvider>
 		</FastRefreshProvider>
 	);
 };

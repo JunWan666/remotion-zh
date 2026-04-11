@@ -4,6 +4,7 @@ import {
 	areKeyboardShortcutsDisabled,
 	useKeybinding,
 } from '../helpers/use-keybinding';
+import {useStudioI18n} from '../i18n';
 import {SidebarContext} from '../state/sidebar';
 import type {RenderInlineAction} from './InlineAction';
 import {InlineAction} from './InlineAction';
@@ -23,6 +24,7 @@ export const SidebarCollapserControls: React.FC<{}> = () => {
 	const {setSidebarCollapsedState, sidebarCollapsedStateRight} =
 		useContext(SidebarContext);
 	const keybindings = useKeybinding();
+	const {t} = useStudioI18n();
 	const leftSidebarStatus = useResponsiveSidebarStatus();
 
 	const leftIcon = useCallback(
@@ -136,12 +138,12 @@ export const SidebarCollapserControls: React.FC<{}> = () => {
 	}, [keybindings, toggleBoth, toggleLeft, toggleRight]);
 
 	const toggleLeftTooltip = areKeyboardShortcutsDisabled()
-		? 'Toggle Left Sidebar'
-		: `Toggle Left Sidebar (${cmdOrCtrlCharacter}+B)`;
+		? t('sidebarToggleLeft')
+		: `${t('sidebarToggleLeft')} (${cmdOrCtrlCharacter}+B)`;
 
 	const toggleRightTooltip = areKeyboardShortcutsDisabled()
-		? 'Toggle Right Sidebar'
-		: `Toggle Right Sidebar (${cmdOrCtrlCharacter}+J)`;
+		? t('sidebarToggleRight')
+		: `${t('sidebarToggleRight')} (${cmdOrCtrlCharacter}+J)`;
 
 	const colorStyle = useCallback((color: string): React.CSSProperties => {
 		return {

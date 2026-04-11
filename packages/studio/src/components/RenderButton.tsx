@@ -20,6 +20,7 @@ import {
 } from '../helpers/colors';
 import {SHOW_BROWSER_RENDERING} from '../helpers/show-browser-rendering';
 import {areKeyboardShortcutsDisabled} from '../helpers/use-keybinding';
+import {useStudioI18n} from '../i18n';
 import {CaretDown} from '../icons/caret';
 import {ThinRenderIcon} from '../icons/render';
 import {useTimelineInOutFramePosition} from '../state/in-out';
@@ -120,6 +121,7 @@ export const RenderButton: React.FC<{readonly readOnlyStudio: boolean}> = ({
 }) => {
 	const {inFrame, outFrame} = useTimelineInOutFramePosition();
 	const {setSelectedModal} = useContext(ModalsContext);
+	const {t} = useStudioI18n();
 	const [preferredRenderType, setPreferredRenderType] = useState<RenderType>(
 		() => getInitialRenderType(readOnlyStudio),
 	);
@@ -207,10 +209,10 @@ export const RenderButton: React.FC<{readonly readOnlyStudio: boolean}> = ({
 	const shortcut = areKeyboardShortcutsDisabled() ? '' : '(R)';
 	const tooltip =
 		renderType === 'render-command'
-			? 'Copy a CLI command to render this composition ' + shortcut
+			? t('renderButtonCopyCliCommand', {shortcut})
 			: canRender
-				? 'Export the current composition ' + shortcut
-				: 'Connect to the Studio server to render';
+				? t('renderButtonExportCurrentComposition', {shortcut})
+				: t('renderButtonConnectStudioServerToRender');
 
 	const iconStyle: SVGProps<SVGSVGElement> = useMemo(() => {
 		return {
@@ -380,7 +382,7 @@ export const RenderButton: React.FC<{readonly readOnlyStudio: boolean}> = ({
 				{
 					type: 'item' as const,
 					id: 'client-render',
-					label: 'Render on web',
+					label: t('renderButtonRenderOnWeb'),
 					value: 'client-render',
 					onClick: () => handleRenderTypeChange('client-render'),
 					keyHint: null,
@@ -391,7 +393,7 @@ export const RenderButton: React.FC<{readonly readOnlyStudio: boolean}> = ({
 				{
 					type: 'item' as const,
 					id: 'render-command',
-					label: 'Render via CLI',
+					label: t('renderButtonRenderViaCli'),
 					value: 'render-command',
 					onClick: () => handleRenderTypeChange('render-command'),
 					keyHint: null,
@@ -406,7 +408,7 @@ export const RenderButton: React.FC<{readonly readOnlyStudio: boolean}> = ({
 			{
 				type: 'item' as const,
 				id: 'server-render',
-				label: 'Server-side render',
+				label: t('renderButtonServerSideRender'),
 				value: 'server-render',
 				onClick: () => handleRenderTypeChange('server-render'),
 				keyHint: null,
@@ -417,7 +419,7 @@ export const RenderButton: React.FC<{readonly readOnlyStudio: boolean}> = ({
 			{
 				type: 'item' as const,
 				id: 'client-render',
-				label: 'Client-side render',
+				label: t('renderButtonClientSideRender'),
 				value: 'client-render',
 				onClick: () => handleRenderTypeChange('client-render'),
 				keyHint: null,
@@ -426,7 +428,7 @@ export const RenderButton: React.FC<{readonly readOnlyStudio: boolean}> = ({
 				quickSwitcherLabel: null,
 			},
 		];
-	}, [handleRenderTypeChange, readOnlyStudio]);
+	}, [handleRenderTypeChange, readOnlyStudio, t]);
 
 	const spaceToBottom = useMemo(() => {
 		const margin = 10;
@@ -481,10 +483,10 @@ export const RenderButton: React.FC<{readonly readOnlyStudio: boolean}> = ({
 
 	const renderLabel =
 		renderType === 'server-render'
-			? 'Render'
+			? t('renderButtonRender')
 			: renderType === 'render-command'
-				? 'Render via CLI'
-				: 'Render on web';
+				? t('renderButtonRenderViaCli')
+				: t('renderButtonRenderOnWeb');
 
 	const shouldShowDropdown = useMemo(() => {
 		if (readOnlyStudio) {

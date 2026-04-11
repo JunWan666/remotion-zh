@@ -14,6 +14,7 @@ import {
 	makeSearchResults,
 	useMenuStructure,
 } from '../../helpers/use-menu-structure';
+import {useStudioI18n} from '../../i18n';
 import {ModalsContext} from '../../state/modals';
 import {useSelectComposition} from '../InitialCompositionLoader';
 import {KeyboardShortcutsExplainer} from '../KeyboardShortcutsExplainer';
@@ -132,6 +133,7 @@ export const QuickSwitcherContent: React.FC<{
 	readonly invocationTimestamp: number;
 	readonly readOnlyStudio: boolean;
 }> = ({initialMode, invocationTimestamp, readOnlyStudio}) => {
+	const {t} = useStudioI18n();
 	const {compositions} = useContext(Internals.CompositionManager);
 	const [state, setState] = useState(() => {
 		return {
@@ -371,7 +373,7 @@ export const QuickSwitcherContent: React.FC<{
 					style={mode === 'compositions' ? modeActive : modeInactive}
 					type="button"
 				>
-					Compositions
+					{t('quickSwitcherCompositions')}
 				</button>
 				<Spacing x={1} />
 				<button
@@ -379,7 +381,7 @@ export const QuickSwitcherContent: React.FC<{
 					style={mode === 'commands' ? modeActive : modeInactive}
 					type="button"
 				>
-					Actions
+					{t('quickSwitcherActions')}
 				</button>
 				<Spacing x={1} />
 				<button
@@ -387,7 +389,7 @@ export const QuickSwitcherContent: React.FC<{
 					style={mode === 'docs' ? modeActive : modeInactive}
 					type="button"
 				>
-					Documentation
+					{t('quickSwitcherDocumentation')}
 				</button>
 			</div>
 			<div style={content}>
@@ -399,7 +401,7 @@ export const QuickSwitcherContent: React.FC<{
 					status="ok"
 					value={state.query}
 					onChange={onTextChange}
-					placeholder="Search compositions..."
+					placeholder={t('quickSwitcherSearchCompositions')}
 					rightAlign={false}
 				/>
 				{showKeyboardShortcuts ? (

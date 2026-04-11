@@ -5,19 +5,20 @@ import {
 	areKeyboardShortcutsDisabled,
 	useKeybinding,
 } from '../helpers/use-keybinding';
+import {useStudioI18n} from '../i18n';
 import {drawRef} from '../state/canvas-ref';
 import {ControlButton} from './ControlButton';
-
-const accessibilityLabel = [
-	'Enter fullscreen preview',
-	areKeyboardShortcutsDisabled() ? null : '(F)',
-]
-	.filter(NoReactInternals.truthy)
-	.join(' ');
 
 export const FullScreenToggle: React.FC<{}> = () => {
 	const keybindings = useKeybinding();
 	const {setSize} = useContext(Internals.PreviewSizeContext);
+	const {t} = useStudioI18n();
+	const accessibilityLabel = [
+		t('previewEnterFullscreen'),
+		areKeyboardShortcutsDisabled() ? null : '(F)',
+	]
+		.filter(NoReactInternals.truthy)
+		.join(' ');
 
 	const onClick = useCallback(() => {
 		drawRef.current?.requestFullscreen();

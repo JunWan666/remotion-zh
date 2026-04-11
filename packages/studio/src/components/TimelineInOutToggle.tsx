@@ -12,6 +12,7 @@ import {
 	areKeyboardShortcutsDisabled,
 	useKeybinding,
 } from '../helpers/use-keybinding';
+import {useStudioI18n} from '../i18n';
 import {
 	TimelineInPointer,
 	TimelineOutPointer,
@@ -22,15 +23,6 @@ import {
 	useTimelineSetInOutFramePosition,
 } from '../state/in-out';
 import {ControlButton} from './ControlButton';
-
-const getTooltipText = (pointType: string, key: string) =>
-	[
-		`Mark ${pointType}`,
-		areKeyboardShortcutsDisabled() ? null : `(${key})`,
-		'- right click to clear',
-	]
-		.filter(NoReactInternals.truthy)
-		.join(' ');
 
 const style: React.CSSProperties = {
 	width: 16,
@@ -50,8 +42,21 @@ export const TimelineInOutPointToggle: React.FC = () => {
 	const {setInAndOutFrames} = useTimelineSetInOutFramePosition();
 	const videoConfig = Internals.useUnsafeVideoConfig();
 	const keybindings = useKeybinding();
+	const {t} = useStudioI18n();
 	const {getCurrentFrame, isFirstFrame, isLastFrame} =
 		PlayerInternals.usePlayer();
+	const getTooltipText = useCallback(
+		(pointType: 'timelineMarkIn' | 'timelineMarkOut', key: string) => {
+			return [
+				t(pointType),
+				areKeyboardShortcutsDisabled() ? null : `(${key})`,
+				`- ${t('timelineRightClickToClear')}`,
+			]
+				.filter(NoReactInternals.truthy)
+				.join(' ');
+		},
+		[t],
+	);
 
 	const onInOutClear = useCallback(
 		(composition: string) => {
@@ -298,8 +303,8 @@ export const TimelineInOutPointToggle: React.FC = () => {
 	return (
 		<>
 			<ControlButton
-				title={getTooltipText('In', 'I')}
-				aria-label={getTooltipText('In', 'I')}
+				title={getTooltipText('timelineMarkIn', 'I')}
+				aria-label={getTooltipText('timelineMarkIn', 'I')}
 				onClick={onInMark}
 				onContextMenu={clearInMark}
 				disabled={!videoConfig || isFirstFrame}
@@ -310,8 +315,8 @@ export const TimelineInOutPointToggle: React.FC = () => {
 				/>
 			</ControlButton>
 			<ControlButton
-				title={getTooltipText('Out', 'O')}
-				aria-label={getTooltipText('Out', 'O')}
+				title={getTooltipText('timelineMarkOut', 'O')}
+				aria-label={getTooltipText('timelineMarkOut', 'O')}
 				onClick={onOutMark}
 				onContextMenu={clearOutMark}
 				disabled={!videoConfig || isLastFrame}

@@ -2,6 +2,7 @@ import React from 'react';
 import {Internals} from 'remotion';
 import {BACKGROUND} from '../helpers/colors';
 import {isCompositionStill} from '../helpers/is-composition-still';
+import {useStudioI18n} from '../i18n';
 import {renderFrame} from '../state/render-frame';
 
 export const CURRENT_COMPOSITION_HEIGHT = 64;
@@ -39,6 +40,7 @@ const row: React.CSSProperties = {
 
 export const CurrentComposition = () => {
 	const video = Internals.useVideo();
+	const {t} = useStudioI18n();
 
 	return (
 		<div style={container}>
@@ -51,10 +53,12 @@ export const CurrentComposition = () => {
 							{isCompositionStill(video) ? null : `, ${video.fps} FPS`}
 						</div>
 						{isCompositionStill(video) ? (
-							<div style={subtitle}>Still</div>
+							<div style={subtitle}>{t('currentStill')}</div>
 						) : (
 							<div style={subtitle}>
-								Duration {renderFrame(video.durationInFrames, video.fps)}
+								{t('currentDuration', {
+									duration: renderFrame(video.durationInFrames, video.fps),
+								})}
 							</div>
 						)}
 					</div>

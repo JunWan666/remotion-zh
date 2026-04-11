@@ -1,6 +1,7 @@
 import type {MouseEventHandler} from 'react';
 import React, {useContext, useMemo} from 'react';
 import {FAIL_COLOR, LIGHT_TEXT} from '../helpers/colors';
+import {useStudioI18n} from '../i18n';
 import {Flex} from './layout';
 import {RenderQueueContext} from './RenderQueue/context';
 import {Tab} from './Tabs';
@@ -29,6 +30,7 @@ export const RendersTab: React.FC<{
 	readonly onClick: MouseEventHandler<HTMLDivElement>;
 }> = ({selected, onClick}) => {
 	const {jobs} = useContext(RenderQueueContext);
+	const {t} = useStudioI18n();
 	const failedJobs = jobs.filter((j) => j.status === 'failed').length;
 	const jobCount = jobs.length;
 
@@ -46,7 +48,7 @@ export const RendersTab: React.FC<{
 	return (
 		<Tab selected={selected} onClick={onClick}>
 			<div style={row}>
-				Renders
+				{t('tabRenders')}
 				{jobCount > 0 ? (
 					<>
 						<Flex />

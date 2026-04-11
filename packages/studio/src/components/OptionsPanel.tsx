@@ -11,6 +11,7 @@ import {Internals} from 'remotion';
 import {BACKGROUND} from '../helpers/colors';
 import {useMobileLayout} from '../helpers/mobile-layout';
 import {SHOW_BROWSER_RENDERING} from '../helpers/show-browser-rendering';
+import {useStudioI18n} from '../i18n';
 import {VisualControlsTabActivatedContext} from '../visual-controls/VisualControls';
 import {DefaultPropsEditor} from './DefaultPropsEditor';
 import {useZodIfPossible, useZodTypesIfPossible} from './get-zod-if-possible';
@@ -64,6 +65,7 @@ export const optionsSidebarTabs = createRef<{
 export const OptionsPanel: React.FC<{
 	readonly readOnlyStudio: boolean;
 }> = ({readOnlyStudio}) => {
+	const {t} = useStudioI18n();
 	const {props, updateProps} = useContext(Internals.EditorPropsContext);
 
 	const renderingAvailable = !readOnlyStudio || SHOW_BROWSER_RENDERING;
@@ -183,7 +185,7 @@ export const OptionsPanel: React.FC<{
 				schema === 'no-composition' ||
 				z === null
 			) {
-				showNotification('Cannot update default props: No Zod schema', 2000);
+				showNotification(t('notificationCannotUpdateDefaultPropsNoZod'), 2000);
 				return;
 			}
 
@@ -210,16 +212,23 @@ export const OptionsPanel: React.FC<{
 						// eslint-disable-next-line no-console
 						console.log(response.stack);
 						showNotification(
-							`Cannot update default props: ${response.reason}. See console for more information.`,
+							t('notificationCannotUpdateDefaultPropsReason', {
+								reason: response.reason,
+							}),
 							2000,
 						);
 					}
 				})
 				.catch((err) => {
-					showNotification(`Cannot update default props: ${err.message}`, 2000);
+					showNotification(
+						t('notificationCannotUpdateDefaultPropsError', {
+							message: err.message,
+						}),
+						2000,
+					);
 				});
 		},
-		[composition, currentDefaultProps, readOnlyStudio, schema, z, zodTypes],
+		[composition, currentDefaultProps, readOnlyStudio, schema, t, z, zodTypes],
 	);
 
 	const compositionId = useMemo(() => {
@@ -274,7 +283,7 @@ export const OptionsPanel: React.FC<{
 							selected={panel === 'visual-controls'}
 							onClick={onVisualControlsSelected}
 						>
-							Controls
+							{t('tabControls')}
 						</Tab>
 					) : null}
 					<Tab
@@ -282,7 +291,7 @@ export const OptionsPanel: React.FC<{
 						onClick={onPropsSelected}
 						style={{justifyContent: 'space-between'}}
 					>
-						Props
+						{t('tabProps')}
 						{hasLocalModifications ? (
 							<SchemaResetButton onClick={resetToOriginal} />
 						) : null}

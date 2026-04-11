@@ -14,6 +14,7 @@ import type {TQuickSwitcherResult} from '../components/QuickSwitcher/QuickSwitch
 import {getPreviewSizeLabel, getUniqueSizes} from '../components/SizeSelector';
 import {inOutHandles} from '../components/TimelineInOutToggle';
 import {cmdOrCtrlCharacter} from '../error-overlay/remotion-overlay/ShortcutHint';
+import {type StudioLocale, useStudioI18n} from '../i18n';
 import {Checkmark} from '../icons/Checkmark';
 import {drawRef} from '../state/canvas-ref';
 import {CheckerboardContext} from '../state/checkerboard';
@@ -34,6 +35,7 @@ import {SHOW_BROWSER_RENDERING} from './show-browser-rendering';
 import {areKeyboardShortcutsDisabled} from './use-keybinding';
 
 type Structure = Menu[];
+type Translate = ReturnType<typeof useStudioI18n>['t'];
 
 const openExternal = (link: string) => {
 	window.open(link, '_blank');
@@ -49,18 +51,20 @@ const getFileMenu = ({
 	closeMenu,
 	previewServerState,
 	setSelectedModal,
+	t,
 }: {
 	readOnlyStudio: boolean;
 	closeMenu: () => void;
 	previewServerState: 'connected' | 'init' | 'disconnected';
 	setSelectedModal: (value: React.SetStateAction<ModalState | null>) => void;
+	t: Translate;
 }) => {
 	const items: ComboboxValue[] = [
 		window.remotion_isReadOnlyStudio
 			? {
 					id: 'input-props-override',
 					value: 'input-props-override',
-					label: 'Set input props...',
+					label: t('menuSetInputProps'),
 					onClick: () => {
 						closeMenu();
 						setSelectedModal({
@@ -71,7 +75,7 @@ const getFileMenu = ({
 					keyHint: null,
 					leftItem: null,
 					subMenu: null,
-					quickSwitcherLabel: 'Override input props',
+					quickSwitcherLabel: t('menuOverrideInputProps'),
 				}
 			: null,
 		readOnlyStudio
@@ -79,11 +83,11 @@ const getFileMenu = ({
 			: {
 					id: 'render',
 					value: 'render',
-					label: 'Render...',
+					label: t('menuRender'),
 					onClick: () => {
 						closeMenu();
 						if (previewServerState !== 'connected') {
-							showNotification('Restart the studio to render', 2000);
+							showNotification(t('notificationRestartStudioToRender'), 2000);
 							return;
 						}
 
@@ -97,13 +101,13 @@ const getFileMenu = ({
 					keyHint: 'R',
 					leftItem: null,
 					subMenu: null,
-					quickSwitcherLabel: 'Render...',
+					quickSwitcherLabel: t('menuRender'),
 				},
 		SHOW_BROWSER_RENDERING && !readOnlyStudio
 			? {
 					id: 'render-on-web',
 					value: 'render-on-web',
-					label: 'Render on web...',
+					label: t('menuRenderOnWeb'),
 					onClick: () => {
 						closeMenu();
 
@@ -117,7 +121,7 @@ const getFileMenu = ({
 					keyHint: null,
 					leftItem: null,
 					subMenu: null,
-					quickSwitcherLabel: 'Render on web...',
+					quickSwitcherLabel: t('menuRenderOnWeb'),
 				}
 			: null,
 		window.remotion_editorName && !readOnlyStudio
@@ -130,7 +134,9 @@ const getFileMenu = ({
 			? {
 					id: 'open-in-editor',
 					value: 'open-in-editor',
-					label: `Open in ${window.remotion_editorName}`,
+					label: t('menuOpenInEditor', {
+						editorName: window.remotion_editorName,
+					}),
 					onClick: async () => {
 						await openInEditor({
 							originalFileName: `${window.remotion_cwd}`,
@@ -143,7 +149,9 @@ const getFileMenu = ({
 							.then(({success}) => {
 								if (!success) {
 									showNotification(
-										`Could not open ${window.remotion_editorName}`,
+										t('notificationCouldNotOpenEditor', {
+											editorName: window.remotion_editorName,
+										}),
 										2000,
 									);
 								}
@@ -152,7 +160,9 @@ const getFileMenu = ({
 								// eslint-disable-next-line no-console
 								console.error(err);
 								showNotification(
-									`Could not open ${window.remotion_editorName}`,
+									t('notificationCouldNotOpenEditor', {
+										editorName: window.remotion_editorName,
+									}),
 									2000,
 								);
 							});
@@ -161,7 +171,7 @@ const getFileMenu = ({
 					keyHint: null,
 					leftItem: null,
 					subMenu: null,
-					quickSwitcherLabel: 'Open in editor...',
+					quickSwitcherLabel: t('menuOpenInEditorQuick'),
 				}
 			: null,
 
@@ -173,7 +183,7 @@ const getFileMenu = ({
 
 	return {
 		id: 'file' as const,
-		label: 'File',
+		label: t('menuFile'),
 		leaveLeftPadding: false,
 		items,
 		quickSwitcherLabel: null,
@@ -184,6 +194,7 @@ export const useMenuStructure = (
 	closeMenu: () => void,
 	readOnlyStudio: boolean,
 ) => {
+	const {locale, setLocale, t} = useStudioI18n();
 	const {setSelectedModal} = useContext(ModalsContext);
 	const {checkerboard, setCheckerboard} = useContext(CheckerboardContext);
 	const {editorZoomGestures, setEditorZoomGestures} = useContext(
@@ -241,7 +252,7 @@ export const useMenuStructure = (
 					{
 						id: 'about',
 						value: 'about',
-						label: 'About Remotion',
+						label: t('menuAboutRemotion'),
 						onClick: () => {
 							closeMenu();
 							openExternal('https://remotion.dev');
@@ -250,12 +261,12 @@ export const useMenuStructure = (
 						keyHint: null,
 						leftItem: null,
 						subMenu: null,
-						quickSwitcherLabel: 'Help: About Remotion',
+						quickSwitcherLabel: t('menuAboutRemotion'),
 					},
 					{
 						id: 'changelog',
 						value: 'changelog',
-						label: 'Changelog',
+						label: t('menuChangelog'),
 						onClick: () => {
 							closeMenu();
 							openExternal('https://github.com/remotion-dev/remotion/releases');
@@ -264,12 +275,12 @@ export const useMenuStructure = (
 						keyHint: null,
 						leftItem: null,
 						subMenu: null,
-						quickSwitcherLabel: 'Help: Changelog',
+						quickSwitcherLabel: t('menuChangelog'),
 					},
 					{
 						id: 'license',
 						value: 'license',
-						label: 'License',
+						label: t('menuLicense'),
 						onClick: () => {
 							closeMenu();
 							openExternal(
@@ -280,12 +291,12 @@ export const useMenuStructure = (
 						keyHint: null,
 						leftItem: null,
 						subMenu: null,
-						quickSwitcherLabel: 'Help: License',
+						quickSwitcherLabel: t('menuLicense'),
 					},
 					{
 						id: 'acknowledgements',
 						value: 'acknowledgements',
-						label: 'Acknowledgements',
+						label: t('menuAcknowledgements'),
 						onClick: () => {
 							closeMenu();
 							openExternal('https://remotion.dev/acknowledgements');
@@ -294,7 +305,7 @@ export const useMenuStructure = (
 						keyHint: null,
 						leftItem: null,
 						subMenu: null,
-						quickSwitcherLabel: 'Help: Acknowledgements',
+						quickSwitcherLabel: t('menuAcknowledgements'),
 					},
 					{
 						type: 'divider' as const,
@@ -303,7 +314,7 @@ export const useMenuStructure = (
 					{
 						id: 'restart-studio',
 						value: 'restart-studio',
-						label: 'Restart Studio Server',
+						label: t('menuRestartStudioServer'),
 						onClick: () => {
 							closeMenu();
 							restartStudio();
@@ -312,7 +323,7 @@ export const useMenuStructure = (
 						keyHint: null,
 						leftItem: null,
 						subMenu: null,
-						quickSwitcherLabel: 'Restart Studio Server',
+						quickSwitcherLabel: t('menuRestartStudioServer'),
 					},
 				],
 				quickSwitcherLabel: null,
@@ -322,16 +333,17 @@ export const useMenuStructure = (
 				closeMenu,
 				previewServerState: type,
 				setSelectedModal,
+				t,
 			}),
 			{
 				id: 'view' as const,
-				label: 'View',
+				label: t('menuView'),
 				leaveLeftPadding: true,
 				items: [
 					{
 						id: 'preview-size',
 						keyHint: null,
-						label: 'Preview size',
+						label: t('menuPreviewSize'),
 						onClick: () => undefined,
 						type: 'item' as const,
 						value: 'preview-size',
@@ -342,7 +354,7 @@ export const useMenuStructure = (
 							items: sizes.map((newSize) => ({
 								id: String(newSize.size),
 								keyHint: newSize.size === 1 ? '0' : null,
-								label: getPreviewSizeLabel(newSize),
+								label: getPreviewSizeLabel(newSize, t),
 								leftItem:
 									String(newSize.size) === String(size.size) ? (
 										<Checkmark />
@@ -363,7 +375,7 @@ export const useMenuStructure = (
 					{
 						id: 'editor-zoom-gestures',
 						keyHint: null,
-						label: 'Zoom and Pan Gestures',
+						label: t('menuZoomAndPanGestures'),
 						onClick: () => {
 							closeMenu();
 							setEditorZoomGestures((c) => !c);
@@ -373,13 +385,13 @@ export const useMenuStructure = (
 						leftItem: editorZoomGestures ? <Checkmark /> : null,
 						subMenu: null,
 						quickSwitcherLabel: editorZoomGestures
-							? 'Disable Zoom and Pan Gestures'
-							: 'Enable Zoom and Pan Gestures',
+							? t('menuDisableZoomAndPanGestures')
+							: t('menuEnableZoomAndPanGestures'),
 					},
 					{
 						id: 'show-rulers',
 						keyHint: null,
-						label: 'Show Rulers',
+						label: t('menuShowRulers'),
 						onClick: () => {
 							closeMenu();
 							setEditorShowRulers((c) => !c);
@@ -389,13 +401,13 @@ export const useMenuStructure = (
 						leftItem: editorShowRulers ? <Checkmark /> : null,
 						subMenu: null,
 						quickSwitcherLabel: editorShowRulers
-							? 'Hide Rulers'
-							: 'Show Rulers',
+							? t('menuHideRulers')
+							: t('menuShowRulers'),
 					},
 					{
 						id: 'show-guides',
 						keyHint: null,
-						label: 'Show Guides',
+						label: t('menuShowGuides'),
 						onClick: () => {
 							closeMenu();
 							setEditorShowGuides((c) => !c);
@@ -405,8 +417,8 @@ export const useMenuStructure = (
 						leftItem: editorShowGuides ? <Checkmark /> : null,
 						subMenu: null,
 						quickSwitcherLabel: editorShowGuides
-							? 'Hide Guides'
-							: 'Show Guides',
+							? t('menuHideGuides')
+							: t('menuShowGuides'),
 					},
 					{
 						id: 'timeline-divider-1',
@@ -414,7 +426,7 @@ export const useMenuStructure = (
 					},
 					{
 						id: 'left-sidebar',
-						label: 'Left Sidebar',
+						label: t('menuLeftSidebar'),
 						keyHint: null,
 						type: 'item' as const,
 						value: 'preview-size',
@@ -427,7 +439,7 @@ export const useMenuStructure = (
 								{
 									id: 'left-sidebar-responsive',
 									keyHint: null,
-									label: 'Responsive',
+									label: t('menuResponsive'),
 									leftItem:
 										sidebarCollapsedStateLeft === 'responsive' ? (
 											<Checkmark />
@@ -447,7 +459,7 @@ export const useMenuStructure = (
 								{
 									id: 'left-sidebar-expanded',
 									keyHint: null,
-									label: 'Expanded',
+									label: t('menuExpanded'),
 									leftItem:
 										sidebarCollapsedStateLeft === 'expanded' ? (
 											<Checkmark />
@@ -459,12 +471,12 @@ export const useMenuStructure = (
 									subMenu: null,
 									type: 'item' as const,
 									value: 'expanded' as SidebarCollapsedState,
-									quickSwitcherLabel: 'Expand',
+									quickSwitcherLabel: t('menuExpand'),
 								},
 								{
 									id: 'left-sidebar-collapsed',
 									keyHint: null,
-									label: 'Collapsed',
+									label: t('menuCollapsed'),
 									leftItem:
 										sidebarCollapsedStateLeft === 'collapsed' ? (
 											<Checkmark />
@@ -479,7 +491,7 @@ export const useMenuStructure = (
 									subMenu: null,
 									type: 'item' as const,
 									value: 'collapsed' as SidebarCollapsedState,
-									quickSwitcherLabel: 'Collapse',
+									quickSwitcherLabel: t('menuCollapse'),
 								},
 							],
 						},
@@ -487,7 +499,7 @@ export const useMenuStructure = (
 					},
 					{
 						id: 'right-sidebar',
-						label: 'Right Sidebar',
+						label: t('menuRightSidebar'),
 						keyHint: null,
 						type: 'item' as const,
 						value: 'preview-size',
@@ -500,7 +512,7 @@ export const useMenuStructure = (
 								{
 									id: 'sidebar-expanded',
 									keyHint: null,
-									label: 'Expanded',
+									label: t('menuExpanded'),
 									leftItem:
 										sidebarCollapsedStateRight === 'expanded' ? (
 											<Checkmark />
@@ -512,12 +524,12 @@ export const useMenuStructure = (
 									subMenu: null,
 									type: 'item' as const,
 									value: 'expanded' as SidebarCollapsedState,
-									quickSwitcherLabel: 'Expand',
+									quickSwitcherLabel: t('menuExpand'),
 								},
 								{
 									id: 'right-sidebar-collapsed',
 									keyHint: null,
-									label: 'Collapsed',
+									label: t('menuCollapsed'),
 									leftItem:
 										sidebarCollapsedStateRight === 'collapsed' ? (
 											<Checkmark />
@@ -532,9 +544,54 @@ export const useMenuStructure = (
 									subMenu: null,
 									type: 'item' as const,
 									value: 'collapsed' as SidebarCollapsedState,
-									quickSwitcherLabel: 'Collapse',
+									quickSwitcherLabel: t('menuCollapse'),
 								},
 							],
+						},
+						onClick: () => undefined,
+					},
+					{
+						id: 'language',
+						label: t('menuLanguage'),
+						keyHint: null,
+						type: 'item' as const,
+						value: 'language',
+						leftItem: null,
+						quickSwitcherLabel: null,
+						subMenu: {
+							leaveLeftSpace: true,
+							preselectIndex: locale === 'zh' ? 0 : 1,
+							items: (
+								[
+									{
+										id: 'language-zh',
+										label: t('localeChinese'),
+										value: 'zh',
+									},
+									{
+										id: 'language-en',
+										label: t('localeEnglish'),
+										value: 'en',
+									},
+								] as const
+							).map((language) => ({
+								id: language.id,
+								keyHint: null,
+								label: language.label,
+								leftItem:
+									locale === (language.value as StudioLocale) ? (
+										<Checkmark />
+									) : null,
+								onClick: () => {
+									closeMenu();
+									setLocale(language.value as StudioLocale);
+								},
+								subMenu: null,
+								type: 'item' as const,
+								value: language.value,
+								quickSwitcherLabel: null,
+							})),
+							quickSwitcherLabel: null,
 						},
 						onClick: () => undefined,
 					},
@@ -545,7 +602,7 @@ export const useMenuStructure = (
 					{
 						id: 'checkerboard',
 						keyHint: 'T',
-						label: 'Transparency as checkerboard',
+						label: t('menuTransparencyAsCheckerboard'),
 						onClick: () => {
 							closeMenu();
 							setCheckerboard((c) => !c);
@@ -555,8 +612,8 @@ export const useMenuStructure = (
 						leftItem: checkerboard ? <Checkmark /> : null,
 						subMenu: null,
 						quickSwitcherLabel: checkerboard
-							? 'Disable Checkerboard Transparency'
-							: 'Enable Checkerboard Transparency',
+							? t('menuDisableCheckerboardTransparency')
+							: t('menuEnableCheckerboardTransparency'),
 					},
 					{
 						id: 'timeline-divider-3',
@@ -565,7 +622,7 @@ export const useMenuStructure = (
 					{
 						id: 'quick-switcher',
 						keyHint: `${cmdOrCtrlCharacter}+K`,
-						label: 'Quick Switcher',
+						label: t('menuQuickSwitcher'),
 						onClick: () => {
 							closeMenu();
 							setSelectedModal({
@@ -578,7 +635,7 @@ export const useMenuStructure = (
 						value: 'quick-switcher',
 						leftItem: null,
 						subMenu: null,
-						quickSwitcherLabel: 'Switch composition',
+						quickSwitcherLabel: t('menuSwitchComposition'),
 					},
 					{
 						id: 'in-out-divider-5',
@@ -587,7 +644,7 @@ export const useMenuStructure = (
 					{
 						id: 'in-mark',
 						keyHint: 'I',
-						label: 'In Mark',
+						label: t('menuInMark'),
 						leftItem: null,
 						onClick: () => {
 							closeMenu();
@@ -596,12 +653,12 @@ export const useMenuStructure = (
 						subMenu: null,
 						type: 'item' as const,
 						value: 'in-mark',
-						quickSwitcherLabel: 'Timeline: Set In Mark',
+						quickSwitcherLabel: t('menuInMark'),
 					},
 					{
 						id: 'out-mark',
 						keyHint: 'O',
-						label: 'Out Mark',
+						label: t('menuOutMark'),
 						leftItem: null,
 						onClick: () => {
 							closeMenu();
@@ -610,12 +667,12 @@ export const useMenuStructure = (
 						subMenu: null,
 						type: 'item' as const,
 						value: 'out-mark',
-						quickSwitcherLabel: 'Timeline: Set Out Mark',
+						quickSwitcherLabel: t('menuOutMark'),
 					},
 					{
 						id: 'x-mark',
 						keyHint: 'X',
-						label: 'Clear In/Out Marks',
+						label: t('menuClearInOutMarks'),
 						leftItem: null,
 						onClick: () => {
 							closeMenu();
@@ -624,12 +681,12 @@ export const useMenuStructure = (
 						subMenu: null,
 						type: 'item' as const,
 						value: 'clear-marks',
-						quickSwitcherLabel: 'Timeline: Clear In and Out Mark',
+						quickSwitcherLabel: t('menuClearInOutMarks'),
 					},
 					{
 						id: 'goto-time',
 						keyHint: 'G',
-						label: 'Go to frame',
+						label: t('menuGoToFrame'),
 						leftItem: null,
 						onClick: () => {
 							closeMenu();
@@ -638,7 +695,7 @@ export const useMenuStructure = (
 						subMenu: null,
 						type: 'item' as const,
 						value: 'clear-marks',
-						quickSwitcherLabel: 'Timeline: Go to frame',
+						quickSwitcherLabel: t('menuGoToFrame'),
 					},
 					{
 						id: 'fullscreen-divider',
@@ -648,7 +705,7 @@ export const useMenuStructure = (
 						? {
 								id: 'fullscreen',
 								keyHint: null,
-								label: 'Fullscreen',
+								label: t('menuFullscreen'),
 								leftItem: null,
 								onClick: () => {
 									closeMenu();
@@ -657,21 +714,21 @@ export const useMenuStructure = (
 								subMenu: null,
 								type: 'item' as const,
 								value: 'fullscreen',
-								quickSwitcherLabel: 'Go Fullscreen',
+								quickSwitcherLabel: t('menuGoFullscreen'),
 							}
 						: null,
 				].filter(Internals.truthy),
 			},
 			{
 				id: 'tools' as const,
-				label: 'Tools',
+				label: t('menuTools'),
 				leaveLeftPadding: false,
 				items: [
 					process.env.ASK_AI_ENABLED
 						? {
 								id: 'ask-ai',
 								value: 'ask-ai',
-								label: 'Ask AI',
+								label: t('menuAskAi'),
 								onClick: () => {
 									closeMenu();
 									askAiModalRef.current?.toggle();
@@ -680,14 +737,14 @@ export const useMenuStructure = (
 								keyHint: `${cmdOrCtrlCharacter}+I`,
 								subMenu: null,
 								type: 'item' as const,
-								quickSwitcherLabel: 'Ask AI',
+								quickSwitcherLabel: t('menuAskAi'),
 							}
 						: null,
 					'EyeDropper' in window
 						? {
 								id: 'color-picker',
 								value: 'color-picker',
-								label: 'Color Picker',
+								label: t('menuColorPicker'),
 								onClick: () => {
 									closeMenu();
 									pickColor();
@@ -696,13 +753,13 @@ export const useMenuStructure = (
 								keyHint: null,
 								subMenu: null,
 								type: 'item' as const,
-								quickSwitcherLabel: 'Show Color Picker',
+								quickSwitcherLabel: t('menuShowColorPicker'),
 							}
 						: null,
 					{
 						id: 'spring-editor',
 						value: 'spring-editor',
-						label: 'Timing Editor',
+						label: t('menuTimingEditor'),
 						onClick: () => {
 							closeMenu();
 							window.open('https://www.remotion.dev/timing-editor', '_blank');
@@ -711,7 +768,7 @@ export const useMenuStructure = (
 						keyHint: null,
 						subMenu: null,
 						type: 'item' as const,
-						quickSwitcherLabel: 'Open spring() Editor',
+						quickSwitcherLabel: t('menuOpenTimingEditor'),
 					},
 				].filter(Internals.truthy),
 				quickSwitcherLabel: null,
@@ -720,13 +777,13 @@ export const useMenuStructure = (
 				? null
 				: {
 						id: 'install' as const,
-						label: 'Packages',
+						label: t('menuPackages'),
 						leaveLeftPadding: false,
 						items: [
 							{
 								id: 'install-packages',
 								value: 'install-packages',
-								label: 'Install...',
+								label: t('menuInstall'),
 								onClick: () => {
 									closeMenu();
 									setSelectedModal({
@@ -738,21 +795,21 @@ export const useMenuStructure = (
 								keyHint: null,
 								leftItem: null,
 								subMenu: null,
-								quickSwitcherLabel: `Install packages`,
+								quickSwitcherLabel: t('menuInstall'),
 							},
 						],
 					},
 			{
 				id: 'help' as const,
-				label: 'Help',
+				label: t('menuHelp'),
 				leaveLeftPadding: false,
 				items: [
 					{
 						id: 'shortcuts',
 						value: 'shortcuts',
 						label: areKeyboardShortcutsDisabled()
-							? 'Shortcuts (disabled)'
-							: 'Shortcuts',
+							? t('menuShortcutsDisabled')
+							: t('menuShortcuts'),
 						onClick: () => {
 							closeMenu();
 
@@ -767,13 +824,13 @@ export const useMenuStructure = (
 						subMenu: null,
 						type: 'item' as const,
 						quickSwitcherLabel: areKeyboardShortcutsDisabled()
-							? 'Show all Keyboard Shortcuts (disabled)'
-							: 'Show all Keyboard Shortcuts',
+							? t('menuShowAllKeyboardShortcutsDisabled')
+							: t('menuShowAllKeyboardShortcuts'),
 					},
 					{
 						id: 'docs',
 						value: 'docs',
-						label: 'Docs',
+						label: t('menuDocs'),
 						onClick: () => {
 							closeMenu();
 							openExternal('https://remotion.dev/docs');
@@ -782,12 +839,12 @@ export const useMenuStructure = (
 						keyHint: null,
 						leftItem: null,
 						subMenu: null,
-						quickSwitcherLabel: 'Visit Documentation',
+						quickSwitcherLabel: t('menuVisitDocumentation'),
 					},
 					{
 						id: 'file-issue',
 						value: 'file-issue',
-						label: 'File an issue',
+						label: t('menuFileIssue'),
 						onClick: () => {
 							closeMenu();
 							openExternal(
@@ -798,12 +855,12 @@ export const useMenuStructure = (
 						keyHint: null,
 						leftItem: null,
 						subMenu: null,
-						quickSwitcherLabel: 'File GitHub issue',
+						quickSwitcherLabel: t('menuFileGitHubIssue'),
 					},
 					{
 						id: 'discord',
 						value: 'discord',
-						label: 'Join Discord community',
+						label: t('menuJoinDiscordCommunity'),
 						onClick: () => {
 							closeMenu();
 							openExternal('https://discord.com/invite/6VzzNDwUwV');
@@ -821,7 +878,7 @@ export const useMenuStructure = (
 					{
 						id: 'insta',
 						value: 'insta',
-						label: 'Instagram',
+						label: t('menuInstagram'),
 						onClick: () => {
 							closeMenu();
 							openExternal('https://instagram.com/remotion');
@@ -830,12 +887,12 @@ export const useMenuStructure = (
 						keyHint: null,
 						leftItem: null,
 						subMenu: null,
-						quickSwitcherLabel: 'Follow Remotion on Instagram',
+						quickSwitcherLabel: t('menuFollowInstagram'),
 					},
 					{
 						id: 'x',
 						value: 'x',
-						label: 'X',
+						label: t('menuX'),
 						onClick: () => {
 							closeMenu();
 							openExternal('https://x.com/remotion');
@@ -844,12 +901,12 @@ export const useMenuStructure = (
 						keyHint: null,
 						leftItem: null,
 						subMenu: null,
-						quickSwitcherLabel: 'Follow Remotion on X',
+						quickSwitcherLabel: t('menuFollowX'),
 					},
 					{
 						id: 'youtube',
 						value: 'youtube',
-						label: 'YouTube',
+						label: t('menuYouTube'),
 						onClick: () => {
 							closeMenu();
 							openExternal('https://www.youtube.com/@remotion_dev');
@@ -858,12 +915,12 @@ export const useMenuStructure = (
 						keyHint: null,
 						leftItem: null,
 						subMenu: null,
-						quickSwitcherLabel: 'Watch Remotion on YouTube',
+						quickSwitcherLabel: t('menuWatchYouTube'),
 					},
 					{
 						id: 'linkedin',
 						value: 'linkedin',
-						label: 'LinkedIn',
+						label: t('menuLinkedIn'),
 						onClick: () => {
 							closeMenu();
 							openExternal('https://www.linkedin.com/company/remotion-dev/');
@@ -872,12 +929,12 @@ export const useMenuStructure = (
 						keyHint: null,
 						leftItem: null,
 						subMenu: null,
-						quickSwitcherLabel: 'Follow Remotion on LinkedIn',
+						quickSwitcherLabel: t('menuFollowLinkedIn'),
 					},
 					{
 						id: 'tiktok',
 						value: 'tiktok',
-						label: 'TikTok',
+						label: t('menuTikTok'),
 						onClick: () => {
 							closeMenu();
 							openExternal('https://www.tiktok.com/@remotion');
@@ -886,7 +943,7 @@ export const useMenuStructure = (
 						keyHint: null,
 						leftItem: null,
 						subMenu: null,
-						quickSwitcherLabel: 'Follow Remotion on TikTok',
+						quickSwitcherLabel: t('menuFollowTikTok'),
 					},
 				],
 			},
@@ -942,6 +999,9 @@ export const useMenuStructure = (
 		setSidebarCollapsedState,
 		setCheckerboard,
 		setSelectedModal,
+		locale,
+		setLocale,
+		t,
 	]);
 
 	return structure;

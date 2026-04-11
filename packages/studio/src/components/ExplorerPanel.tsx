@@ -1,5 +1,6 @@
 import {createRef, useCallback, useImperativeHandle, useState} from 'react';
 import {BACKGROUND} from '../helpers/colors';
+import {useStudioI18n} from '../i18n';
 import {AssetSelector} from './AssetSelector';
 import {CompositionSelector} from './CompositionSelector';
 import {CompSelectorRef} from './CompSelectorRef';
@@ -43,6 +44,7 @@ export const explorerSidebarTabs = createRef<{
 export const ExplorerPanel: React.FC<{
 	readOnlyStudio: boolean;
 }> = ({readOnlyStudio}) => {
+	const {t} = useStudioI18n();
 	const [panel, setPanel] = useState<OptionsSidebarPanel>(() =>
 		getSelectedPanel(),
 	);
@@ -78,10 +80,10 @@ export const ExplorerPanel: React.FC<{
 							selected={panel === 'compositions'}
 							onClick={onCompositionsSelected}
 						>
-							Compositions
+							{t('tabCompositions')}
 						</Tab>
 						<Tab selected={panel === 'assets'} onClick={onAssetsSelected}>
-							Assets
+							{t('tabAssets')}
 						</Tab>
 					</Tabs>
 				</div>

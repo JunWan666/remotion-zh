@@ -1,14 +1,15 @@
 import React, {useCallback} from 'react';
 import {BLUE} from '../helpers/colors';
+import {useStudioI18n} from '../i18n';
 import {persistLoopOption} from '../state/loop';
 import {ControlButton} from './ControlButton';
-
-const accessibilityLabel = 'Loop video';
 
 export const LoopToggle: React.FC<{
 	readonly loop: boolean;
 	readonly setLoop: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({loop, setLoop}) => {
+	const {t} = useStudioI18n();
+	const accessibilityLabel = t('previewLoopVideo');
 	const onClick = useCallback(() => {
 		setLoop((c) => {
 			persistLoopOption(!c);

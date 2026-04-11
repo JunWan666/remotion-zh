@@ -1,6 +1,8 @@
 import React, {useContext, useMemo} from 'react';
 import type {PreviewSize} from 'remotion';
 import {Internals} from 'remotion';
+import type {TranslationKey} from '../i18n';
+import {translate, useStudioI18n} from '../i18n';
 import {Checkmark} from '../icons/Checkmark';
 import {CONTROL_BUTTON_PADDING} from './ControlButton';
 import type {ComboboxValue} from './NewComposition/ComboBox';
@@ -39,15 +41,16 @@ const commonPreviewSizes: PreviewSize[] = [
 	},
 ];
 
-export const getPreviewSizeLabel = (previewSize: PreviewSize) => {
+export const getPreviewSizeLabel = (
+	previewSize: PreviewSize,
+	t: (key: TranslationKey) => string = translate,
+) => {
 	if (previewSize.size === 'auto') {
-		return 'Fit';
+		return t('previewFit');
 	}
 
 	return `${(previewSize.size * 100).toFixed(0)}%`;
 };
-
-const accessibilityLabel = 'Preview Size';
 
 const comboStyle: React.CSSProperties = {width: 80};
 
@@ -77,8 +80,10 @@ export const getUniqueSizes = (size: PreviewSize) => {
 const zoomableFileTypes: AssetFileType[] = ['video', 'image'];
 
 export const SizeSelector: React.FC = () => {
+	const {t} = useStudioI18n();
 	const {size, setSize} = useContext(Internals.PreviewSizeContext);
 	const {canvasContent} = useContext(Internals.CompositionManager);
+	const accessibilityLabel = t('previewSize');
 	const style = useMemo(() => {
 		return {
 			padding: CONTROL_BUTTON_PADDING,
@@ -115,7 +120,7 @@ export const SizeSelector: React.FC = () => {
 		return getUniqueSizes(size).map((newSize): ComboboxValue => {
 			return {
 				id: String(newSize.size),
-				label: getPreviewSizeLabel(newSize),
+				label: getPreviewSizeLabel(newSize, t),
 				onClick: () => {
 					return setSize(() => {
 						return newSize;
@@ -130,7 +135,7 @@ export const SizeSelector: React.FC = () => {
 				quickSwitcherLabel: null,
 			};
 		});
-	}, [setSize, size]);
+	}, [setSize, size, t]);
 
 	if (!zoomable) {
 		return null;

@@ -12,6 +12,7 @@ import {
 } from '../helpers/persist-open-folders';
 import {sortItemsByNonceHistory} from '../helpers/sort-by-nonce-history';
 import {areKeyboardShortcutsDisabled} from '../helpers/use-keybinding';
+import {useStudioI18n} from '../i18n';
 import {ModalsContext} from '../state/modals';
 import {useZIndex} from '../state/z-index';
 import {CompositionSelectorItem} from './CompositionSelectorItem';
@@ -138,6 +139,7 @@ export const CompositionSelector: React.FC = () => {
 	const {compositions, canvasContent, folders} = useContext(
 		Internals.CompositionManager,
 	);
+	const {t} = useStudioI18n();
 	const {foldersExpanded} = useContext(ExpandedFoldersContext);
 	const {setSelectedModal} = useContext(ModalsContext);
 
@@ -191,7 +193,7 @@ export const CompositionSelector: React.FC = () => {
 					onClick={openQuickSwitcher}
 					tabIndex={tabIndex}
 				>
-					Search...
+					{t('compositionSearchPlaceholder')}
 					{areKeyboardShortcutsDisabled() ? null : (
 						<span style={shortcutLabel}>{cmdOrCtrlCharacter}+K</span>
 					)}

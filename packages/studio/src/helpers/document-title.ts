@@ -1,6 +1,7 @@
 import {NoReactInternals} from 'remotion/no-react';
 import type {AnyRenderJob} from '../components/RenderQueue/context';
 import {isClientRenderJob} from '../components/RenderQueue/context';
+import {translate} from '../i18n';
 
 let currentItemName: string | null = null;
 let renderJobs: AnyRenderJob[] = [];
@@ -22,10 +23,10 @@ export const setRenderJobs = (jobs: AnyRenderJob[]) => {
 	updateTitle();
 };
 
-const productName = 'Remotion Studio';
-const suffix = `- ${productName}`;
-
 const updateTitle = () => {
+	const productName = translate('documentTitleProductName');
+	const suffix = `- ${productName}`;
+
 	if (!currentItemName) {
 		document.title = productName;
 		return;
@@ -68,4 +69,8 @@ const getProgressInBrackets = (
 			? `[${progInPercent}%]`
 			: `[${progInPercent}% ${currentRender.compositionId}]`;
 	return progressInBrackets;
+};
+
+export const refreshDocumentTitle = () => {
+	updateTitle();
 };

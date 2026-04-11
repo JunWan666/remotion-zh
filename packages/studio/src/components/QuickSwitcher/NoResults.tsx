@@ -1,5 +1,6 @@
 import React from 'react';
 import {LIGHT_TEXT} from '../../helpers/colors';
+import {useStudioI18n} from '../../i18n';
 
 const container: React.CSSProperties = {
 	padding: 80,
@@ -10,21 +11,19 @@ const container: React.CSSProperties = {
 
 export type QuickSwitcherMode = 'commands' | 'compositions' | 'docs';
 
-const MODE_TO_STRING: {[key in QuickSwitcherMode]: string} = {
-	commands: 'commands',
-	compositions: 'compositions',
-	docs: 'documentation',
-};
-
 export const QuickSwitcherNoResults: React.FC<{
 	readonly query: string;
 	readonly mode: QuickSwitcherMode;
 }> = ({query, mode}) => {
+	const {t} = useStudioI18n();
+	const scope =
+		mode === 'commands'
+			? t('quickSwitcherScopeCommands')
+			: mode === 'compositions'
+				? t('quickSwitcherScopeCompositions')
+				: t('quickSwitcherScopeDocumentation');
+
 	return (
-		<div style={container}>
-			No {MODE_TO_STRING[mode]} matching {'"'}
-			{query}
-			{'"'}
-		</div>
+		<div style={container}>{t('quickSwitcherNoResults', {scope, query})}</div>
 	);
 };

@@ -3,6 +3,7 @@ import {Internals} from 'remotion';
 import {StudioServerConnectionCtx} from '../../helpers/client-id';
 import {BACKGROUND, BORDER_COLOR, LIGHT_TEXT} from '../../helpers/colors';
 import {SHOW_BROWSER_RENDERING} from '../../helpers/show-browser-rendering';
+import {useStudioI18n} from '../../i18n';
 import {Spacing} from '../layout';
 import {VERTICAL_SCROLLBAR_CLASSNAME} from '../Menu/is-menu-item';
 import {RenderQueueContext} from './context';
@@ -39,6 +40,7 @@ const renderQueue: React.CSSProperties = {
 export const RenderQueue: React.FC = () => {
 	const connectionStatus = useContext(StudioServerConnectionCtx)
 		.previewServerState.type;
+	const {t} = useStudioI18n();
 	const {jobs} = useContext(RenderQueueContext);
 	const {canvasContent} = useContext(Internals.CompositionManager);
 	const previousJobCount = React.useRef(jobs.length);
@@ -83,7 +85,7 @@ export const RenderQueue: React.FC = () => {
 		return (
 			<div style={explainer}>
 				<Spacing y={5} />
-				<div style={errorExplanation}>The studio server has disconnected.</div>
+				<div style={errorExplanation}>{t('renderQueueServerDisconnected')}</div>
 				<Spacing y={2} block />
 			</div>
 		);
@@ -93,7 +95,7 @@ export const RenderQueue: React.FC = () => {
 		return (
 			<div style={explainer}>
 				<Spacing y={5} />
-				<div style={errorExplanation}>No renders in the queue.</div>
+				<div style={errorExplanation}>{t('renderQueueEmpty')}</div>
 				<Spacing y={2} block />
 			</div>
 		);

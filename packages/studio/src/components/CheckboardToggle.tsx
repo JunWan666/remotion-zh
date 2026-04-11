@@ -2,18 +2,19 @@ import React, {useCallback, useContext} from 'react';
 import {NoReactInternals} from 'remotion/no-react';
 import {BLUE} from '../helpers/colors';
 import {areKeyboardShortcutsDisabled} from '../helpers/use-keybinding';
+import {useStudioI18n} from '../i18n';
 import {CheckerboardContext} from '../state/checkerboard';
 import {ControlButton} from './ControlButton';
 
-const accessibilityLabel = [
-	'Show transparency as checkerboard',
-	areKeyboardShortcutsDisabled() ? null : '(T)',
-]
-	.filter(NoReactInternals.truthy)
-	.join(' ');
-
 export const CheckboardToggle: React.FC = () => {
 	const {checkerboard, setCheckerboard} = useContext(CheckerboardContext);
+	const {t} = useStudioI18n();
+	const accessibilityLabel = [
+		t('previewShowTransparencyAsCheckerboard'),
+		areKeyboardShortcutsDisabled() ? null : '(T)',
+	]
+		.filter(NoReactInternals.truthy)
+		.join(' ');
 
 	const onClick = useCallback(() => {
 		setCheckerboard((c) => {
