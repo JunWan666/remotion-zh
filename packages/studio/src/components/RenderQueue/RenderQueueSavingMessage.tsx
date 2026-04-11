@@ -1,4 +1,5 @@
 import React from 'react';
+import {useStudioI18n} from '../../i18n';
 import {renderQueueItemSubtitleStyle} from './item-style';
 
 const savingStyle: React.CSSProperties = {
@@ -7,5 +8,6 @@ const savingStyle: React.CSSProperties = {
 };
 
 export const RenderQueueSavingMessage: React.FC = () => {
-	return <span style={savingStyle}>Saving to out/...</span>;
+	const {t} = useStudioI18n();
+	return <span style={savingStyle}>{t('clientRenderSaving')}</span>;
 };

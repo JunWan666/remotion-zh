@@ -5,6 +5,7 @@ import type {UiOpenGlOptions} from '@remotion/studio-shared';
 import type {ChangeEvent} from 'react';
 import React, {useCallback, useMemo} from 'react';
 import {labelx264Preset} from '../../helpers/presets-labels';
+import {useStudioI18n} from '../../i18n';
 import {Checkmark} from '../../icons/Checkmark';
 import {Checkbox} from '../Checkbox';
 import {Spacing} from '../layout';
@@ -132,6 +133,7 @@ export const RenderModalAdvanced: React.FC<{
 	darkMode,
 	setDarkMode,
 }) => {
+	const {t} = useStudioI18n();
 	const extendedOpenGlOptions: UiOpenGlOptions[] = useMemo(() => {
 		return [
 			'angle',
@@ -381,7 +383,7 @@ export const RenderModalAdvanced: React.FC<{
 					min={minConcurrency}
 					max={maxConcurrency}
 					step={1}
-					name="Concurrency"
+					name={t('renderModalConcurrency')}
 					formatter={(w) => `${w}x`}
 					onValueChanged={setConcurrency}
 					value={concurrency}
@@ -390,7 +392,7 @@ export const RenderModalAdvanced: React.FC<{
 			{renderMode === 'video' && codec === 'h264' ? (
 				<div style={optionRow}>
 					<div style={label}>
-						x264 Preset
+						{t('renderModalX264Preset')}
 						<Spacing x={0.5} />
 						<OptionExplainerBubble id="x264Option" />
 					</div>
@@ -406,7 +408,7 @@ export const RenderModalAdvanced: React.FC<{
 			{renderMode === 'video' ? (
 				<div style={optionRow}>
 					<div style={label}>
-						Hardware acceleration
+						{t('renderModalHardwareAcceleration')}
 						<Spacing x={0.5} />
 						<OptionExplainerBubble id="hardwareAccelerationOption" />
 					</div>
@@ -424,7 +426,7 @@ export const RenderModalAdvanced: React.FC<{
 				// Also appears in packages/renderer/src/validate-puppeteer-timeout.ts
 				min={7_000}
 				max={900_000}
-				name="delayRender() timeout"
+				name={t('renderModalDelayRenderTimeout')}
 				onValueChanged={setDelayRenderTimeout}
 				formatter={(w) => `${w}ms`}
 				step={1000}
@@ -432,7 +434,7 @@ export const RenderModalAdvanced: React.FC<{
 				value={delayRenderTimeout}
 			/>
 			<div style={optionRow}>
-				<div style={label}>No parallel encoding</div>
+				<div style={label}>{t('renderModalNoParallelEncoding')}</div>
 				<div style={rightRow}>
 					<Checkbox
 						checked={disallowParallelEncoding}
@@ -444,7 +446,7 @@ export const RenderModalAdvanced: React.FC<{
 			{renderMode === 'audio' ? null : (
 				<div style={optionRow}>
 					<div style={label}>
-						Custom @remotion/media cache size
+						{t('renderModalCustomMediaCacheSize')}
 						<Spacing x={0.5} />
 						<OptionExplainerBubble id="mediaCacheSizeInBytesOption" />
 					</div>
@@ -462,7 +464,7 @@ export const RenderModalAdvanced: React.FC<{
 					min={0}
 					max={2000 * 1024 * 1024}
 					step={1024}
-					name="@remotion/media cache size"
+					name={t('renderModalMediaCacheSize')}
 					formatter={(w) => `${w} bytes`}
 					onValueChanged={changeMediaCacheSizeInBytes}
 					value={mediaCacheSizeInBytes}
@@ -471,7 +473,7 @@ export const RenderModalAdvanced: React.FC<{
 			{renderMode === 'audio' ? null : (
 				<div style={optionRow}>
 					<div style={label}>
-						Custom OffthreadVideo cache
+						{t('renderModalCustomOffthreadVideoCache')}
 						<Spacing x={0.5} />
 						<OptionExplainerBubble id="offthreadVideoCacheSizeInBytesOption" />
 					</div>
@@ -490,7 +492,7 @@ export const RenderModalAdvanced: React.FC<{
 					min={0}
 					max={2000 * 1024 * 1024}
 					step={1024}
-					name="OffthreadVideo cache size"
+					name={t('renderModalOffthreadVideoCacheSize')}
 					formatter={(w) => `${w} bytes`}
 					onValueChanged={changeOffthreadVideoCacheSizeInBytes}
 					value={offthreadVideoCacheSizeInBytes}
@@ -499,7 +501,7 @@ export const RenderModalAdvanced: React.FC<{
 			{renderMode === 'audio' ? null : (
 				<div style={optionRow}>
 					<div style={label}>
-						OffthreadVideo threads <Spacing x={0.5} />
+						{t('renderModalOffthreadVideoThreads')} <Spacing x={0.5} />
 						<OptionExplainerBubble id="offthreadVideoThreadsOption" />
 					</div>
 					<div style={rightRow}>
@@ -516,7 +518,7 @@ export const RenderModalAdvanced: React.FC<{
 					min={0}
 					max={16}
 					step={1}
-					name="OffthreadVideo threads"
+					name={t('renderModalOffthreadVideoThreads')}
 					formatter={(w) => `${w}x`}
 					onValueChanged={changeOffthreadVideoThreads}
 					value={offthreadVideoThreads}
@@ -524,7 +526,7 @@ export const RenderModalAdvanced: React.FC<{
 			)}
 			<RenderModalHr />
 			<div style={optionRow}>
-				<div style={label}>Disable web security</div>
+				<div style={label}>{t('renderModalDisableWebSecurity')}</div>
 				<div style={rightRow}>
 					<Checkbox
 						checked={disableWebSecurity}
@@ -534,7 +536,7 @@ export const RenderModalAdvanced: React.FC<{
 				</div>
 			</div>
 			<div style={optionRow}>
-				<div style={label}>Ignore certificate errors</div>
+				<div style={label}>{t('renderModalIgnoreCertificateErrors')}</div>
 				<div style={rightRow}>
 					<Checkbox
 						checked={ignoreCertificateErrors}
@@ -545,7 +547,7 @@ export const RenderModalAdvanced: React.FC<{
 			</div>
 			<div style={optionRow}>
 				<div style={label}>
-					Headless mode
+					{t('renderModalHeadlessMode')}
 					<Spacing x={0.5} />
 					<OptionExplainerBubble id="headlessOption" />
 				</div>
@@ -555,7 +557,7 @@ export const RenderModalAdvanced: React.FC<{
 			</div>
 			<div style={optionRow}>
 				<div style={label}>
-					Chrome Mode <Spacing x={0.5} />
+					{t('renderModalChromeMode')} <Spacing x={0.5} />
 					<OptionExplainerBubble id="chromeModeOption" />
 				</div>
 
@@ -563,13 +565,13 @@ export const RenderModalAdvanced: React.FC<{
 					<Combobox
 						values={chromeModeOptions}
 						selectedId={chromeModeOption}
-						title="Chrome mode"
+						title={t('renderModalChromeMode')}
 					/>
 				</div>
 			</div>
 			<div style={optionRow}>
 				<div style={label}>
-					OpenGL render backend <Spacing x={0.5} />
+					{t('renderModalOpenGlBackend')} <Spacing x={0.5} />
 					<OptionExplainerBubble id="glOption" />
 				</div>
 
@@ -577,13 +579,13 @@ export const RenderModalAdvanced: React.FC<{
 					<Combobox
 						values={openGlOptions}
 						selectedId={openGlOption}
-						title="OpenGl option"
+						title={t('renderModalOpenGlBackend')}
 					/>
 				</div>
 			</div>
 			<div style={optionRow}>
 				<div style={label}>
-					Multi-process Chrome on Linux
+					{t('renderModalLinuxMultiprocess')}
 					<Spacing x={0.5} />
 					<OptionExplainerBubble id="enableMultiprocessOnLinuxOption" />
 				</div>
@@ -597,7 +599,7 @@ export const RenderModalAdvanced: React.FC<{
 			</div>
 			<div style={optionRow}>
 				<div style={label}>
-					Dark Mode
+					{t('renderModalDarkMode')}
 					<Spacing x={0.5} />
 					<OptionExplainerBubble id="darkModeOption" />
 				</div>
@@ -606,7 +608,7 @@ export const RenderModalAdvanced: React.FC<{
 				</div>
 			</div>
 			<div style={optionRow}>
-				<div style={label}>Custom User Agent</div>
+				<div style={label}>{t('renderModalCustomUserAgent')}</div>
 				<div style={rightRow}>
 					<Checkbox
 						checked={userAgent !== null}
@@ -617,7 +619,7 @@ export const RenderModalAdvanced: React.FC<{
 			</div>
 			{userAgent === null ? null : (
 				<div style={optionRow}>
-					<div style={label}>User Agent</div>
+					<div style={label}>{t('renderModalUserAgent')}</div>
 					<div style={rightRow}>
 						<div>
 							<RemotionInput
@@ -633,7 +635,8 @@ export const RenderModalAdvanced: React.FC<{
 			)}
 			<div style={optionRow}>
 				<div style={label}>
-					Create a reproduction <OptionExplainerBubble id="reproOption" />
+					{t('renderModalCreateReproduction')}{' '}
+					<OptionExplainerBubble id="reproOption" />
 				</div>
 
 				<div style={rightRow}>
@@ -642,7 +645,8 @@ export const RenderModalAdvanced: React.FC<{
 			</div>
 			<div style={optionRow}>
 				<div style={label}>
-					Beep when finished <OptionExplainerBubble id="beepOnFinishOption" />
+					{t('renderModalBeepWhenFinished')}{' '}
+					<OptionExplainerBubble id="beepOnFinishOption" />
 				</div>
 
 				<div style={rightRow}>

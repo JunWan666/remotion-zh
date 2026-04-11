@@ -1,5 +1,6 @@
 import {useCallback, useMemo, useState} from 'react';
 import {LIGHT_TEXT} from '../../helpers/colors';
+import {useStudioI18n} from '../../i18n';
 
 const svgStyle: React.CSSProperties = {
 	width: '11px',
@@ -16,7 +17,8 @@ const buttonStyle: React.CSSProperties = {
 
 export const OpenIssueButton: React.FC<{link: string}> = ({link}) => {
 	const [hovered, setHovered] = useState<boolean>(false);
-	const buttonTooltip = `Open GitHub issue in new Tab`;
+	const {t} = useStudioI18n();
+	const buttonTooltip = t('openIssueInNewTab');
 
 	const handleClick = useCallback(() => {
 		window.open(link, '_blank');

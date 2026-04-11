@@ -1,6 +1,7 @@
 import type {WebRendererQuality} from '@remotion/web-renderer';
 import type React from 'react';
 import {useCallback, useMemo} from 'react';
+import {useStudioI18n} from '../../i18n';
 import {Checkbox} from '../Checkbox';
 import {Combobox} from '../NewComposition/ComboBox';
 import {label, optionRow, rightRow} from './layout';
@@ -42,6 +43,7 @@ export const WebRenderModalPicture: React.FC<WebRenderModalPictureProps> = ({
 	compositionWidth,
 	compositionHeight,
 }) => {
+	const {t} = useStudioI18n();
 	const qualityOptions = useMemo(
 		() => getQualityOptions(videoBitrate, setVideoBitrate),
 		[videoBitrate, setVideoBitrate],
@@ -65,17 +67,17 @@ export const WebRenderModalPicture: React.FC<WebRenderModalPictureProps> = ({
 			{renderMode !== 'video' ? null : (
 				<>
 					<div style={optionRow}>
-						<div style={label}>Quality</div>
+						<div style={label}>{t('renderModalQuality')}</div>
 						<div style={rightRow}>
 							<Combobox
 								values={qualityOptions}
 								selectedId={videoBitrate}
-								title="Quality"
+								title={t('renderModalQuality')}
 							/>
 						</div>
 					</div>
 					<NumberSetting
-						name="Keyframe Interval"
+						name={t('renderModalKeyframeInterval')}
 						formatter={(v) => `${v}s`}
 						min={1}
 						max={300}
@@ -84,7 +86,7 @@ export const WebRenderModalPicture: React.FC<WebRenderModalPictureProps> = ({
 						onValueChanged={setKeyframeIntervalInSeconds}
 					/>
 					<div style={optionRow}>
-						<div style={label}>Transparent</div>
+						<div style={label}>{t('renderModalTransparent')}</div>
 						<div style={rightRow}>
 							<Checkbox
 								checked={transparent}

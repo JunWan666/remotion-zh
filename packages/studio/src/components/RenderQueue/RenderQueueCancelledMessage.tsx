@@ -1,5 +1,6 @@
 import React from 'react';
 import {LIGHT_TEXT} from '../../helpers/colors';
+import {useStudioI18n} from '../../i18n';
 import {renderQueueItemSubtitleStyle} from './item-style';
 
 const cancelledStyle: React.CSSProperties = {
@@ -9,5 +10,6 @@ const cancelledStyle: React.CSSProperties = {
 };
 
 export const RenderQueueCancelledMessage: React.FC = () => {
-	return <span style={cancelledStyle}>Cancelled</span>;
+	const {t} = useStudioI18n();
+	return <span style={cancelledStyle}>{t('renderQueueCancelled')}</span>;
 };

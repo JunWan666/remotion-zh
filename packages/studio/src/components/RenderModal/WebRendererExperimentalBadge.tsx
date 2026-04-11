@@ -1,4 +1,5 @@
 import {LIGHT_TEXT, WARNING_COLOR} from '../../helpers/colors';
+import {useStudioI18n} from '../../i18n';
 import {WarningTriangle} from '../NewComposition/ValidationMessage';
 
 const row: React.CSSProperties = {
@@ -29,20 +30,21 @@ const link: React.CSSProperties = {
 };
 
 export const WebRendererExperimentalBadge: React.FC = () => {
+	const {t} = useStudioI18n();
 	return (
 		<div style={row}>
 			<WarningTriangle type="warning" style={icon} />
 			<div style={text}>
-				The Remotion Web Renderer is experimental.{' '}
+				{t('renderModalExperimentalBadge')}{' '}
 				<a
 					href="https://github.com/remotion-dev/remotion/issues/5913"
 					target="_blank"
 					rel="noopener noreferrer"
 					style={link}
 				>
-					Track progress on GitHub
+					{t('renderModalExperimentalTrackProgress')}
 				</a>{' '}
-				and discuss in the{' '}
+				{t('renderModalExperimentalDiscussDiscord').split('#web-renderer')[0]}
 				<a
 					href="https://remotion.dev/discord"
 					target="_blank"
@@ -50,8 +52,8 @@ export const WebRendererExperimentalBadge: React.FC = () => {
 					style={link}
 				>
 					#web-renderer
-				</a>{' '}
-				channel on Discord.
+				</a>
+				{t('renderModalExperimentalDiscussDiscord').split('#web-renderer')[1]}
 			</div>
 		</div>
 	);

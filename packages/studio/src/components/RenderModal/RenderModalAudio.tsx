@@ -2,6 +2,7 @@ import type {AudioCodec, Codec} from '@remotion/renderer';
 import {BrowserSafeApis} from '@remotion/renderer/client';
 import type {ChangeEvent} from 'react';
 import React, {useCallback} from 'react';
+import {useStudioI18n} from '../../i18n';
 import {Checkmark} from '../../icons/Checkmark';
 import {Checkbox} from '../Checkbox';
 import {Spacing} from '../layout';
@@ -70,6 +71,7 @@ export const RenderModalAudio: React.FC<{
 	setSeparateAudioTo,
 	outName,
 }) => {
+	const {t} = useStudioI18n();
 	const onShouldHaveTargetAudioBitrateChanged = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
 			setShouldHaveCustomTargetAudioBitrate(e.target.checked);
@@ -131,14 +133,14 @@ export const RenderModalAudio: React.FC<{
 			!muted ? (
 				<div style={optionRow}>
 					<div style={label}>
-						Audio Codec <Spacing x={0.5} />
+						{t('renderModalAudioCodec')} <Spacing x={0.5} />
 						<OptionExplainerBubble id="audioCodecOption" />
 					</div>
 					<div style={rightRow}>
 						<Combobox
 							values={audioCodecOptions(codec)}
 							selectedId={audioCodec}
-							title="AudioCodec"
+							title={t('renderModalAudioCodec')}
 						/>
 					</div>
 				</div>
@@ -164,7 +166,7 @@ export const RenderModalAudio: React.FC<{
 			{audioCodec === 'aac' && !muted ? (
 				<div style={optionRow}>
 					<div style={label}>
-						For seamless AAC concatenation
+						{t('renderModalSeamlessAac')}
 						<Spacing x={0.5} />
 						<OptionExplainerBubble id="forSeamlessAacConcatenationOption" />
 					</div>
@@ -183,7 +185,7 @@ export const RenderModalAudio: React.FC<{
 			{renderMode === 'still' || muted ? null : (
 				<div style={optionRow}>
 					<div style={label}>
-						Custom audio bitrate{' '}
+						{t('renderModalCustomAudioBitrate')}{' '}
 						<OptionExplainerBubble id="audioBitrateOption" />
 					</div>
 					<div style={rightRow}>
@@ -200,7 +202,7 @@ export const RenderModalAudio: React.FC<{
 			renderMode !== 'still' &&
 			!muted ? (
 				<div style={optionRow}>
-					<div style={label}>Target audio bitrate</div>
+					<div style={label}>{t('renderModalTargetAudioBitrate')}</div>
 
 					<div style={rightRow}>
 						<div>

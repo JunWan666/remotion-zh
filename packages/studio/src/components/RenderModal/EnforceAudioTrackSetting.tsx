@@ -1,5 +1,6 @@
 import type {ChangeEvent} from 'react';
 import React, {useCallback} from 'react';
+import {useStudioI18n} from '../../i18n';
 import {Checkbox} from '../Checkbox';
 import {Spacing} from '../layout';
 import {label, optionRow, rightRow} from './layout';
@@ -10,6 +11,7 @@ export const EnforceAudioTrackSetting: React.FC<{
 	readonly setEnforceAudioTrack: React.Dispatch<React.SetStateAction<boolean>>;
 	readonly muted: boolean;
 }> = ({enforceAudioTrack, muted, setEnforceAudioTrack}) => {
+	const {t} = useStudioI18n();
 	const onEnforceAudioTrackChanged = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
 			setEnforceAudioTrack(e.target.checked);
@@ -20,7 +22,7 @@ export const EnforceAudioTrackSetting: React.FC<{
 	return (
 		<div style={optionRow}>
 			<div style={label}>
-				Enforce Audio Track
+				{t('renderModalEnforceAudioTrack')}
 				<Spacing x={0.5} />
 				<OptionExplainerBubble id="enforceAudioOption" />
 			</div>

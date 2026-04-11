@@ -7,6 +7,7 @@ import type {
 import {BrowserSafeApis} from '@remotion/renderer/client';
 import type {ChangeEvent} from 'react';
 import React, {useCallback, useMemo} from 'react';
+import {useStudioI18n} from '../../i18n';
 import {Checkmark} from '../../icons/Checkmark';
 import {Checkbox} from '../Checkbox';
 import {Spacing} from '../layout';
@@ -97,6 +98,7 @@ export const RenderModalPicture: React.FC<{
 	compositionWidth,
 	compositionHeight,
 }) => {
+	const {t} = useStudioI18n();
 	const colorSpaceOptions = useMemo((): ComboboxValue[] => {
 		return BrowserSafeApis.validColorSpaces.map((option) => {
 			return {
@@ -167,7 +169,7 @@ export const RenderModalPicture: React.FC<{
 		<div style={container} className={VERTICAL_SCROLLBAR_CLASSNAME}>
 			{renderMode === 'video' ? (
 				<div style={optionRow}>
-					<div style={label}>Image Format</div>
+					<div style={label}>{t('renderModalImageFormat')}</div>
 					<div style={rightRow}>
 						<SegmentedControl
 							items={imageFormatOptions}
@@ -193,7 +195,7 @@ export const RenderModalPicture: React.FC<{
 			) : null}
 			{shouldDisplayQualityControlPicker && renderMode === 'video' ? (
 				<div style={optionRow}>
-					<div style={label}>Quality control</div>
+					<div style={label}>{t('renderModalQualityControl')}</div>
 
 					<div style={rightRow}>
 						<SegmentedControl items={qualityControlOptions} needsWrapping />
@@ -215,7 +217,7 @@ export const RenderModalPicture: React.FC<{
 			{qualityControlType === 'bitrate' && renderMode === 'video' ? (
 				<div style={optionRow}>
 					<div style={label}>
-						Target video bitrate
+						{t('renderModalTargetVideoBitrate')}
 						<Spacing x={0.5} />
 						<OptionExplainerBubble id="videoBitrateOption" />
 					</div>
@@ -237,7 +239,7 @@ export const RenderModalPicture: React.FC<{
 				<>
 					<div style={optionRow}>
 						<div style={label}>
-							Custom FFmpeg -bufsize
+							{t('renderModalCustomBufsize')}
 							<Spacing x={0.5} />
 							<OptionExplainerBubble id="encodingBufferSizeOption" />
 						</div>
@@ -251,7 +253,7 @@ export const RenderModalPicture: React.FC<{
 					</div>
 					{encodingBufferSize === null ? null : (
 						<div style={optionRow}>
-							<div style={label}>-bufsize value</div>
+							<div style={label}>{t('renderModalBufsizeValue')}</div>
 							<div style={rightRow}>
 								<div>
 									<RemotionInput
@@ -267,7 +269,7 @@ export const RenderModalPicture: React.FC<{
 					)}
 					<div style={optionRow}>
 						<div style={label}>
-							Custom FFmpeg -maxrate
+							{t('renderModalCustomMaxrate')}
 							<Spacing x={0.5} />
 							<OptionExplainerBubble id="encodingMaxRateOption" />
 						</div>
@@ -281,7 +283,7 @@ export const RenderModalPicture: React.FC<{
 					</div>
 					{encodingMaxRate === null ? null : (
 						<div style={optionRow}>
-							<div style={label}>-maxrate value</div>
+							<div style={label}>{t('renderModalMaxrateValue')}</div>
 							<div style={rightRow}>
 								<div>
 									<RemotionInput
@@ -307,12 +309,12 @@ export const RenderModalPicture: React.FC<{
 			{renderMode === 'video' ? <RenderModalHr /> : null}
 			{renderMode === 'video' ? (
 				<div style={optionRow}>
-					<div style={label}>Pixel format</div>
+					<div style={label}>{t('renderModalPixelFormat')}</div>
 					<div style={rightRow}>
 						<Combobox
 							values={pixelFormatOptions}
 							selectedId={pixelFormat}
-							title="Pixel Format"
+							title={t('renderModalPixelFormat')}
 						/>
 					</div>
 				</div>
@@ -320,7 +322,7 @@ export const RenderModalPicture: React.FC<{
 			{renderMode === 'video' ? (
 				<div style={optionRow}>
 					<div style={label}>
-						Color space
+						{t('renderModalColorSpace')}
 						<Spacing x={0.5} />
 						<OptionExplainerBubble id="colorSpaceOption" />
 					</div>
@@ -328,7 +330,7 @@ export const RenderModalPicture: React.FC<{
 						<Combobox
 							values={colorSpaceOptions}
 							selectedId={colorSpace}
-							title="Color Space"
+							title={t('renderModalColorSpace')}
 						/>
 					</div>
 				</div>

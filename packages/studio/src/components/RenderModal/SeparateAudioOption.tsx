@@ -3,6 +3,7 @@ import {BrowserSafeApis} from '@remotion/renderer/client';
 import type {ChangeEvent} from 'react';
 import React, {useCallback, useMemo} from 'react';
 import {useFileExistence} from '../../helpers/use-file-existence';
+import {useStudioI18n} from '../../i18n';
 import {Checkbox} from '../Checkbox';
 import {Spacing} from '../layout';
 import {getStringBeforeSuffix} from './get-string-before-suffix';
@@ -17,6 +18,7 @@ export const SeparateAudioOptionInput: React.FC<{
 	readonly separateAudioTo: string;
 	readonly audioCodec: AudioCodec;
 }> = ({separateAudioTo, setSeparateAudioTo, audioCodec}) => {
+	const {t} = useStudioI18n();
 	const existence = useFileExistence(separateAudioTo);
 
 	const onValueChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -31,7 +33,9 @@ export const SeparateAudioOptionInput: React.FC<{
 			BrowserSafeApis.getExtensionFromAudioCodec(audioCodec);
 		const actualExtension = separateAudioTo.split('.').pop();
 		if (actualExtension !== expectedExtension) {
-			return `Expected extension: .${expectedExtension}`;
+			return t('renderModalExpectedExtension', {
+				extension: expectedExtension,
+			});
 		}
 
 		return null;
@@ -43,7 +47,7 @@ export const SeparateAudioOptionInput: React.FC<{
 			inputStyle={input}
 			onValueChange={onValueChange}
 			outName={separateAudioTo}
-			label={'Separate audio to'}
+			label={t('renderModalSeparateAudioTo')}
 			validationMessage={validationMessage}
 		/>
 	);
@@ -57,6 +61,7 @@ export const SeparateAudioOption: React.FC<{
 	readonly audioCodec: AudioCodec;
 	readonly outName: string;
 }> = ({separateAudioTo, setSeparateAudioTo, audioCodec, outName}) => {
+	const {t} = useStudioI18n();
 	const onSeparateAudioChange = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
 			if (e.target.checked) {
@@ -74,7 +79,7 @@ export const SeparateAudioOption: React.FC<{
 		<>
 			<div style={optionRow}>
 				<div style={label}>
-					Separate audio
+					{t('renderModalSeparateAudio')}
 					<Spacing x={0.5} />
 					<OptionExplainerBubble id="separateAudioOption" />
 				</div>

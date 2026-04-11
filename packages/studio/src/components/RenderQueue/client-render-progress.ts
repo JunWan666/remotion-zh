@@ -1,3 +1,4 @@
+import {translate} from '../../i18n';
 import type {ClientRenderJobProgress} from './client-side-render-types';
 
 export const formatEtaString = (timeRemainingInMilliseconds: number) => {
@@ -19,18 +20,26 @@ export const getClientRenderProgressMessage = (
 	progress: ClientRenderJobProgress,
 ) => {
 	if (progress.totalFrames === 0) {
-		return 'Getting composition';
+		return translate('clientRenderGettingComposition');
 	}
 
 	if (progress.doneIn !== null) {
-		return `Encoded ${progress.totalFrames}/${progress.totalFrames}`;
+		return translate('clientRenderEncoded', {
+			current: progress.totalFrames,
+			total: progress.totalFrames,
+		});
 	}
 
 	if (progress.renderEstimatedTime > 0) {
-		const etaString = `, time remaining: ${formatEtaString(progress.renderEstimatedTime)}`;
-
-		return `Rendering ${progress.encodedFrames}/${progress.totalFrames}${etaString}`;
+		return translate('clientRenderRenderingEta', {
+			current: progress.encodedFrames,
+			total: progress.totalFrames,
+			eta: formatEtaString(progress.renderEstimatedTime),
+		});
 	}
 
-	return `Encoded ${progress.encodedFrames}/${progress.totalFrames}`;
+	return translate('clientRenderEncoded', {
+		current: progress.encodedFrames,
+		total: progress.totalFrames,
+	});
 };

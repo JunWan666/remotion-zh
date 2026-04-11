@@ -1,4 +1,5 @@
 import React, {useCallback} from 'react';
+import {useStudioI18n} from '../../i18n';
 import {InputDragger} from '../NewComposition/InputDragger';
 import {RightAlignInput} from '../NewComposition/RemInput';
 import {label, optionRow, rightRow} from './layout';
@@ -9,6 +10,7 @@ export const NumberOfLoopsSetting: React.FC<{
 	readonly numberOfGifLoops: number;
 	readonly setNumberOfGifLoops: React.Dispatch<React.SetStateAction<number>>;
 }> = ({numberOfGifLoops, setNumberOfGifLoops}) => {
+	const {t} = useStudioI18n();
 	const onNumberOfGifLoopsChangedDirectly = useCallback(
 		(newConcurrency: number) => {
 			setNumberOfGifLoops(newConcurrency);
@@ -33,7 +35,7 @@ export const NumberOfLoopsSetting: React.FC<{
 
 	return (
 		<div style={optionRow}>
-			<div style={label}>Number of loops</div>
+			<div style={label}>{t('renderModalNumberOfLoops')}</div>
 			<div style={rightRow}>
 				<RightAlignInput>
 					<InputDragger

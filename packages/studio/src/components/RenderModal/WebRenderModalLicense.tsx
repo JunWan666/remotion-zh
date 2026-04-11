@@ -5,6 +5,7 @@ import {
 	INPUT_BORDER_COLOR_UNHOVERED,
 	LIGHT_TEXT,
 } from '../../helpers/colors';
+import {useStudioI18n} from '../../i18n';
 import {Checkbox} from '../Checkbox';
 import {Spacing} from '../layout';
 import {RemotionInput} from '../NewComposition/RemInput';
@@ -121,7 +122,7 @@ const validateLicenseKey = (key: string): LicenseKeyValidation => {
 	if (!key.startsWith(LICENSE_KEY_PREFIX)) {
 		return {
 			valid: false,
-			message: `License key must start with "${LICENSE_KEY_PREFIX}"`,
+			message: null,
 			details: null,
 		};
 	}
@@ -130,8 +131,7 @@ const validateLicenseKey = (key: string): LicenseKeyValidation => {
 	if (!/^[a-zA-Z0-9]*$/.test(afterPrefix)) {
 		return {
 			valid: false,
-			message:
-				'License key must contain only alphanumeric characters after the prefix',
+			message: 'invalid-characters',
 			details: null,
 		};
 	}
@@ -139,7 +139,7 @@ const validateLicenseKey = (key: string): LicenseKeyValidation => {
 	if (key.length !== LICENSE_KEY_LENGTH) {
 		return {
 			valid: false,
-			message: `License key must be ${LICENSE_KEY_LENGTH} characters long`,
+			message: 'invalid-length',
 			details: null,
 		};
 	}
@@ -152,6 +152,7 @@ export const WebRenderModalLicense: React.FC<WebRenderModalLicenseProps> = ({
 	setLicenseKey,
 	initialPublicLicenseKey,
 }) => {
+	const {t} = useStudioI18n();
 	const [licenseValidation, setLicenseValidation] =
 		useState<LicenseKeyValidation>({valid: true, message: null, details: null});
 	const [isLoading, setIsLoading] = useState(false);
@@ -167,6 +168,30 @@ export const WebRenderModalLicense: React.FC<WebRenderModalLicenseProps> = ({
 
 		const validation = validateLicenseKey(licenseKey);
 		if (!validation.valid) {
+			if (!licenseKey.startsWith(LICENSE_KEY_PREFIX)) {
+				return setLicenseValidation({
+					valid: false,
+					message: t('licenseInvalidPrefix', {prefix: LICENSE_KEY_PREFIX}),
+					details: null,
+				});
+			}
+
+			if (validation.message === 'invalid-characters') {
+				return setLicenseValidation({
+					valid: false,
+					message: t('licenseInvalidCharacters'),
+					details: null,
+				});
+			}
+
+			if (validation.message === 'invalid-length') {
+				return setLicenseValidation({
+					valid: false,
+					message: t('licenseInvalidLength', {length: LICENSE_KEY_LENGTH}),
+					details: null,
+				});
+			}
+
 			return setLicenseValidation(validation);
 		}
 
@@ -180,7 +205,7 @@ export const WebRenderModalLicense: React.FC<WebRenderModalLicenseProps> = ({
 				} else {
 					setLicenseValidation({
 						valid: false,
-						message: 'License key is invalid or has been reset',
+						message: t('licenseInvalidOrReset'),
 						details: null,
 					});
 				}
@@ -189,11 +214,11 @@ export const WebRenderModalLicense: React.FC<WebRenderModalLicenseProps> = ({
 				setIsLoading(false);
 				setLicenseValidation({
 					valid: false,
-					message: 'Failed to fetch license key details',
+					message: t('licenseFetchFailed'),
 					details: null,
 				});
 			});
-	}, [licenseKey]);
+	}, [licenseKey, t]);
 
 	const onFreeLicenseChange = useCallback(() => {
 		setLicenseKey('free-license');
@@ -214,8 +239,7 @@ export const WebRenderModalLicense: React.FC<WebRenderModalLicenseProps> = ({
 	return (
 		<div style={tabContainer}>
 			<div style={descriptionStyle}>
-				Remotion is free if you are an individual or company with a headcount of
-				3 or less. See{' '}
+				{t('licenseFreeDescriptionPrefix')}{' '}
 				<a style={descriptionLink} href="https://remotion.dev/license">
 					LICENSE.md
 				</a>
@@ -230,15 +254,15 @@ export const WebRenderModalLicense: React.FC<WebRenderModalLicenseProps> = ({
 						rounded
 					/>
 					<div style={checkboxLabel} onClick={onFreeLicenseChange}>
-						I am eligible for the Free License, {"don't"} print a warning
+						{t('licenseEligibleForFree')}
 					</div>
 				</div>
 			</div>
 			{licenseKey === 'free-license' ? (
 				<div style={paddedDescriptionStyle}>
-					Enjoy Remotion! Add the following to{' '}
-					<code style={codeStyle}>remotion.config.ts</code> to persist this
-					setting:
+					{t('licensePersistSettingPrefix')}{' '}
+					<code style={codeStyle}>remotion.config.ts</code>
+					{` ${t('licensePersistSettingSuffix')}`}
 					<div style={codeLine}>
 						{"Config.setPublicLicenseKey('free-license');"}
 					</div>
@@ -254,13 +278,13 @@ export const WebRenderModalLicense: React.FC<WebRenderModalLicenseProps> = ({
 					/>
 
 					<div style={checkboxLabel} onClick={onCompanyLicenseChange}>
-						I have a Company License
+						{t('licenseHaveCompanyLicense')}
 					</div>
 				</div>
 			</div>
 			{licenseKey !== 'free-license' && licenseKey !== null ? (
 				<div style={paddedDescriptionStyle}>
-					Add your public license key from{' '}
+					{t('licenseAddPublicLicenseKeyPrefix')}{' '}
 					<a
 						href="https://remotion.pro/dashboard"
 						target="_blank"
@@ -268,12 +292,12 @@ export const WebRenderModalLicense: React.FC<WebRenderModalLicenseProps> = ({
 					>
 						remotion.pro
 					</a>{' '}
-					below.
+					{t('licenseAddPublicLicenseKeySuffix')}
 					<Spacing y={1} block />
 					<RemotionInput
 						value={licenseKey}
 						onChange={onLicenseKeyChange}
-						placeholder="remotion.pro public license key (starts with rm_pub_)"
+						placeholder={t('licenseKeyPlaceholder')}
 						status={
 							licenseValidation.valid || licenseKey.length === 0
 								? 'ok'
@@ -296,9 +320,9 @@ export const WebRenderModalLicense: React.FC<WebRenderModalLicenseProps> = ({
 					{licenseValidation.valid && licenseKey.length > 0 ? (
 						<>
 							<Spacing y={1} block />
-							Add the following to{' '}
-							<code style={codeStyle}>remotion.config.ts</code> to persist this
-							setting:
+							{t('licensePersistSettingPrefix')}{' '}
+							<code style={codeStyle}>remotion.config.ts</code>
+							{` ${t('licensePersistSettingSuffix')}`}
 							<div style={codeLineSmall}>
 								{"Config.setPublicLicenseKey('" + licenseKey + "');"}
 							</div>
@@ -307,7 +331,7 @@ export const WebRenderModalLicense: React.FC<WebRenderModalLicenseProps> = ({
 					{isLoading && (
 						<>
 							<Spacing y={1} block />
-							Loading license key details...
+							{t('licenseLoadingDetails')}
 						</>
 					)}
 					{licenseValidation.details && (
@@ -322,15 +346,15 @@ export const WebRenderModalLicense: React.FC<WebRenderModalLicenseProps> = ({
 			) : null}
 			{licenseKey === null ? (
 				<div style={descriptionStyle}>
-					If you are not eligible for the free license, you need to obtain a{' '}
+					{t('licenseNeedCompanyLicensePrefix')}{' '}
 					<a
 						style={descriptionLink}
 						target="_blank"
 						href="https://remotion.pro/license"
 					>
-						Company License
+						{t('licenseCompanyLicenseLink')}
 					</a>
-					.
+					{t('licenseNeedCompanyLicenseSuffix')}
 				</div>
 			) : null}
 		</div>

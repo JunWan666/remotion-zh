@@ -1,5 +1,6 @@
 import type React from 'react';
 import {useCallback, useMemo} from 'react';
+import {useStudioI18n} from '../../i18n';
 import {Checkmark} from '../../icons/Checkmark';
 import {Checkbox} from '../Checkbox';
 import {Spacing} from '../layout';
@@ -44,6 +45,7 @@ export const WebRenderModalAdvanced: React.FC<WebRenderModalAdvancedProps> = ({
 	allowHtmlInCanvas,
 	setAllowHtmlInCanvas,
 }) => {
+	const {t} = useStudioI18n();
 	const toggleCustomMediaCacheSizeInBytes = useCallback(() => {
 		setMediaCacheSizeInBytes((previous) => {
 			if (previous === null) {
@@ -80,7 +82,7 @@ export const WebRenderModalAdvanced: React.FC<WebRenderModalAdvancedProps> = ({
 	const hardwareAccelerationOptions = useMemo((): ComboboxValue[] => {
 		return [
 			{
-				label: 'No Preference',
+				label: t('renderModalHardwareAccelerationNoPreference'),
 				onClick: () => setHardwareAcceleration('no-preference'),
 				leftItem:
 					hardwareAcceleration === 'no-preference' ? <Checkmark /> : null,
@@ -92,7 +94,7 @@ export const WebRenderModalAdvanced: React.FC<WebRenderModalAdvancedProps> = ({
 				value: 'no-preference',
 			},
 			{
-				label: 'Prefer Hardware',
+				label: t('renderModalHardwareAccelerationPreferHardware'),
 				onClick: () => setHardwareAcceleration('prefer-hardware'),
 				leftItem:
 					hardwareAcceleration === 'prefer-hardware' ? <Checkmark /> : null,
@@ -104,7 +106,7 @@ export const WebRenderModalAdvanced: React.FC<WebRenderModalAdvancedProps> = ({
 				value: 'prefer-hardware',
 			},
 			{
-				label: 'Prefer Software',
+				label: t('renderModalHardwareAccelerationPreferSoftware'),
 				onClick: () => setHardwareAcceleration('prefer-software'),
 				leftItem:
 					hardwareAcceleration === 'prefer-software' ? <Checkmark /> : null,
@@ -116,12 +118,12 @@ export const WebRenderModalAdvanced: React.FC<WebRenderModalAdvancedProps> = ({
 				value: 'prefer-software',
 			},
 		];
-	}, [hardwareAcceleration, setHardwareAcceleration]);
+	}, [hardwareAcceleration, setHardwareAcceleration, t]);
 
 	return (
 		<div style={tabContainer}>
 			<NumberSetting
-				name="Delay Render Timeout"
+				name={t('renderModalDelayRenderTimeout')}
 				formatter={(v) => `${v}ms`}
 				min={0}
 				max={1000000000}
@@ -132,7 +134,7 @@ export const WebRenderModalAdvanced: React.FC<WebRenderModalAdvancedProps> = ({
 			/>
 			<div style={optionRow}>
 				<div style={label}>
-					Custom @remotion/media cache size <Spacing x={0.5} />
+					{t('renderModalCustomMediaCacheSize')} <Spacing x={0.5} />
 					<OptionExplainerBubble id="mediaCacheSizeInBytesOption" />
 				</div>
 				<div style={rightRow}>
@@ -146,7 +148,7 @@ export const WebRenderModalAdvanced: React.FC<WebRenderModalAdvancedProps> = ({
 
 			{mediaCacheSizeInBytes === null ? null : (
 				<NumberSetting
-					name="@remotion/media cache size"
+					name={t('renderModalMediaCacheSize')}
 					formatter={(w) => `${w} bytes`}
 					min={0}
 					max={10000000000}
@@ -158,12 +160,12 @@ export const WebRenderModalAdvanced: React.FC<WebRenderModalAdvancedProps> = ({
 
 			{renderMode === 'video' ? (
 				<div style={optionRow}>
-					<div style={label}>Hardware Acceleration</div>
+					<div style={label}>{t('renderModalHardwareAcceleration')}</div>
 					<div style={rightRow}>
 						<Combobox
 							values={hardwareAccelerationOptions}
 							selectedId={hardwareAcceleration}
-							title="Hardware Acceleration"
+							title={t('renderModalHardwareAcceleration')}
 						/>
 					</div>
 				</div>
@@ -171,7 +173,7 @@ export const WebRenderModalAdvanced: React.FC<WebRenderModalAdvancedProps> = ({
 
 			<div style={optionRow}>
 				<div style={label}>
-					Allow HTML-in-canvas <Spacing x={0.5} />
+					{t('renderModalAllowHtmlInCanvas')} <Spacing x={0.5} />
 					<OptionExplainerBubble id="allowHtmlInCanvasOption" />
 				</div>
 				<div style={rightRow}>

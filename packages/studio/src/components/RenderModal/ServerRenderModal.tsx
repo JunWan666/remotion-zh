@@ -38,6 +38,7 @@ import {copyText} from '../../helpers/copy-text';
 import {makeReadOnlyStudioRenderCommand} from '../../helpers/make-render-command';
 import {useRenderModalSections} from '../../helpers/render-modal-sections';
 import {useKeybinding} from '../../helpers/use-keybinding';
+import {useStudioI18n} from '../../i18n';
 import {AudioIcon} from '../../icons/audio';
 import {Checkmark} from '../../icons/Checkmark';
 import {DataIcon} from '../../icons/data';
@@ -249,6 +250,7 @@ const RenderModal: React.FC<
 	renderDefaults,
 }) => {
 	const {setSelectedModal} = useContext(ModalsContext);
+	const {t} = useStudioI18n();
 
 	const context = useContext(ResolvedCompositionContext);
 	if (!context) {
@@ -1064,6 +1066,19 @@ const RenderModal: React.FC<
 		sequenceImageFormat,
 	]);
 
+	const renderModeLabel = useMemo(() => {
+		switch (renderMode) {
+			case 'still':
+				return t('renderModeStill');
+			case 'audio':
+				return t('renderModeAudio');
+			case 'sequence':
+				return t('renderModeSequence');
+			default:
+				return t('renderModeVideo');
+		}
+	}, [renderMode, t]);
+
 	const setRenderMode = useCallback(
 		(newRenderMode: RenderType) => {
 			setRenderModeState(newRenderMode);
@@ -1111,7 +1126,7 @@ const RenderModal: React.FC<
 		if (resolvedComposition?.durationInFrames < 2) {
 			return [
 				{
-					label: 'Still',
+					label: t('renderModeStill'),
 					onClick: () => {
 						setRenderMode('still');
 					},
@@ -1123,7 +1138,7 @@ const RenderModal: React.FC<
 
 		return [
 			{
-				label: 'Still',
+				label: t('renderModeStill'),
 				onClick: () => {
 					setRenderMode('still');
 				},
@@ -1131,7 +1146,7 @@ const RenderModal: React.FC<
 				selected: renderMode === 'still',
 			},
 			{
-				label: 'Video',
+				label: t('renderModeVideo'),
 				onClick: () => {
 					setRenderMode('video');
 				},
@@ -1139,7 +1154,7 @@ const RenderModal: React.FC<
 				selected: renderMode === 'video',
 			},
 			{
-				label: 'Audio',
+				label: t('renderModeAudio'),
 				onClick: () => {
 					setRenderMode('audio');
 				},
@@ -1147,7 +1162,7 @@ const RenderModal: React.FC<
 				selected: renderMode === 'audio',
 			},
 			{
-				label: 'Image sequence',
+				label: t('renderModeSequence'),
 				onClick: () => {
 					setRenderMode('sequence');
 				},
@@ -1155,7 +1170,7 @@ const RenderModal: React.FC<
 				selected: renderMode === 'sequence',
 			},
 		];
-	}, [resolvedComposition?.durationInFrames, renderMode, setRenderMode]);
+	}, [resolvedComposition?.durationInFrames, renderMode, setRenderMode, t]);
 
 	const outnameValidation = validateOutnameGui({
 		outName,
@@ -1385,7 +1400,9 @@ const RenderModal: React.FC<
 
 	return (
 		<div style={outerModalStyle}>
-			<ModalHeader title={`Render ${resolvedComposition.id}`} />
+			<ModalHeader
+				title={t('renderModalTitle', {compositionId: resolvedComposition.id})}
+			/>
 			<div style={container}>
 				<SegmentedControl items={renderTabOptions} needsWrapping={false} />
 				<div style={flexer} />
@@ -1400,11 +1417,11 @@ const RenderModal: React.FC<
 				>
 					{readOnlyStudio
 						? commandCopiedAt
-							? 'Copied command!'
-							: 'Copy command'
+							? t('renderModalCopiedCommand')
+							: t('renderModalCopyCommand')
 						: state.type === 'idle'
-							? `Render ${renderMode}`
-							: 'Rendering...'}
+							? `${t('renderButtonRender')} ${renderModeLabel}`
+							: t('renderModalRendering')}
 					<ShortcutHint keyToPress="↵" cmdOrCtrl />
 				</Button>
 			</div>
@@ -1419,7 +1436,7 @@ const RenderModal: React.FC<
 							<div style={iconContainer}>
 								<FileIcon style={icon} />
 							</div>
-							General
+							{t('renderModalGeneral')}
 						</VerticalTab>
 					) : null}
 					{shownTabs.includes('data') ? (
@@ -1431,7 +1448,7 @@ const RenderModal: React.FC<
 							<div style={iconContainer}>
 								<DataIcon style={icon} />
 							</div>
-							Input Props
+							{t('renderModalInputProps')}
 						</VerticalTab>
 					) : null}
 					{shownTabs.includes('picture') ? (
@@ -1443,7 +1460,7 @@ const RenderModal: React.FC<
 							<div style={iconContainer}>
 								<PicIcon style={icon} />
 							</div>
-							Picture
+							{t('renderModalPicture')}
 						</VerticalTab>
 					) : null}
 					{shownTabs.includes('audio') ? (
@@ -1455,7 +1472,7 @@ const RenderModal: React.FC<
 							<div style={iconContainer}>
 								<AudioIcon style={icon} />
 							</div>
-							Audio
+							{t('renderModalAudio')}
 						</VerticalTab>
 					) : null}
 					{shownTabs.includes('gif') ? (
@@ -1479,7 +1496,7 @@ const RenderModal: React.FC<
 							<div style={iconContainer}>
 								<GearIcon style={icon} />
 							</div>
-							Other
+							{t('renderModalOther')}
 						</VerticalTab>
 					) : null}
 				</div>

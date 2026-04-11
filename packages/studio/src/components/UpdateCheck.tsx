@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import {VERSION} from 'remotion';
 import {BLUE, LIGHT_TEXT, WARNING_COLOR} from '../helpers/colors';
+import {useStudioI18n} from '../i18n';
 import {ModalsContext} from '../state/modals';
 import {useZIndex} from '../state/z-index';
 import {updateAvailable} from './RenderQueue/actions';
@@ -45,6 +46,7 @@ export const UpdateCheck = () => {
 	const {setSelectedModal} = useContext(ModalsContext);
 	const {tabIndex} = useZIndex();
 	const [knownBugs, setKnownBugs] = useState<Bug[] | null>(null);
+	const {t} = useStudioI18n();
 
 	const hasKnownBugs = useMemo(() => {
 		return knownBugs && knownBugs.length > 0;
@@ -130,10 +132,12 @@ export const UpdateCheck = () => {
 			style={dynButtonStyle}
 			onClick={openModal}
 			type="button"
-			title={hasKnownBugs ? 'Bugfixes available' : 'Update available'}
+			title={
+				hasKnownBugs ? t('updateBugfixesAvailable') : t('updateAvailableShort')
+			}
 		>
 			{hasKnownBugs ? (
-				'Bugfixes available'
+				t('updateBugfixesAvailable')
 			) : (
 				<svg
 					xmlns="http://www.w3.org/2000/svg"

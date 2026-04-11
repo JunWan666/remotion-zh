@@ -6,6 +6,7 @@ import type {
 } from '@remotion/studio-shared';
 import React, {useCallback, useMemo} from 'react';
 import {LIGHT_TEXT} from '../../helpers/colors';
+import {useStudioI18n} from '../../i18n';
 import {Spacing} from '../layout';
 import {openInFileExplorer} from '../RenderQueue/actions';
 import {CircularProgress} from '../RenderQueue/CircularProgress';
@@ -36,6 +37,7 @@ const BundlingProgress: React.FC<{
 	readonly progress: number;
 	readonly doneIn: number | null;
 }> = ({progress, doneIn}) => {
+	const {t} = useStudioI18n();
 	return (
 		<div style={progressItem}>
 			{progress === 1 ? (
@@ -45,7 +47,9 @@ const BundlingProgress: React.FC<{
 			)}
 			<Spacing x={1} />
 			<div style={label}>
-				{progress === 1 ? 'Bundled' : `Bundling ${progress * 100}%`}
+				{progress === 1
+					? t('renderProgressBundled')
+					: t('renderProgressBundling', {progress: progress * 100})}
 			</div>
 			{doneIn ? <div style={right}>{doneIn}ms</div> : null}
 		</div>
@@ -59,6 +63,7 @@ const BrowserSetupProgress: React.FC<{
 	readonly startedBundling: boolean;
 	//	to ensure it only shows already available if we have moved to the next step
 }> = ({progress, doneIn, startedBundling, alreadyAvailable}) => {
+	const {t} = useStudioI18n();
 	return (
 		<div style={progressItem}>
 			{progress === 1 || alreadyAvailable ? (
@@ -69,10 +74,12 @@ const BrowserSetupProgress: React.FC<{
 			<Spacing x={1} />
 			<div style={label}>
 				{alreadyAvailable && startedBundling
-					? 'Headless browser already available'
+					? t('renderProgressBrowserAlreadyAvailable')
 					: progress === 1
-						? 'Downloaded Headless Shell'
-						: `Downloading Headless Shell ${Math.round(progress * 100)}%`}
+						? t('renderProgressDownloadedHeadlessShell')
+						: t('renderProgressDownloadingHeadlessShell', {
+								progress: Math.round(progress * 100),
+							})}
 			</div>
 			{doneIn ? <div style={right}>{doneIn}ms</div> : null}
 		</div>
@@ -82,6 +89,7 @@ const BrowserSetupProgress: React.FC<{
 const RenderingProgress: React.FC<{
 	readonly progress: RenderingProgressInput;
 }> = ({progress}) => {
+	const {t} = useStudioI18n();
 	return (
 		<div style={progressItem}>
 			{progress.frames === progress.totalFrames ? (
@@ -92,8 +100,13 @@ const RenderingProgress: React.FC<{
 			<Spacing x={1} />
 			<div style={label}>
 				{progress.doneIn
-					? `Rendered ${progress.totalFrames} frames`
-					: `Rendering ${progress.frames} / ${progress.totalFrames} frames`}
+					? t('renderProgressRenderedFrames', {
+							count: progress.totalFrames,
+						})
+					: t('renderProgressRenderingFrames', {
+							current: progress.frames,
+							total: progress.totalFrames,
+						})}
 			</div>
 			{progress.doneIn ? <div style={right}>{progress.doneIn}ms</div> : null}
 		</div>
@@ -103,6 +116,7 @@ const RenderingProgress: React.FC<{
 const StitchingProgress: React.FC<{
 	readonly progress: StitchingProgressInput;
 }> = ({progress}) => {
+	const {t} = useStudioI18n();
 	return (
 		<div style={progressItem}>
 			{progress.frames === progress.totalFrames ? (
@@ -113,8 +127,13 @@ const StitchingProgress: React.FC<{
 			<Spacing x={1} />
 			<div style={label}>
 				{progress.doneIn
-					? `Encoded ${progress.totalFrames} frames`
-					: `Encoding ${progress.frames} / ${progress.totalFrames} frames`}
+					? t('renderProgressEncodedFrames', {
+							count: progress.totalFrames,
+						})
+					: t('renderProgressEncodingFrames', {
+							current: progress.frames,
+							total: progress.totalFrames,
+						})}
 			</div>
 			{progress.doneIn ? <div style={right}>{progress.doneIn}ms</div> : null}
 		</div>
@@ -124,6 +143,7 @@ const StitchingProgress: React.FC<{
 const DownloadsProgress: React.FC<{
 	readonly downloads: DownloadProgress[];
 }> = ({downloads}) => {
+	const {t} = useStudioI18n();
 	const allHaveProgress = downloads.every((a) => a.totalBytes);
 	const totalBytes = allHaveProgress
 		? downloads.reduce((a, b) => a + (b.totalBytes as number), 0)
@@ -145,7 +165,7 @@ const DownloadsProgress: React.FC<{
 			)}
 			<Spacing x={1} />
 			<div style={label}>
-				Downloading {downloads.length} file{downloads.length === 1 ? '' : 's'}
+				{t('renderProgressDownloadingFiles', {count: downloads.length})}
 			</div>
 		</div>
 	);

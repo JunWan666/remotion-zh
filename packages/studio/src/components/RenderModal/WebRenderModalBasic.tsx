@@ -7,6 +7,7 @@ import type {
 import type React from 'react';
 import {useMemo} from 'react';
 import type {VideoConfig} from 'remotion';
+import {useStudioI18n} from '../../i18n';
 import {Checkmark} from '../../icons/Checkmark';
 import {Spacing} from '../layout';
 import type {ComboboxValue} from '../NewComposition/ComboBox';
@@ -102,6 +103,7 @@ export const WebRenderModalBasic: React.FC<WebRenderModalBasicProps> = ({
 	logLevel,
 	setLogLevel,
 }) => {
+	const {t} = useStudioI18n();
 	const imageFormatOptions = useMemo((): SegmentedControlItem[] => {
 		return [
 			{
@@ -181,14 +183,14 @@ export const WebRenderModalBasic: React.FC<WebRenderModalBasicProps> = ({
 			{renderMode === 'still' ? (
 				<>
 					<div style={optionRow}>
-						<div style={label}>Format</div>
+						<div style={label}>{t('renderModalFormat')}</div>
 						<div style={rightRow}>
 							<SegmentedControl items={imageFormatOptions} needsWrapping />
 						</div>
 					</div>
 					{resolvedComposition.durationInFrames > 1 ? (
 						<div style={optionRow}>
-							<div style={label}>Frame</div>
+							<div style={label}>{t('renderModalFrame')}</div>
 							<div style={rightRow}>
 								<RightAlignInput>
 									<InputDragger
@@ -211,19 +213,19 @@ export const WebRenderModalBasic: React.FC<WebRenderModalBasicProps> = ({
 			) : (
 				<>
 					<div style={optionRow}>
-						<div style={label}>Container</div>
+						<div style={label}>{t('renderModalContainer')}</div>
 						<div style={rightRow}>
 							<Combobox
 								values={containerOptions}
 								selectedId={container}
-								title="Container"
+								title={t('renderModalContainer')}
 							/>
 						</div>
 					</div>
 					{renderMode === 'video' ? (
 						<div style={optionRow}>
 							<div style={label}>
-								Codec
+								{t('renderModalCodec')}
 								<Spacing x={0.5} />
 								<OptionExplainerBubble id="videoCodecOption" />
 							</div>
@@ -231,7 +233,7 @@ export const WebRenderModalBasic: React.FC<WebRenderModalBasicProps> = ({
 								<Combobox
 									values={codecOptions}
 									selectedId={effectiveVideoCodec}
-									title="Codec"
+									title={t('renderModalCodec')}
 								/>
 							</div>
 						</div>
@@ -252,19 +254,21 @@ export const WebRenderModalBasic: React.FC<WebRenderModalBasicProps> = ({
 				onValueChange={onOutNameChange}
 				validationMessage={validationMessage}
 				label={
-					window.remotion_isReadOnlyStudio ? 'Download name' : 'Output name'
+					window.remotion_isReadOnlyStudio
+						? t('renderModalDownloadName')
+						: t('renderModalOutputName')
 				}
 			/>
 			<div style={optionRow}>
 				<div style={label}>
-					Log Level <Spacing x={0.5} />
+					{t('renderModalLogLevel')} <Spacing x={0.5} />
 					<OptionExplainerBubble id="logLevelOption" />
 				</div>
 				<div style={rightRow}>
 					<Combobox
 						values={logLevelOptions}
 						selectedId={logLevel}
-						title="Log Level"
+						title={t('renderModalLogLevel')}
 					/>
 				</div>
 			</div>

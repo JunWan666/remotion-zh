@@ -1,5 +1,6 @@
 import React, {useMemo} from 'react';
 import {LIGHT_TEXT} from '../../helpers/colors';
+import {useStudioI18n} from '../../i18n';
 import {NumberSetting} from './NumberSetting';
 
 const MIN_SCALE = 0.1;
@@ -21,6 +22,7 @@ export const ScaleSetting: React.FC<{
 	readonly compositionWidth: number;
 	readonly compositionHeight: number;
 }> = ({scale, setScale, compositionWidth, compositionHeight}) => {
+	const {t} = useStudioI18n();
 	const outputDimensions = useMemo(() => {
 		const outputWidth = Math.round(compositionWidth * scale);
 		const outputHeight = Math.round(compositionHeight * scale);
@@ -33,7 +35,7 @@ export const ScaleSetting: React.FC<{
 				min={MIN_SCALE}
 				max={MAX_SCALE}
 				step={0.1}
-				name="Scale"
+				name={t('renderModalScale')}
 				formatter={(w) => {
 					if (typeof w === 'number') {
 						return `${w.toFixed(1)}x`;
@@ -47,7 +49,7 @@ export const ScaleSetting: React.FC<{
 			/>
 			{scale !== 1 && (
 				<div style={outputDimensionsStyle}>
-					Output resolution: {outputDimensions}
+					{t('renderModalOutputResolution', {resolution: outputDimensions})}
 				</div>
 			)}
 		</>

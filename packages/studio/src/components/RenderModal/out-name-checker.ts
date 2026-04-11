@@ -1,5 +1,6 @@
 import type {AudioCodec, Codec, StillImageFormat} from '@remotion/renderer';
 import {BrowserSafeApis} from '@remotion/renderer/client';
+import {translate} from '../../i18n';
 import type {RenderType} from './RenderModalAdvanced';
 
 const invalidCharacters = ['?', '*', '+', ':', '%'];
@@ -100,17 +101,15 @@ const isValidOutName = ({
 	}
 
 	if (prefix.length < 1 && renderMode !== 'sequence') {
-		throw new Error('The prefix must be at least 1 character long');
+		throw new Error(translate('validationPrefixMinLength'));
 	}
 
 	if (prefix[0] === '.' || hasDotAfterSlash()) {
-		throw new Error('The output name must not start with a dot');
+		throw new Error(translate('validationOutputNameNoLeadingDot'));
 	}
 
 	if (hasInvalidChar()) {
-		throw new Error(
-			"Filename can't contain the following characters:  ?, *, +, %, :",
-		);
+		throw new Error(translate('validationFilenameChars'));
 	}
 
 	if (
@@ -119,13 +118,16 @@ const isValidOutName = ({
 		!isValidStillExtension(extension, stillImageFormat)
 	) {
 		throw new Error(
-			`The extension ${extension} is not supported for still image format ${stillImageFormat}`,
+			translate('validationStillExtensionUnsupported', {
+				extension,
+				format: stillImageFormat,
+			}),
 		);
 	}
 
 	if (renderMode === 'sequence') {
 		if (outName.includes('.')) {
-			throw new Error('Folder names must not contain a dot');
+			throw new Error(translate('validationFolderNameNoDot'));
 		}
 	}
 };
@@ -143,7 +145,11 @@ export const isValidSeparateAudioName = ({
 		BrowserSafeApis.getExtensionFromAudioCodec(audioCodec);
 	const actualExtension = separateAudioTo.split('.').pop();
 	if (actualExtension !== expectedExtension) {
-		throw new Error(`Expected extension: .${expectedExtension}`);
+		throw new Error(
+			translate('renderModalExpectedExtension', {
+				extension: expectedExtension,
+			}),
+		);
 	}
 
 	const hasDotAfterSlash = () => {
@@ -162,16 +168,14 @@ export const isValidSeparateAudioName = ({
 	};
 
 	if (prefix.length < 1) {
-		throw new Error('The prefix must be at least 1 character long');
+		throw new Error(translate('validationPrefixMinLength'));
 	}
 
 	if (prefix[0] === '.' || hasDotAfterSlash()) {
-		throw new Error('The output name must not start with a dot');
+		throw new Error(translate('validationOutputNameNoLeadingDot'));
 	}
 
 	if (hasInvalidChar()) {
-		throw new Error(
-			"Filename can't contain the following characters:  ?, *, +, %, :",
-		);
+		throw new Error(translate('validationFilenameChars'));
 	}
 };

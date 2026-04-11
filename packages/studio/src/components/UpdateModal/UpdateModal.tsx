@@ -1,6 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import {BLUE, SELECTED_BACKGROUND} from '../../helpers/colors';
 import {copyText} from '../../helpers/copy-text';
+import {useStudioI18n} from '../../i18n';
 import {CopyButton} from '../CopyButton';
 import {KnownBugs} from '../KnownBugs';
 import {Flex, Row, Spacing} from '../layout';
@@ -51,6 +52,7 @@ export const UpdateModal: React.FC<{
 	readonly info: UpdateInfo;
 	readonly knownBugs: Bug[];
 }> = ({info, knownBugs}) => {
+	const {t} = useStudioI18n();
 	const hasKnownBugs = useMemo(() => {
 		return knownBugs && knownBugs?.length > 0;
 	}, [knownBugs]);
@@ -65,22 +67,21 @@ export const UpdateModal: React.FC<{
 
 	return (
 		<DismissableModal>
-			<ModalHeader title="Update available" />
+			<ModalHeader title={t('updateAvailableTitle')} />
 			<div style={container}>
 				{hasKnownBugs ? (
 					<>
 						<div style={title}>
-							The currently installed version {info.currentVersion} has the
-							following known bugs:
+							{t('updateCurrentVersionKnownBugs', {
+								version: info.currentVersion,
+							})}
 						</div>
 						<KnownBugs bugs={knownBugs as Bug[]} />
 						<div style={{height: '20px'}} />
-						<div style={text}>To upgrade, run the following command:</div>
+						<div style={text}>{t('updateRunCommandToUpgrade')}</div>
 					</>
 				) : (
-					<div style={title}>
-						A new update for Remotion is available! Run the following command:
-					</div>
+					<div style={title}>{t('updateNewVersionAvailable')}</div>
 				)}
 				<Row align="center">
 					<Flex>
@@ -91,24 +92,26 @@ export const UpdateModal: React.FC<{
 					<Spacing x={1} />
 					<CopyButton
 						textToCopy={command}
-						label="Copy"
-						labelWhenCopied="Copied!"
+						label={t('updateCopy')}
+						labelWhenCopied={t('updateCopied')}
 					/>
 				</Row>
 				<div style={text}>
-					This will upgrade Remotion from {info.currentVersion} to{' '}
-					{info.latestVersion}.
+					{t('updateUpgradeFromTo', {
+						currentVersion: info.currentVersion,
+						latestVersion: info.latestVersion,
+					})}
 				</div>
 				<div style={text}>
-					Read the{' '}
+					{t('updateReadTheReleaseNotesPrefix')}{' '}
 					<a
 						style={link}
 						target="_blank"
 						href="https://github.com/remotion-dev/remotion/releases"
 					>
-						Release notes
+						{t('updateReleaseNotes')}
 					</a>{' '}
-					to know what{"'s"} new in Remotion.
+					{t('updateWhatsNewInRemotion')}
 				</div>
 			</div>
 		</DismissableModal>

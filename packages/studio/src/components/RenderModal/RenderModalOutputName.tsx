@@ -1,4 +1,5 @@
 import React from 'react';
+import {useStudioI18n} from '../../i18n';
 import {Column, Spacing} from '../layout';
 import {RemotionInput} from '../NewComposition/RemInput';
 import {ValidationMessage} from '../NewComposition/ValidationMessage';
@@ -21,6 +22,7 @@ export const RenderModalOutputName = ({
 	validationMessage,
 	label: labelText,
 }: Props) => {
+	const {t} = useStudioI18n();
 	return (
 		<div style={optionRow}>
 			<Column>
@@ -50,7 +52,7 @@ export const RenderModalOutputName = ({
 							<Spacing y={1} block />
 							<ValidationMessage
 								align="flex-end"
-								message="Will be overwritten"
+								message={t('renderModalWillBeOverwritten')}
 								type={'warning'}
 							/>
 						</>

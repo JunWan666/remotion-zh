@@ -16,6 +16,7 @@ import {
 } from '@remotion/web-renderer';
 import {useCallback, useContext, useMemo, useState} from 'react';
 import {ShortcutHint} from '../../error-overlay/remotion-overlay/ShortcutHint';
+import {translate, useStudioI18n} from '../../i18n';
 import {AudioIcon} from '../../icons/audio';
 import {CertificateIcon} from '../../icons/certificate';
 import {DataIcon} from '../../icons/data';
@@ -140,22 +141,23 @@ const validateOutnameForStill = ({
 		};
 
 		if (prefix.length < 1) {
-			throw new Error('The prefix must be at least 1 character long');
+			throw new Error(translate('validationPrefixMinLength'));
 		}
 
 		if (prefix[0] === '.' || hasDotAfterSlash()) {
-			throw new Error('The output name must not start with a dot');
+			throw new Error(translate('validationOutputNameNoLeadingDot'));
 		}
 
 		if (hasInvalidChar()) {
-			throw new Error(
-				"Filename can't contain the following characters:  ?, *, +, %, :",
-			);
+			throw new Error(translate('validationFilenameChars'));
 		}
 
 		if (!isValidStillExtension(extension, stillImageFormat)) {
 			throw new Error(
-				`The extension ${extension} is not supported for still image format ${stillImageFormat}`,
+				translate('validationStillExtensionUnsupported', {
+					extension,
+					format: stillImageFormat,
+				}),
 			);
 		}
 
@@ -193,6 +195,7 @@ const WebRenderModal: React.FC<WebRenderModalProps> = ({
 	initialMuted,
 	initialAllowHtmlInCanvas,
 }) => {
+	const {t} = useStudioI18n();
 	const context = useContext(ResolvedCompositionContext);
 	const {setSelectedModal} = useContext(ModalsContext);
 	const {setSidebarCollapsedState} = useContext(SidebarContext);
@@ -411,7 +414,7 @@ const WebRenderModal: React.FC<WebRenderModalProps> = ({
 	const renderTabOptions = useMemo((): SegmentedControlItem[] => {
 		const options: SegmentedControlItem[] = [
 			{
-				label: 'Still',
+				label: t('renderModeStill'),
 				onClick: () => {
 					onRenderModeChange('still');
 				},
@@ -423,7 +426,7 @@ const WebRenderModal: React.FC<WebRenderModalProps> = ({
 		// Only show video/audio options if composition has more than 1 frame
 		if (resolvedComposition.durationInFrames > 1) {
 			options.push({
-				label: 'Video',
+				label: t('renderModeVideo'),
 				onClick: () => {
 					onRenderModeChange('video');
 				},
@@ -431,7 +434,7 @@ const WebRenderModal: React.FC<WebRenderModalProps> = ({
 				selected: renderMode === 'video',
 			});
 			options.push({
-				label: 'Audio',
+				label: t('renderModeAudio'),
 				onClick: () => {
 					onRenderModeChange('audio');
 				},
@@ -441,7 +444,7 @@ const WebRenderModal: React.FC<WebRenderModalProps> = ({
 		}
 
 		return options;
-	}, [renderMode, resolvedComposition.durationInFrames, onRenderModeChange]);
+	}, [renderMode, resolvedComposition.durationInFrames, onRenderModeChange, t]);
 
 	const onFrameSetDirectly = useCallback(
 		(newFrame: number) => {
@@ -500,22 +503,23 @@ const WebRenderModal: React.FC<WebRenderModalProps> = ({
 			};
 
 			if (prefix.length < 1) {
-				throw new Error('The prefix must be at least 1 character long');
+				throw new Error(translate('validationPrefixMinLength'));
 			}
 
 			if (prefix[0] === '.' || hasDotAfterSlash()) {
-				throw new Error('The output name must not start with a dot');
+				throw new Error(translate('validationOutputNameNoLeadingDot'));
 			}
 
 			if (hasInvalidChar()) {
-				throw new Error(
-					"Filename can't contain the following characters:  ?, *, +, %, :",
-				);
+				throw new Error(translate('validationFilenameChars'));
 			}
 
 			if (extension !== container) {
 				throw new Error(
-					`The extension ${extension} is not supported for container format ${container}`,
+					translate('validationContainerExtensionUnsupported', {
+						extension,
+						container,
+					}),
 				);
 			}
 
@@ -626,9 +630,22 @@ const WebRenderModal: React.FC<WebRenderModalProps> = ({
 		allowHtmlInCanvas,
 	]);
 
+	const renderModeLabel = useMemo(() => {
+		switch (renderMode) {
+			case 'still':
+				return t('renderModeStill');
+			case 'audio':
+				return t('renderModeAudio');
+			default:
+				return t('renderModeVideo');
+		}
+	}, [renderMode, t]);
+
 	return (
 		<div style={outerModalStyle}>
-			<ModalHeader title={`Render ${resolvedComposition.id}`} />
+			<ModalHeader
+				title={t('renderModalTitle', {compositionId: resolvedComposition.id})}
+			/>
 			<div style={containerStyle}>
 				<SegmentedControl items={renderTabOptions} needsWrapping={false} />
 				<div style={flexer} />
@@ -638,7 +655,7 @@ const WebRenderModal: React.FC<WebRenderModalProps> = ({
 					style={buttonStyle}
 					disabled={!outnameValidation.valid}
 				>
-					Render {renderMode}
+					{t('renderButtonRender')} {renderModeLabel}
 					<ShortcutHint keyToPress="↵" cmdOrCtrl />
 				</Button>
 			</div>
@@ -655,7 +672,7 @@ const WebRenderModal: React.FC<WebRenderModalProps> = ({
 						<div style={iconContainer}>
 							<FileIcon style={icon} />
 						</div>
-						General
+						{t('renderModalGeneral')}
 					</VerticalTab>
 					<VerticalTab
 						style={horizontalTab}
@@ -665,7 +682,7 @@ const WebRenderModal: React.FC<WebRenderModalProps> = ({
 						<div style={iconContainer}>
 							<DataIcon style={icon} />
 						</div>
-						Input Props
+						{t('renderModalInputProps')}
 					</VerticalTab>
 					{renderMode !== 'audio' ? (
 						<VerticalTab
@@ -676,7 +693,7 @@ const WebRenderModal: React.FC<WebRenderModalProps> = ({
 							<div style={iconContainer}>
 								<PicIcon style={icon} />
 							</div>
-							Picture
+							{t('renderModalPicture')}
 						</VerticalTab>
 					) : null}
 					{renderMode === 'video' || renderMode === 'audio' ? (
@@ -688,7 +705,7 @@ const WebRenderModal: React.FC<WebRenderModalProps> = ({
 							<div style={iconContainer}>
 								<AudioIcon style={icon} />
 							</div>
-							Audio
+							{t('renderModalAudio')}
 						</VerticalTab>
 					) : null}
 					<VerticalTab
@@ -699,7 +716,7 @@ const WebRenderModal: React.FC<WebRenderModalProps> = ({
 						<div style={iconContainer}>
 							<GearIcon style={icon} />
 						</div>
-						Other
+						{t('renderModalOther')}
 					</VerticalTab>
 					<VerticalTab
 						style={horizontalTab}
@@ -709,7 +726,7 @@ const WebRenderModal: React.FC<WebRenderModalProps> = ({
 						<div style={iconContainer}>
 							<CertificateIcon style={icon} />
 						</div>
-						License
+						{t('renderModalLicense')}
 					</VerticalTab>
 				</div>
 				<div style={optionsPanel} className={VERTICAL_SCROLLBAR_CLASSNAME}>

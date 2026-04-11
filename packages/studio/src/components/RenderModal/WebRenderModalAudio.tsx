@@ -5,6 +5,7 @@ import type {
 } from '@remotion/web-renderer';
 import {getSupportedAudioCodecsForContainer} from '@remotion/web-renderer';
 import React, {useMemo} from 'react';
+import {translate, useStudioI18n} from '../../i18n';
 import {Checkmark} from '../../icons/Checkmark';
 import {Spacing} from '../layout';
 import {VERTICAL_SCROLLBAR_CLASSNAME} from '../Menu/is-menu-item';
@@ -47,7 +48,7 @@ const humanReadableWebAudioCodec = (
 		case 'vorbis':
 			return 'Vorbis';
 		case 'pcm-s16':
-			return 'Lossless (PCM)';
+			return translate('renderModalLosslessPcm');
 		case 'flac':
 			return 'FLAC';
 		default:
@@ -82,6 +83,7 @@ export const WebRenderModalAudio: React.FC<{
 	encodableCodecs,
 	effectiveAudioCodec,
 }) => {
+	const {t} = useStudioI18n();
 	const containerSupported = useMemo(
 		() => getSupportedAudioCodecsForContainer(videoContainer),
 		[videoContainer],
@@ -128,37 +130,38 @@ export const WebRenderModalAudio: React.FC<{
 					{isAudioOnly ? null : <RenderModalHr />}
 					<div style={optionRow}>
 						<div style={label}>
-							Audio Quality
+							{t('renderModalAudioQuality')}
 							<Spacing x={0.5} />
 						</div>
 						<div style={rightRow}>
 							<Combobox
 								values={audioBitrateOptions}
 								selectedId={audioBitrate}
-								title="Audio Quality"
+								title={t('renderModalAudioQuality')}
 							/>
 						</div>
 					</div>
 					{showAudioCodecSetting ? (
 						<div style={optionRow}>
 							<div style={label}>
-								Audio Codec
+								{t('renderModalAudioCodec')}
 								<Spacing x={0.5} />
 							</div>
 							<div style={rightRow}>
 								<Combobox
 									values={audioCodecOptions}
 									selectedId={audioCodec}
-									title="Audio Codec"
+									title={t('renderModalAudioCodec')}
 								/>
 							</div>
 						</div>
 					) : null}
 					{showAudioCodecSetting && effectiveAudioCodec !== audioCodec ? (
 						<div style={fallbackNoticeStyle}>
-							{humanReadableWebAudioCodec(audioCodec)} is not available in this
-							browser. Using {humanReadableWebAudioCodec(effectiveAudioCodec)}{' '}
-							instead.
+							{t('renderModalWebAudioCodecFallback', {
+								requested: humanReadableWebAudioCodec(audioCodec),
+								fallback: humanReadableWebAudioCodec(effectiveAudioCodec),
+							})}
 						</div>
 					) : null}
 				</>

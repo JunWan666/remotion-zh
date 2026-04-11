@@ -1,5 +1,6 @@
 import type {ChangeEvent} from 'react';
 import React, {useCallback} from 'react';
+import {useStudioI18n} from '../../i18n';
 import {Checkbox} from '../Checkbox';
 import {Spacing} from '../layout';
 import {label, optionRow, rightRow} from './layout';
@@ -32,6 +33,7 @@ export const RenderModalGif: React.FC<{
 	setLimitNumberOfGifLoops,
 	setNumberOfGifLoopsSetting,
 }) => {
+	const {t} = useStudioI18n();
 	const onShouldLimitNumberOfGifLoops = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
 			setLimitNumberOfGifLoops(e.target.checked);
@@ -42,7 +44,7 @@ export const RenderModalGif: React.FC<{
 	return (
 		<div style={container}>
 			<NumberSetting
-				name="Every nth frame"
+				name={t('renderModalEveryNthFrame')}
 				min={1}
 				onValueChanged={setEveryNthFrameSetting}
 				value={everyNthFrame}
@@ -50,7 +52,7 @@ export const RenderModalGif: React.FC<{
 			/>
 			<div style={optionRow}>
 				<div style={label}>
-					Limit GIF loops <Spacing x={0.5} />
+					{t('renderModalLimitGifLoops')} <Spacing x={0.5} />
 					<OptionExplainerBubble id="numberOfGifLoopsOption" />
 				</div>
 				<div style={rightRow}>

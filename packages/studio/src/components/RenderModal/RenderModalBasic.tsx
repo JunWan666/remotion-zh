@@ -5,6 +5,7 @@ import React, {useCallback, useMemo} from 'react';
 import type {_InternalTypes, VideoConfig} from 'remotion';
 import {labelProResProfile} from '../../helpers/prores-labels';
 import {useFileExistence} from '../../helpers/use-file-existence';
+import {useStudioI18n} from '../../i18n';
 import {Checkmark} from '../../icons/Checkmark';
 import {Spacing} from '../layout';
 import type {ComboboxValue} from '../NewComposition/ComboBox';
@@ -68,6 +69,7 @@ export const RenderModalBasic: React.FC<{
 	logLevel,
 	showOutputName,
 }) => {
+	const {t} = useStudioI18n();
 	const existence = useFileExistence(outName);
 	const videoCodecOptions = useMemo((): ComboboxValue[] => {
 		return BrowserSafeApis.validCodecs
@@ -158,7 +160,7 @@ export const RenderModalBasic: React.FC<{
 		<div style={container}>
 			{renderMode === 'still' || renderMode === 'sequence' ? (
 				<div style={optionRow}>
-					<div style={label}>Format</div>
+					<div style={label}>{t('renderModalFormat')}</div>
 					<div style={rightRow}>
 						<SegmentedControl items={imageFormatOptions} needsWrapping />
 					</div>
@@ -166,7 +168,7 @@ export const RenderModalBasic: React.FC<{
 			) : (
 				<div style={optionRow}>
 					<div style={label}>
-						Codec
+						{t('renderModalCodec')}
 						<Spacing x={0.5} />
 						<OptionExplainerBubble id="videoCodecOption" />
 					</div>
@@ -175,14 +177,14 @@ export const RenderModalBasic: React.FC<{
 						<Combobox
 							values={videoCodecOptions}
 							selectedId={codec}
-							title="Codec"
+							title={t('renderModalCodec')}
 						/>
 					</div>
 				</div>
 			)}
 			{renderMode === 'still' && resolvedComposition.durationInFrames > 1 ? (
 				<div style={optionRow}>
-					<div style={label}>Frame</div>
+					<div style={label}>{t('renderModalFrame')}</div>
 					<div style={rightRow}>
 						<RightAlignInput>
 							<InputDragger
@@ -203,7 +205,7 @@ export const RenderModalBasic: React.FC<{
 			) : null}
 			{renderMode === 'video' && codec === 'prores' ? (
 				<div style={optionRow}>
-					<div style={label}>ProRes profile</div>
+					<div style={label}>{t('renderModalProResProfile')}</div>
 					<div style={rightRow}>
 						<Combobox
 							title={'proResProfile' as string}
@@ -229,19 +231,23 @@ export const RenderModalBasic: React.FC<{
 					outName={outName}
 					onValueChange={onValueChange}
 					validationMessage={validationMessage}
-					label={renderMode === 'sequence' ? 'Folder name' : 'Output name'}
+					label={
+						renderMode === 'sequence'
+							? t('renderModalFolderName')
+							: t('renderModalOutputName')
+					}
 				/>
 			) : null}
 			<div style={optionRow}>
 				<div style={label}>
-					Log Level <Spacing x={0.5} />
+					{t('renderModalLogLevel')} <Spacing x={0.5} />
 					<OptionExplainerBubble id="logLevelOption" />
 				</div>
 				<div style={rightRow}>
 					<Combobox
 						values={logLevelOptions}
 						selectedId={logLevel}
-						title="Log Level"
+						title={t('renderModalLogLevel')}
 					/>
 				</div>
 			</div>

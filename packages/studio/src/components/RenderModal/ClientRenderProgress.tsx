@@ -1,6 +1,7 @@
 import {formatBytes} from '@remotion/studio-shared';
 import React from 'react';
 import {LIGHT_TEXT} from '../../helpers/colors';
+import {useStudioI18n} from '../../i18n';
 import {Spacing} from '../layout';
 import {CircularProgress} from '../RenderQueue/CircularProgress';
 import {getClientRenderProgressMessage} from '../RenderQueue/client-render-progress';
@@ -69,6 +70,7 @@ const DoneStatus: React.FC<{
 export const ClientRenderProgress: React.FC<{
 	readonly job: ClientRenderJob;
 }> = ({job}) => {
+	const {t} = useStudioI18n();
 	if (
 		job.status === 'idle' ||
 		job.status === 'failed' ||
@@ -93,7 +95,7 @@ export const ClientRenderProgress: React.FC<{
 		return (
 			<div>
 				<Spacing y={0.5} />
-				<div style={label}>Saving to out/...</div>
+				<div style={label}>{t('clientRenderSaving')}</div>
 				<Spacing y={1} />
 			</div>
 		);

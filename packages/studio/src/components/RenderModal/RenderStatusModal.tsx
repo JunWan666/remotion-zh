@@ -4,6 +4,7 @@ import {
 	makeClientRetryPayload,
 	makeRetryPayload,
 } from '../../helpers/retry-payload';
+import {useStudioI18n} from '../../i18n';
 import {ModalsContext} from '../../state/modals';
 import {Button} from '../Button';
 import {Flex, SPACING_UNIT} from '../layout';
@@ -54,6 +55,7 @@ export const RenderStatusModal: React.FC<{readonly jobId: string}> = ({
 	const {setSelectedModal} = useContext(ModalsContext);
 	const {jobs, removeClientJob, cancelClientJob} =
 		useContext(RenderQueueContext);
+	const {t} = useStudioI18n();
 
 	const job = jobs.find((j) => j.id === jobId);
 	if (!job) {
@@ -86,23 +88,29 @@ export const RenderStatusModal: React.FC<{readonly jobId: string}> = ({
 		setSelectedModal(null);
 		if (isClientJob) {
 			removeClientJob(job.id);
-			showNotification('Removed render', 2000);
+			showNotification(t('renderStatusRemovedRender'), 2000);
 		} else {
 			removeRenderJob(job).catch((err) => {
-				showNotification(`Could not remove job: ${err.message}`, 2000);
+				showNotification(
+					t('renderStatusCouldNotRemove', {message: err.message}),
+					2000,
+				);
 			});
 		}
-	}, [job, isClientJob, removeClientJob, setSelectedModal]);
+	}, [job, isClientJob, removeClientJob, setSelectedModal, t]);
 
 	const onClickOnCancel = useCallback(() => {
 		if (isClientJob) {
 			cancelClientJob(job.id);
 		} else {
 			cancelRenderJob(job).catch((err) => {
-				showNotification(`Could not cancel job: ${err.message}`, 2000);
+				showNotification(
+					t('renderStatusCouldNotCancel', {message: err.message}),
+					2000,
+				);
 			});
 		}
-	}, [job, isClientJob, cancelClientJob]);
+	}, [job, isClientJob, cancelClientJob, t]);
 
 	if (job.status === 'idle') {
 		throw new Error('should not have rendered this modal');
@@ -110,11 +118,13 @@ export const RenderStatusModal: React.FC<{readonly jobId: string}> = ({
 
 	return (
 		<ModalContainer onOutsideClick={onQuit} onEscape={onQuit}>
-			<ModalHeader title={`Render ${job.compositionId}`} />
+			<ModalHeader
+				title={t('renderModalTitle', {compositionId: job.compositionId})}
+			/>
 			<div style={container}>
 				{job.status === 'failed' ? (
 					<>
-						<p>The render failed because of the following error:</p>
+						<p>{t('renderStatusFailedBecause')}</p>
 						<div className={HORIZONTAL_SCROLLBAR_CLASSNAME} style={codeBlock}>
 							{job.error.stack}
 						</div>
@@ -129,16 +139,20 @@ export const RenderStatusModal: React.FC<{readonly jobId: string}> = ({
 				<div style={spacer} />
 				<div style={buttonRow}>
 					{job.status === 'running' ? (
-						<Button onClick={onClickOnCancel}>Cancel render</Button>
+						<Button onClick={onClickOnCancel}>
+							{t('renderStatusCancelRender')}
+						</Button>
 					) : (
-						<Button onClick={onClickOnRemove}>Remove render</Button>
+						<Button onClick={onClickOnRemove}>
+							{t('renderStatusRemoveRender')}
+						</Button>
 					)}
 					<Flex />
 					{job.status === 'failed' ? (
-						<Button onClick={onRetry}>Retry</Button>
+						<Button onClick={onRetry}>{t('renderStatusRetry')}</Button>
 					) : null}
 					<div style={spacer} />
-					<Button onClick={onQuit}>Close</Button>
+					<Button onClick={onQuit}>{t('renderStatusClose')}</Button>
 				</div>
 			</div>
 		</ModalContainer>

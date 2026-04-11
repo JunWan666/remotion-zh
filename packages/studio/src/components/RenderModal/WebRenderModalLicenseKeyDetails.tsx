@@ -1,5 +1,6 @@
 import React from 'react';
 import {LIGHT_TEXT, WARNING_COLOR} from '../../helpers/colors';
+import {useStudioI18n} from '../../i18n';
 import {CheckCircleFilled} from '../../icons/check-circle-filled';
 import {WarningTriangle} from '../NewComposition/ValidationMessage';
 
@@ -62,12 +63,13 @@ export const fetchLicenseKeyDetails = async (
 export const WebRenderModalLicenseKeyDetails: React.FC<
 	WebRenderModalLicenseKeyDetailsProps
 > = ({details}) => {
+	const {t} = useStudioI18n();
 	return (
 		<div>
 			<div style={bulletStyle}>
 				<CheckCircleFilled style={{...icon, fill: LIGHT_TEXT}} />
 				<div style={textStyle}>
-					Belongs to&nbsp;
+					{t('licenseBelongsTo')}&nbsp;
 					<a
 						href={`${PRO_HOST}/projects/${details.projectSlug}`}
 						target="_blank"
@@ -81,7 +83,7 @@ export const WebRenderModalLicenseKeyDetails: React.FC<
 						target="_blank"
 						style={linkStyle}
 					>
-						View usage
+						{t('licenseViewUsage')}
 					</a>
 				</div>
 			</div>
@@ -89,7 +91,7 @@ export const WebRenderModalLicenseKeyDetails: React.FC<
 			{details.hasActiveSubscription ? (
 				<div style={bulletStyle}>
 					<CheckCircleFilled style={{...icon, fill: LIGHT_TEXT}} />
-					<div style={textStyle}>Active Company License</div>
+					<div style={textStyle}>{t('licenseActiveCompany')}</div>
 				</div>
 			) : (
 				<div style={bulletStyle}>
@@ -97,7 +99,7 @@ export const WebRenderModalLicenseKeyDetails: React.FC<
 						type="warning"
 						style={{...icon, fill: WARNING_COLOR}}
 					/>
-					<div style={textStyle}>No active Company License</div>
+					<div style={textStyle}>{t('licenseNoActiveCompany')}</div>
 				</div>
 			)}
 		</div>
