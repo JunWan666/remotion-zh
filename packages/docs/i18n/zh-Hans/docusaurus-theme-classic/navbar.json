@@ -1,0 +1,106 @@
+{
+  "logo.alt": {
+    "message": "Remotion 标志",
+    "description": "Navbar logo alt text"
+  },
+  "item.label.Docs": {
+    "message": "文档",
+    "description": "Navbar item label"
+  },
+  "item.label.API": {
+    "message": "API",
+    "description": "Navbar item label"
+  },
+  "item.label.Products": {
+    "message": "产品",
+    "description": "Navbar dropdown label"
+  },
+  "item.label.Player": {
+    "message": "播放器",
+    "description": "Navbar item label"
+  },
+  "item.label.Lambda": {
+    "message": "Lambda",
+    "description": "Navbar item label"
+  },
+  "item.label.Editor Starter": {
+    "message": "编辑器模板",
+    "description": "Navbar item label"
+  },
+  "item.label.Timeline": {
+    "message": "时间轴",
+    "description": "Navbar item label"
+  },
+  "item.label.Recorder": {
+    "message": "录屏器",
+    "description": "Navbar item label"
+  },
+  "item.label.Resources": {
+    "message": "资源",
+    "description": "Navbar item label"
+  },
+  "item.label.Prompts": {
+    "message": "提示词",
+    "description": "Navbar item label"
+  },
+  "item.label.Learn": {
+    "message": "学习",
+    "description": "Navbar item label"
+  },
+  "item.label.Blog": {
+    "message": "博客",
+    "description": "Navbar item label"
+  },
+  "item.label.Showcase": {
+    "message": "案例展示",
+    "description": "Navbar item label"
+  },
+  "item.label.Convert a video": {
+    "message": "转换视频",
+    "description": "Navbar item label"
+  },
+  "item.label.Timing Editor": {
+    "message": "时间编辑器",
+    "description": "Navbar item label"
+  },
+  "item.label.Support": {
+    "message": "支持",
+    "description": "Navbar item label"
+  },
+  "item.label.Templates": {
+    "message": "模板",
+    "description": "Navbar item label"
+  },
+  "item.label.Commercial": {
+    "message": "商业",
+    "description": "Navbar dropdown label"
+  },
+  "item.label.License + Pricing": {
+    "message": "授权与定价",
+    "description": "Navbar item label"
+  },
+  "item.label.Store": {
+    "message": "商店",
+    "description": "Navbar item label"
+  },
+  "item.label.Success Stories": {
+    "message": "成功案例",
+    "description": "Navbar item label"
+  },
+  "item.label.Experts": {
+    "message": "专家",
+    "description": "Navbar item label"
+  },
+  "item.label.About us": {
+    "message": "关于我们",
+    "description": "Navbar item label"
+  },
+  "item.label.Investors": {
+    "message": "投资者",
+    "description": "Navbar item label"
+  },
+  "item.label.Contact us": {
+    "message": "联系我们",
+    "description": "Navbar item label"
+  }
+}

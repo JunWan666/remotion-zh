@@ -6,6 +6,23 @@ const config: Config = {
 	tagline: 'Make videos programmatically',
 	url: 'https://www.remotion.dev',
 	baseUrl: '/',
+	i18n: {
+		path: 'i18n',
+		defaultLocale: 'en',
+		locales: ['en', 'zh-Hans'],
+		localeConfigs: {
+			en: {
+				label: 'English',
+				htmlLang: 'en',
+				baseUrl: '/en/',
+			},
+			'zh-Hans': {
+				label: '\u7b80\u4f53\u4e2d\u6587',
+				htmlLang: 'zh-CN',
+				baseUrl: '/',
+			},
+		},
+	},
 	onBrokenLinks: 'throw',
 	markdown: {
 		hooks: {
@@ -13,8 +30,8 @@ const config: Config = {
 		},
 	},
 	favicon: 'img/favicon.png',
-	organizationName: 'remotion-dev', // Usually your GitHub org/user name.
-	projectName: 'remotion', // Usually your repo name.
+	organizationName: 'JunWan666', // Usually your GitHub org/user name.
+	projectName: 'remotion-zh', // Usually your repo name.
 	future: {
 		experimental_faster: true,
 		v4: {
@@ -97,7 +114,11 @@ const config: Config = {
 				},
 
 				{
-					href: 'https://github.com/remotion-dev/remotion',
+					type: 'localeDropdown',
+					position: 'right',
+				},
+				{
+					href: 'https://github.com/JunWan666/remotion-zh',
 					position: 'right',
 					className: 'header-github-link',
 					'aria-label': 'GitHub repository',
@@ -156,7 +177,7 @@ const config: Config = {
 						},
 						{
 							label: 'GitHub',
-							href: 'https://github.com/remotion-dev/remotion',
+							href: 'https://github.com/JunWan666/remotion-zh',
 						},
 						{
 							label: 'Remotion Pro',
@@ -268,7 +289,7 @@ const config: Config = {
 					path: 'docs',
 					sidebarPath: './sidebars.ts',
 					editUrl:
-						'https://github.com/remotion-dev/remotion/edit/main/packages/docs/',
+						'https://github.com/JunWan666/remotion-zh/edit/main/packages/docs/',
 					showLastUpdateTime: true,
 					remarkPlugins: [remarkExportRaw],
 				},
@@ -278,7 +299,7 @@ const config: Config = {
 					showReadingTime: true,
 					// Please change this to your repo.
 					editUrl:
-						'https://github.com/remotion-dev/remotion/edit/main/packages/docs/blog/',
+						'https://github.com/JunWan666/remotion-zh/edit/main/packages/docs/blog/',
 				},
 				theme: {
 					customCss: [require.resolve('./src/css/custom.css')],

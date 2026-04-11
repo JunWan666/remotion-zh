@@ -1,0 +1,230 @@
+{
+  "theme.common.skipToMainContent": {
+    "message": "跳转到主要内容",
+    "description": "Skip link label"
+  },
+  "theme.navbar.mobileLanguageDropdown.label": {
+    "message": "语言",
+    "description": "Mobile language dropdown label"
+  },
+  "theme.CodeBlock.copyButtonAriaLabel": {
+    "message": "复制代码到剪贴板",
+    "description": "Code copy button aria label"
+  },
+  "theme.CodeBlock.copy": {
+    "message": "复制",
+    "description": "Code copy button label"
+  },
+  "theme.CodeBlock.copied": {
+    "message": "已复制",
+    "description": "Code copied button label"
+  },
+  "theme.CodeBlock.wordWrapToggle": {
+    "message": "切换自动换行",
+    "description": "Code block word wrap toggle label"
+  },
+  "theme.common.editThisPage": {
+    "message": "改进此页面",
+    "description": "Edit this page label"
+  },
+  "theme.docs.versionBadge.label": {
+    "message": "版本：{versionLabel}",
+    "description": "Docs version badge label"
+  },
+  "theme.docs.breadcrumbs.home": {
+    "message": "首页",
+    "description": "Breadcrumbs home aria label"
+  },
+  "theme.docs.breadcrumbs.navAriaLabel": {
+    "message": "面包屑",
+    "description": "Breadcrumbs aria label"
+  },
+  "theme.docs.sidebar.navAriaLabel": {
+    "message": "文档侧边栏",
+    "description": "Docs sidebar aria label"
+  },
+  "theme.docs.sidebar.collapseButtonTitle": {
+    "message": "收起侧边栏",
+    "description": "Collapse docs sidebar button title"
+  },
+  "theme.docs.sidebar.collapseButtonAriaLabel": {
+    "message": "收起侧边栏",
+    "description": "Collapse docs sidebar button aria label"
+  },
+  "theme.docs.sidebar.expandButtonTitle": {
+    "message": "展开侧边栏",
+    "description": "Expand docs sidebar button title"
+  },
+  "theme.docs.sidebar.expandButtonAriaLabel": {
+    "message": "展开侧边栏",
+    "description": "Expand docs sidebar button aria label"
+  },
+  "theme.docs.sidebar.toggleSidebarButtonAriaLabel": {
+    "message": "切换导航菜单",
+    "description": "Mobile sidebar toggle aria label"
+  },
+  "theme.docs.sidebar.closeSidebarButtonAriaLabel": {
+    "message": "关闭导航菜单",
+    "description": "Mobile sidebar close aria label"
+  },
+  "theme.docs.paginator.navAriaLabel": {
+    "message": "文档分页",
+    "description": "Docs paginator aria label"
+  },
+  "theme.docs.paginator.previous": {
+    "message": "上一页",
+    "description": "Docs paginator previous label"
+  },
+  "theme.docs.paginator.next": {
+    "message": "下一页",
+    "description": "Docs paginator next label"
+  },
+  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": {
+    "message": "返回主菜单",
+    "description": "Back button label in mobile secondary menu"
+  },
+  "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": {
+    "message": "展开下拉菜单",
+    "description": "Mobile dropdown expand aria label"
+  },
+  "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": {
+    "message": "收起下拉菜单",
+    "description": "Mobile dropdown collapse aria label"
+  },
+  "theme.common.headingLinkTitle": {
+    "message": "前往 {heading} 的直接链接",
+    "description": "Heading permalink title"
+  },
+  "theme.docs.versions.unreleasedVersionLabel": {
+    "message": "这是 {siteTitle} {versionLabel} 版本的未发布文档。",
+    "description": "Unreleased docs version banner label"
+  },
+  "theme.docs.versions.unmaintainedVersionLabel": {
+    "message": "这是 {siteTitle} {versionLabel} 版本的文档，该版本已不再积极维护。",
+    "description": "Unmaintained docs version banner label"
+  },
+  "theme.docs.versions.latestVersionSuggestionLabel": {
+    "message": "如需最新文档，请查看 {latestVersionLink}（{versionLabel}）。",
+    "description": "Latest docs version suggestion label"
+  },
+  "theme.docs.versions.latestVersionLinkLabel": {
+    "message": "最新版本",
+    "description": "Latest docs version link label"
+  },
+  "homepage.localization.badge": {
+    "message": "中文适配预览",
+    "description": "Homepage localization notice badge"
+  },
+  "homepage.localization.title": {
+    "message": "这个分支正在为 Remotion 提供简体中文适配。",
+    "description": "Homepage localization notice headline"
+  },
+  "homepage.localization.description": {
+    "message": "站点导航、界面壳层和文档关键操作已支持中文。大部分正文内容暂时仍会回退为英文，后续会逐步翻译。",
+    "description": "Homepage localization notice description"
+  },
+  "homepage.localization.switchHint": {
+    "message": "可使用右上角的语言切换器在简体中文和 English 之间切换。",
+    "description": "Homepage localization notice switch hint"
+  },
+  "homepage.localization.openDocs": {
+    "message": "进入文档",
+    "description": "Homepage localization notice CTA"
+  },
+  "homepage.meta.title": {
+    "message": "Remotion 中文适配版",
+    "description": "Homepage meta title"
+  },
+  "homepage.meta.description": {
+    "message": "Remotion 的简体中文适配分支，支持中英文切换。",
+    "description": "Homepage meta description"
+  },
+  "theme.custom.layout.askAiButton": {
+    "message": "问 AI",
+    "description": "Floating AI assistant button label"
+  },
+  "theme.custom.editThisPage.askOnDiscord": {
+    "message": "去 Discord 提问",
+    "description": "Ask on Discord label"
+  },
+  "theme.custom.editThisPage.getHelp": {
+    "message": "获取帮助",
+    "description": "Get help label"
+  },
+  "theme.custom.docBreadcrumbs.copyPage.copied": {
+    "message": "已复制",
+    "description": "Copy page success label"
+  },
+  "theme.custom.docBreadcrumbs.copyPage.copy": {
+    "message": "复制页面",
+    "description": "Copy page button label"
+  },
+  "theme.custom.docBreadcrumbs.moreActions": {
+    "message": "更多页面操作",
+    "description": "Docs page actions dropdown trigger aria label"
+  },
+  "theme.custom.docBreadcrumbs.askAi.title": {
+    "message": "问 AI",
+    "description": "Ask AI menu item title"
+  },
+  "theme.custom.docBreadcrumbs.askAi.description": {
+    "message": "向我们的 AI 助手提问",
+    "description": "Ask AI menu item description"
+  },
+  "theme.custom.docBreadcrumbs.viewMarkdown.title": {
+    "message": "查看 Markdown",
+    "description": "View as Markdown menu item title"
+  },
+  "theme.custom.docBreadcrumbs.viewMarkdown.description": {
+    "message": "以 Markdown 形式打开当前页面",
+    "description": "View as Markdown menu item description"
+  },
+  "theme.custom.docBreadcrumbs.openInChatgpt.title": {
+    "message": "在 ChatGPT 中打开",
+    "description": "Open in ChatGPT menu item title"
+  },
+  "theme.custom.docBreadcrumbs.openInChatgpt.description": {
+    "message": "围绕当前页面继续提问",
+    "description": "Open in ChatGPT menu item description"
+  },
+  "theme.custom.docBreadcrumbs.openInClaude.title": {
+    "message": "在 Claude 中打开",
+    "description": "Open in Claude menu item title"
+  },
+  "theme.custom.docBreadcrumbs.openInClaude.description": {
+    "message": "围绕当前页面继续提问",
+    "description": "Open in Claude menu item description"
+  },
+  "theme.custom.docBreadcrumbs.connectCursor.title": {
+    "message": "连接到 Cursor",
+    "description": "Connect to Cursor menu item title"
+  },
+  "theme.custom.docBreadcrumbs.connectCursor.description": {
+    "message": "在 Cursor 中安装 MCP 服务",
+    "description": "Connect to Cursor menu item description"
+  },
+  "theme.custom.docBreadcrumbs.connectVsCode.title": {
+    "message": "连接到 VS Code",
+    "description": "Connect to VS Code menu item title"
+  },
+  "theme.custom.docBreadcrumbs.connectVsCode.description": {
+    "message": "在 VS Code 中安装 MCP 服务",
+    "description": "Connect to VS Code menu item description"
+  },
+  "theme.custom.docBreadcrumbs.aiPrompt": {
+    "message": "请阅读 {currentUrl} 这篇文档并帮助我理解其中内容。我可能会继续询问页面中的概念、功能以及具体用法。",
+    "description": "Prompt passed to AI tools from docs pages"
+  },
+  "theme.custom.footer.logoAlt": {
+    "message": "Remotion 标志",
+    "description": "Footer logo alt text"
+  },
+  "theme.custom.footer.copyrightLine1": {
+    "message": "Copyright {year} Remotion AG.",
+    "description": "Footer copyright first line"
+  },
+  "theme.custom.footer.copyrightLine2": {
+    "message": "站点基于 Docusaurus 构建。",
+    "description": "Footer copyright second line"
+  }
+}

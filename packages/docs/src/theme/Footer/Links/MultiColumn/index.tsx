@@ -1,5 +1,5 @@
 import {useColorMode} from '@docusaurus/theme-common';
-// @ts-expect-error
+import Translate, {translate} from '@docusaurus/Translate';
 import LinkItem from '@theme/Footer/LinkItem';
 import React, {useEffect, useState} from 'react';
 
@@ -49,6 +49,11 @@ const copyright: React.CSSProperties = {
 export default ({columns}) => {
 	const {colorMode} = useColorMode();
 	const [src, setSrc] = useState('/img/new-logo.png');
+	const footerLogoAlt = translate({
+		id: 'theme.custom.footer.logoAlt',
+		description: 'Alt text for the footer logo on the docs site',
+		message: 'Remotion logo',
+	});
 
 	useEffect(() => {
 		if (colorMode === 'dark') {
@@ -69,14 +74,27 @@ export default ({columns}) => {
 				<img
 					key={colorMode}
 					src={src}
+					alt={footerLogoAlt}
 					style={{
 						height: 32,
 						marginRight: 80,
 					}}
 				/>
 				<p style={copyright}>
-					© Copyright {new Date().getFullYear()} Remotion AG. <br /> Website
-					created with Docusaurus.
+					<Translate
+						id="theme.custom.footer.copyrightLine1"
+						description="First line of footer copyright text"
+						values={{year: new Date().getFullYear()}}
+					>
+						{'Copyright {year} Remotion AG.'}
+					</Translate>
+					<br />
+					<Translate
+						id="theme.custom.footer.copyrightLine2"
+						description="Second line of footer copyright text"
+					>
+						Website created with Docusaurus.
+					</Translate>
 				</p>
 			</div>
 			{columns.map((column, i) => (

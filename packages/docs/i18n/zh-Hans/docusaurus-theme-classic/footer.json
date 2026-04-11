@@ -1,0 +1,134 @@
+{
+  "link.title.Remotion": {
+    "message": "Remotion",
+    "description": "Footer column title"
+  },
+  "link.title.Community": {
+    "message": "社区",
+    "description": "Footer column title"
+  },
+  "link.title.More": {
+    "message": "更多",
+    "description": "Footer column title"
+  },
+  "link.item.label.Getting started": {
+    "message": "快速开始",
+    "description": "Footer link label"
+  },
+  "link.item.label.Templates": {
+    "message": "模板",
+    "description": "Footer link label"
+  },
+  "link.item.label.API Reference": {
+    "message": "API 参考",
+    "description": "Footer link label"
+  },
+  "link.item.label.Player": {
+    "message": "播放器",
+    "description": "Footer link label"
+  },
+  "link.item.label.Lambda": {
+    "message": "Lambda",
+    "description": "Footer link label"
+  },
+  "link.item.label.Learn": {
+    "message": "学习",
+    "description": "Footer link label"
+  },
+  "link.item.label.Convert a video": {
+    "message": "转换视频",
+    "description": "Footer link label"
+  },
+  "link.item.label.Store": {
+    "message": "商店",
+    "description": "Footer link label"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Footer link label"
+  },
+  "link.item.label.Remotion Pro": {
+    "message": "Remotion Pro",
+    "description": "Footer link label"
+  },
+  "link.item.label.Prompt Showcase": {
+    "message": "提示词展示",
+    "description": "Footer link label"
+  },
+  "link.item.label.Showcase": {
+    "message": "案例展示",
+    "description": "Footer link label"
+  },
+  "link.item.label.Experts": {
+    "message": "专家",
+    "description": "Footer link label"
+  },
+  "link.item.label.Discord": {
+    "message": "Discord",
+    "description": "Footer link label"
+  },
+  "link.item.label.X": {
+    "message": "X",
+    "description": "Footer link label"
+  },
+  "link.item.label.YouTube": {
+    "message": "YouTube",
+    "description": "Footer link label"
+  },
+  "link.item.label.LinkedIn": {
+    "message": "LinkedIn",
+    "description": "Footer link label"
+  },
+  "link.item.label.Instagram": {
+    "message": "Instagram",
+    "description": "Footer link label"
+  },
+  "link.item.label.TikTok": {
+    "message": "TikTok",
+    "description": "Footer link label"
+  },
+  "link.item.label.About us": {
+    "message": "关于我们",
+    "description": "Footer link label"
+  },
+  "link.item.label.Contact us": {
+    "message": "联系我们",
+    "description": "Footer link label"
+  },
+  "link.item.label.Blog": {
+    "message": "博客",
+    "description": "Footer link label"
+  },
+  "link.item.label.Success Stories": {
+    "message": "成功案例",
+    "description": "Footer link label"
+  },
+  "link.item.label.Support": {
+    "message": "支持",
+    "description": "Footer link label"
+  },
+  "link.item.label.Changelog": {
+    "message": "更新日志",
+    "description": "Footer link label"
+  },
+  "link.item.label.Acknowledgements": {
+    "message": "致谢",
+    "description": "Footer link label"
+  },
+  "link.item.label.License": {
+    "message": "许可证",
+    "description": "Footer link label"
+  },
+  "link.item.label.Terms and Conditions": {
+    "message": "条款与条件",
+    "description": "Footer link label"
+  },
+  "link.item.label.Privacy Policy": {
+    "message": "隐私政策",
+    "description": "Footer link label"
+  },
+  "link.item.label.Brand": {
+    "message": "品牌资源",
+    "description": "Footer link label"
+  }
+}

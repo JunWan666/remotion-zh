@@ -1,3 +1,4 @@
+import {translate} from '@docusaurus/Translate';
 import type {WrapperProps} from '@docusaurus/types';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import type DocBreadcrumbsType from '@theme-original/DocBreadcrumbs';
@@ -117,6 +118,93 @@ async function copy(text: string) {
 
 export default function DocBreadcrumbsWrapper(props: Props): ReactNode {
 	const [copied, setCopied] = useState<boolean>(false);
+	const copyPageLabel = copied
+		? translate({
+				id: 'theme.custom.docBreadcrumbs.copyPage.copied',
+				description: 'Label shown after copying the current docs page',
+				message: 'Copied',
+			})
+		: translate({
+				id: 'theme.custom.docBreadcrumbs.copyPage.copy',
+				description: 'Button label to copy the current docs page as markdown',
+				message: 'Copy page',
+			});
+	const moreActionsLabel = translate({
+		id: 'theme.custom.docBreadcrumbs.moreActions',
+		description: 'Aria label for the docs page actions dropdown trigger',
+		message: 'More page actions',
+	});
+	const askAiTitle = translate({
+		id: 'theme.custom.docBreadcrumbs.askAi.title',
+		description: 'Title for the Ask AI item in the docs page actions menu',
+		message: 'Ask AI',
+	});
+	const askAiDescription = translate({
+		id: 'theme.custom.docBreadcrumbs.askAi.description',
+		description:
+			'Description for the Ask AI item in the docs page actions menu',
+		message: 'Ask a question to our AI assistant',
+	});
+	const viewMarkdownTitle = translate({
+		id: 'theme.custom.docBreadcrumbs.viewMarkdown.title',
+		description:
+			'Title for the View as Markdown item in the docs page actions menu',
+		message: 'View as Markdown',
+	});
+	const viewMarkdownDescription = translate({
+		id: 'theme.custom.docBreadcrumbs.viewMarkdown.description',
+		description:
+			'Description for the View as Markdown item in the docs page actions menu',
+		message: 'Open this page in Markdown',
+	});
+	const openInChatGptTitle = translate({
+		id: 'theme.custom.docBreadcrumbs.openInChatgpt.title',
+		description:
+			'Title for the Open in ChatGPT item in the docs page actions menu',
+		message: 'Open in ChatGPT',
+	});
+	const openInChatGptDescription = translate({
+		id: 'theme.custom.docBreadcrumbs.openInChatgpt.description',
+		description:
+			'Description for the Open in ChatGPT item in the docs page actions menu',
+		message: 'Ask questions about this page',
+	});
+	const openInClaudeTitle = translate({
+		id: 'theme.custom.docBreadcrumbs.openInClaude.title',
+		description:
+			'Title for the Open in Claude item in the docs page actions menu',
+		message: 'Open in Claude',
+	});
+	const openInClaudeDescription = translate({
+		id: 'theme.custom.docBreadcrumbs.openInClaude.description',
+		description:
+			'Description for the Open in Claude item in the docs page actions menu',
+		message: 'Ask questions about this page',
+	});
+	const connectCursorTitle = translate({
+		id: 'theme.custom.docBreadcrumbs.connectCursor.title',
+		description:
+			'Title for the Connect to Cursor item in the docs page actions menu',
+		message: 'Connect to Cursor',
+	});
+	const connectCursorDescription = translate({
+		id: 'theme.custom.docBreadcrumbs.connectCursor.description',
+		description:
+			'Description for the Connect to Cursor item in the docs page actions menu',
+		message: 'Install MCP Server on Cursor',
+	});
+	const connectVsCodeTitle = translate({
+		id: 'theme.custom.docBreadcrumbs.connectVsCode.title',
+		description:
+			'Title for the Connect to VS Code item in the docs page actions menu',
+		message: 'Connect to VS Code',
+	});
+	const connectVsCodeDescription = translate({
+		id: 'theme.custom.docBreadcrumbs.connectVsCode.description',
+		description:
+			'Description for the Connect to VS Code item in the docs page actions menu',
+		message: 'Install MCP Server on VS Code',
+	});
 
 	const handleCopyMarkdown = useCallback(async () => {
 		try {
@@ -147,7 +235,18 @@ export default function DocBreadcrumbsWrapper(props: Props): ReactNode {
 
 	const getPrompt = useCallback((): string => {
 		const currentUrl = window.location.href;
-		return `Please read the documentation from ${currentUrl} and help me understand it. I may have questions about the content, features, and how to use what's described on this page.`;
+		return translate(
+			{
+				id: 'theme.custom.docBreadcrumbs.aiPrompt',
+				description:
+					'Prompt passed to AI tools when opening the current documentation page',
+				message:
+					"Please read the documentation from {currentUrl} and help me understand it. I may have questions about the content, features, and how to use what's described on this page.",
+			},
+			{
+				currentUrl,
+			},
+		);
 	}, []);
 
 	const handleOpenInChatGPT = useCallback(() => {
@@ -234,11 +333,12 @@ export default function DocBreadcrumbsWrapper(props: Props): ReactNode {
 							d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 384H384c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z"
 						/>
 					</svg>
-					{copied ? 'Copied' : 'Copy page'}
+					{copyPageLabel}
 				</button>
 				<DropdownMenu.Root>
 					<DropdownMenu.Trigger asChild>
 						<button
+							aria-label={moreActionsLabel}
 							style={{
 								all: 'unset',
 								cursor: 'pointer',
@@ -280,46 +380,46 @@ export default function DocBreadcrumbsWrapper(props: Props): ReactNode {
 						>
 							<AiDropdownItemComponent
 								icon={<RemotionIcon />}
-								title="Ask AI"
-								description="Ask a question to our AI assistant"
+								title={askAiTitle}
+								description={askAiDescription}
 								onClick={handleAskAI}
 							/>
 
 							<AiDropdownItemComponent
 								icon={<MarkdownIcon />}
-								title="View as Markdown"
-								description="Open this page in Markdown"
+								title={viewMarkdownTitle}
+								description={viewMarkdownDescription}
 								onClick={handleViewAsMarkdown}
 							/>
 
 							<AiDropdownItemComponent
 								icon={<OpenAIIcon />}
-								title="Open in ChatGPT"
-								description="Ask questions about this page"
+								title={openInChatGptTitle}
+								description={openInChatGptDescription}
 								onClick={handleOpenInChatGPT}
 								showExternalIcon
 							/>
 
 							<AiDropdownItemComponent
 								icon={<AnthropicIcon />}
-								title="Open in Claude"
-								description="Ask questions about this page"
+								title={openInClaudeTitle}
+								description={openInClaudeDescription}
 								onClick={handleOpenInClaude}
 								showExternalIcon
 							/>
 
 							<AiDropdownItemComponent
 								icon={<CursorIcon />}
-								title="Connect to Cursor"
-								description="Install MCP Server on Cursor"
+								title={connectCursorTitle}
+								description={connectCursorDescription}
 								onClick={handleConnectToCursor}
 								showExternalIcon
 							/>
 
 							<AiDropdownItemComponent
 								icon={<VSCodeIcon />}
-								title="Connect to VS Code"
-								description="Install MCP Server on VS Code"
+								title={connectVsCodeTitle}
+								description={connectVsCodeDescription}
 								onClick={handleConnectToVSCode}
 								showExternalIcon
 							/>
