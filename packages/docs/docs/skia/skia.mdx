@@ -45,19 +45,14 @@ Prior to `v3.3.39`, the option was called `Config.Bundling.overrideWebpackConfig
 
 Next, you need to refactor the [entry point](/docs/terminology/entry-point) file to first load the Skia WebAssembly binary before calling registerRoot():
 
-```ts twoslash title="src/index.ts"
-// @filename: ./Root.tsx
-export const RemotionRoot = () => <></>;
-
-// @filename: index.tsx
-// ---cut---
-import { LoadSkia } from "@shopify/react-native-skia/src/web";
-import { registerRoot } from "remotion";
+```tsx title="src/index.tsx"
+import {LoadSkia} from '@shopify/react-native-skia/src/web';
+import {registerRoot} from 'remotion';
+import {RemotionRoot} from './Root';
 
 (async () => {
-  await LoadSkia();
-  const { RemotionRoot } = await import("./Root");
-  registerRoot(RemotionRoot);
+	await LoadSkia();
+	registerRoot(RemotionRoot);
 })();
 ```
 

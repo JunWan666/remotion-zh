@@ -30,6 +30,7 @@ const sidebars: SidebarsConfig = {
 						{
 							type: 'category',
 							label: 'sites',
+							key: 'lambda-sites',
 							link: {
 								type: 'doc',
 								id: 'lambda/cli/sites',
@@ -74,6 +75,7 @@ const sidebars: SidebarsConfig = {
 						{
 							type: 'category',
 							label: 'sites',
+							key: 'cloudrun-sites',
 							link: {
 								type: 'doc',
 								id: 'cloudrun/cli/sites',
@@ -241,6 +243,7 @@ const sidebars: SidebarsConfig = {
 					type: 'link',
 					href: '/docs/cloudrun/cli',
 					label: 'CLI Reference',
+					key: 'cloudrun-cli-reference',
 				},
 				'cloudrun/getserviceinfo',
 				'cloudrun/deployservice',
@@ -350,6 +353,7 @@ const sidebars: SidebarsConfig = {
 					type: 'link',
 					href: '/docs/lambda/cli',
 					label: 'CLI Reference',
+					key: 'lambda-cli-reference',
 				},
 				'lambda/estimateprice',
 				'lambda/deployfunction',
@@ -788,6 +792,7 @@ const sidebars: SidebarsConfig = {
 					type: 'link',
 					href: '/docs/client-side-rendering',
 					label: 'Guide',
+					key: 'web-renderer-guide',
 				},
 				'web-renderer/render-media-on-web',
 				'web-renderer/render-still-on-web',
@@ -846,6 +851,7 @@ const sidebars: SidebarsConfig = {
 					type: 'link',
 					href: '/docs/media-parser',
 					label: 'Guide',
+					key: 'media-parser-guide',
 				},
 				'media-parser/types',
 				'media-parser/parse-media',
@@ -873,6 +879,7 @@ const sidebars: SidebarsConfig = {
 					type: 'link',
 					href: '/docs/webcodecs',
 					label: 'Guide',
+					key: 'webcodecs-guide',
 				},
 				'webcodecs/convert-media',
 				'webcodecs/webcodecs-controller',
@@ -1064,6 +1071,7 @@ const sidebars: SidebarsConfig = {
 					type: 'link',
 					href: '/docs/web-renderer',
 					label: 'API Reference',
+					key: 'client-side-rendering-api-reference',
 				},
 				'client-side-rendering/how-it-works',
 				'client-side-rendering/limitations',
@@ -1085,6 +1093,7 @@ const sidebars: SidebarsConfig = {
 					type: 'link',
 					href: '/docs/lambda/api',
 					label: 'API Reference',
+					key: 'lambda-main-api-reference',
 				},
 				'lambda/setup',
 				'lambda/authentication',
@@ -1105,6 +1114,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: 'category',
 					label: 'Troubleshooting',
+					key: 'lambda-troubleshooting',
 					items: [
 						'lambda/troubleshooting/debug',
 						'lambda/troubleshooting/permissions',
@@ -1205,6 +1215,7 @@ const sidebars: SidebarsConfig = {
 					type: 'link',
 					href: '/docs/player/player',
 					label: 'API Reference',
+					key: 'player-api-reference',
 				},
 				'player/examples',
 				'player/scaling',
@@ -1310,6 +1321,7 @@ const sidebars: SidebarsConfig = {
 			type: 'link',
 			href: '/docs/api',
 			label: 'API Reference',
+			key: 'root-api-reference',
 		},
 		{
 			type: 'category',
@@ -1388,6 +1400,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: 'category',
 			label: 'Troubleshooting',
+			key: 'main-troubleshooting',
 			items: [
 				'troubleshooting/debug-failed-render',
 				'troubleshooting/video-has-no-sound',
@@ -1529,6 +1542,7 @@ const sidebars: SidebarsConfig = {
 					type: 'link',
 					href: '/docs/media-parser/parse-media',
 					label: 'API Reference',
+					key: 'media-parser-main-api-reference',
 				},
 				'media-parser/metadata',
 				'media-parser/fields',
@@ -1561,6 +1575,7 @@ const sidebars: SidebarsConfig = {
 					type: 'link',
 					href: '/docs/webcodecs/convert-media',
 					label: 'API Reference',
+					key: 'webcodecs-main-api-reference',
 				},
 				'webcodecs/convert-a-video',
 				'webcodecs/rotate-a-video',
