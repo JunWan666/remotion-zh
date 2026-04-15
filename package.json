@@ -40,6 +40,8 @@
 		"watchserverless": "turbo watch make --experimental-write-cache --filter='@remotion/lambda' --filter='@remotion/serverless' --filter='@remotion/streaming'",
 		"makethree": "turbo run make --filter='@remotion/three'",
 		"watchthree": "turbo watch make --experimental-write-cache --filter='@remotion/three'",
+		"fork:pack": "bun publish-fork.ts --dry-run",
+		"fork:publish": "bun publish-fork.ts",
 		"release": "bun publish.ts && turbo run publishprivate --concurrency=1 && git push --tags && git push",
 		"publishtemplates": "cd packages/it-tests && bun src/templates/publish.ts",
 		"cleantypes": "rm -rf packages/**/tsconfig.tsbuildinfo && rm -f packages/tsconfig.tsbuildinfo",

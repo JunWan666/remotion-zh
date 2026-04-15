@@ -366,6 +366,29 @@
         "react": "catalog:",
       },
     },
+    "packages/create-video-zh": {
+      "name": "create-video-zh",
+      "version": "4.0.448-zh.0",
+      "bin": {
+        "create-video-zh": "bin.js",
+      },
+      "dependencies": {
+        "chalk": "4.1.2",
+        "execa": "5.1.1",
+        "minimist": "1.2.6",
+        "prompts": "2.4.2",
+        "tar": "6.2.1",
+      },
+      "devDependencies": {
+        "@remotion/eslint-config-internal": "workspace:*",
+        "@types/minimist": "1.2.2",
+        "@types/prompts": "^2.0.12",
+        "@types/tar": "6.1.1",
+        "@typescript/native-preview": "catalog:",
+        "eslint": "catalog:",
+        "react": "catalog:",
+      },
+    },
     "packages/design": {
       "name": "@remotion/design",
       "version": "4.0.447",
@@ -5280,6 +5303,8 @@
     "crc32-stream": ["crc32-stream@6.0.0", "", { "dependencies": { "crc-32": "1.2.2", "readable-stream": "4.7.0" } }, "sha512-piICUB6ei4IlTv1+653yq5+KoqfBYmj9bw6LqXoOneTMDXk5nM1qt12mFW1caG3LlJXEKW1Bp0WggEmIfQB34g=="],
 
     "create-video": ["create-video@workspace:packages/create-video"],
+
+    "create-video-zh": ["create-video-zh@workspace:packages/create-video-zh"],
 
     "cross-dirname": ["cross-dirname@0.1.0", "", {}, "sha512-+R08/oI0nl3vfPcqftZRpytksBXDzOUveBq/NBVx0sUp1axwzPQrKinNx5yd5sxPu8j1wIy8AfnVQ+5eFdha6Q=="],
 

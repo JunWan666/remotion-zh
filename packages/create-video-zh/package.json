@@ -1,0 +1,50 @@
+{
+	"repository": {
+		"url": "https://github.com/JunWan666/remotion-zh/tree/main/packages/create-video-zh"
+	},
+	"name": "create-video-zh",
+	"version": "4.0.448-zh.0",
+	"description": "Create a new Remotion project powered by the Chinese fork packages",
+	"main": "dist/index.js",
+	"bin": {
+		"create-video-zh": "bin.js"
+	},
+	"scripts": {
+		"formatting": "oxfmt src --check",
+		"format": "oxfmt src",
+		"lint": "eslint src",
+		"test": "bun test src",
+		"make": "tsgo -d && bun --env-file=../.env.bundle bundle.ts"
+	},
+	"author": "JunWan666",
+	"license": "SEE LICENSE IN LICENSE.md",
+	"dependencies": {
+		"chalk": "4.1.2",
+		"execa": "5.1.1",
+		"minimist": "1.2.6",
+		"prompts": "2.4.2",
+		"tar": "6.2.1"
+	},
+	"devDependencies": {
+		"@types/minimist": "1.2.2",
+		"@types/prompts": "^2.0.12",
+		"@types/tar": "6.1.1",
+		"react": "catalog:",
+		"@remotion/eslint-config-internal": "workspace:*",
+		"eslint": "catalog:",
+		"@typescript/native-preview": "catalog:"
+	},
+	"exports": {
+		"./package.json": "./package.json",
+		".": {
+			"types": "./dist/index.d.ts",
+			"module": "./dist/esm/index.mjs",
+			"import": "./dist/esm/index.mjs",
+			"require": "./dist/index.js"
+		}
+	},
+	"homepage": "https://github.com/JunWan666/remotion-zh",
+	"publishConfig": {
+		"access": "public"
+	}
+}
