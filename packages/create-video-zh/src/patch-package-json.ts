@@ -1,6 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import {getForkAliasSpec, getForkConfig, getProjectNpmRc} from './fork-config';
+import {
+	getForkAliasSpec,
+	getForkConfigOrNull,
+	getProjectNpmRc,
+} from './fork-config';
 import {listOfRemotionPackages} from './list-of-remotion-packages';
 import type {PackageManager} from './pkg-managers';
 
@@ -24,7 +28,7 @@ export const patchPackageJson = (
 			fs.writeFileSync(filename, content),
 		setNpmRc = (filename: string, content: string) =>
 			fs.writeFileSync(filename, content),
-		forkConfig = {...getForkConfig(), version: latestRemotionVersion},
+		forkConfig = getForkConfigOrNull(),
 	} = {},
 ) => {
 	const fileName = path.join(projectRoot, 'package.json');
@@ -41,7 +45,12 @@ export const patchPackageJson = (
 		return Object.keys(depsField)
 			.map((d) => {
 				if (listOfRemotionPackages.includes(d)) {
-					return [d, getForkAliasSpec(d, forkConfig)];
+					return [
+						d,
+						forkConfig
+							? getForkAliasSpec(d, forkConfig)
+							: latestRemotionVersion,
+					];
 				}
 
 				return [d, depsField[d]];
@@ -68,10 +77,9 @@ export const patchPackageJson = (
 	const newDependenciesWithTailwind = addTailwind
 		? {
 				...newDependencies,
-				'@remotion/tailwind-v4': getForkAliasSpec(
-					'@remotion/tailwind-v4',
-					forkConfig,
-				),
+				'@remotion/tailwind-v4': forkConfig
+					? getForkAliasSpec('@remotion/tailwind-v4', forkConfig)
+					: latestRemotionVersion,
 				tailwindcss: '4.0.0',
 			}
 		: newDependencies;
@@ -91,8 +99,10 @@ export const patchPackageJson = (
 
 	setPackageJson(fileName, newPackageJson);
 
-	const npmRc = getProjectNpmRc(forkConfig);
-	if (npmRc) {
-		setNpmRc(path.join(projectRoot, '.npmrc'), npmRc);
+	if (forkConfig) {
+		const npmRc = getProjectNpmRc(forkConfig);
+		if (npmRc) {
+			setNpmRc(path.join(projectRoot, '.npmrc'), npmRc);
+		}
 	}
 };

@@ -9,7 +9,7 @@
 
 <p align="center">
   <strong>Language / 语言</strong><br>
-  <a href="./README.md">简体中文</a>（Default） | English
+  <a href="./README.md">简体中文</a> (Default) | English
 </p>
 
 [![Discord Shield](https://img.shields.io/discord/809501355504959528?color=000000&label=Discord&logo=fdgssdf)](https://remotion.dev/discord)
@@ -20,71 +20,89 @@
 # Remotion Chinese Localization Fork
 
 This repository is a Chinese-localized fork of **[Remotion](https://github.com/remotion-dev/remotion)**.
-It is intended to gradually adapt the project entry points, documentation experience, and visible interfaces for Chinese users.
+The goal is to gradually provide a better Chinese-first entry point, documentation flow, and Studio experience.
 
 Remotion itself is a framework for **creating videos programmatically using React**.
 
-## Current localization status
+## Quick start
 
-- The root README now defaults to Simplified Chinese
-- An English switch page is available: [README.en.md](./README.en.md)
-- This repository is explicitly maintained as a Chinese adaptation branch
-- More I18n work is planned for docs, Studio, CLI, and related surfaces
+If you just want to create a runnable Chinese-ready project, use:
 
-## Why create videos in React?
-
-- **Leverage web technologies**: Use CSS, Canvas, SVG, WebGL, and more
-- **Leverage programming**: Use variables, functions, APIs, math, and algorithms to create effects
-- **Leverage React**: Reusable components, composition, Fast Refresh, and a strong ecosystem
-
-## Created with Remotion
-
-<table>
-<tr>
-<td align="center">
-<img style="width: 290px" src="https://pub-646d808d9cb240cea53bedc76dd3cd0c.r2.dev/fireship-quick.gif" />
-<p>"This video was made with code" <em>- Fireship</em> <a href="https://youtu.be/deg8bOoziaE">Watch</a> | <a href="https://github.com/wcandillon/remotion-fireship">Source</a></p>
-</td>
-<td align="center">
-<img style="width: 240px" src="https://pub-646d808d9cb240cea53bedc76dd3cd0c.r2.dev/unwrapped-2023.gif" />
-<p>GitHub Unwrapped - Personalized Year in Review <a href="https://www.githubunwrapped.com">Try</a> | <a href="https://github.com/remotion-dev/github-unwrapped">Source</a></p>
-</td>
-<td align="center">
-<em>See more in the <a href="https://remotion.dev/showcase">Remotion Showcase</a>.</em>
-</td>
-</tr>
-</table>
-
-## Get started
-
-If you already have Node.js installed, run:
-
-```console
-npx create-video@latest
+```bash
+npx create-video-zh@latest my-video
+cd my-video
+npm install
+npm run dev
 ```
 
-If you want to work on this repository locally, common commands are:
+By default, the generated project uses the official `remotion` / `@remotion/cli` packages for installation stability, and then applies a localized Studio frontend from a local `remotion-zh` checkout.
 
-```console
+## How the Chinese Studio works
+
+To avoid `npm install` failures when not all fork packages are published, `create-video-zh` now defaults to:
+
+1. Official Remotion dependencies
+2. A local Studio localization patch applied in `postinstall`
+
+The generated project looks for localized Studio assets in:
+
+- `../Work/remotion-zh/packages/studio/dist`
+- `../remotion-zh/packages/studio/dist`
+
+Or you can override it with:
+
+```bash
+REMOTION_ZH_STUDIO_DIST=/your/path/to/remotion-zh/packages/studio/dist
+```
+
+The generated project also includes:
+
+```bash
+npm run apply:studio-zh
+```
+
+to re-apply the localization patch manually.
+
+## Optional fork mode
+
+If you want to force fork package aliases instead of the official packages:
+
+```bash
+REMOTION_USE_FORK=1 npx create-video-zh@latest my-video
+```
+
+This rewrites `remotion`, `@remotion/cli`, and related packages to `npm:@junwan666/...` aliases and writes a scoped `.npmrc`.
+
+## Developing this repository
+
+Common local commands:
+
+```bash
 bun install
 bun run build
+bun run stylecheck
 cd packages/example
 bun run dev
 ```
 
-## Docs and references
+## Links
 
-- Official documentation: [`remotion.dev/docs`](https://www.remotion.dev/docs)
-- API reference: [`remotion.dev/api`](https://www.remotion.dev/api)
-- Upstream repository: [`remotion-dev/remotion`](https://github.com/remotion-dev/remotion)
+- Official docs: [`remotion.dev/docs`](https://www.remotion.dev/docs)
+- API docs: [`remotion.dev/api`](https://www.remotion.dev/api)
+- Upstream repo: [`remotion-dev/remotion`](https://github.com/remotion-dev/remotion)
+- CLI package docs: [packages/create-video-zh/README.md](./packages/create-video-zh/README.md)
 
-Note:
-The full documentation still follows the upstream project for now. This fork will gradually add Chinese-localized guidance and UX improvements.
+## Current status
+
+- `create-video-zh` can now generate installable projects directly
+- The default generated project auto-applies a local Chinese Studio patch
+- The root README is now Chinese-first
+- More Studio and documentation localization is still ongoing
 
 ## License
 
-Remotion uses a special license and may require an additional company license in some commercial scenarios. See [LICENSE.md](LICENSE.md) for details.
+Remotion uses a special license and may require an additional company license in some commercial scenarios. See [LICENSE.md](./LICENSE.md) for details.
 
 ## Contributing
 
-Contributions for Chinese localization and core project improvements are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before contributing.
+Contributions for Chinese localization and upstream feature work are welcome. Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before contributing.

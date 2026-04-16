@@ -7,10 +7,11 @@ import {askSkills} from './ask-skills';
 import {askTailwind} from './ask-tailwind';
 import {createPublicFolder} from './create-public-folder';
 import {degit} from './degit';
-import {getForkConfig, isDefaultForkRegistry} from './fork-config';
+import {getForkConfigOrNull, getTemplateOrg} from './fork-config';
 import {makeHyperlink} from './hyperlinks/make-link';
 import {installSkills} from './install-skills';
 import {getLatestRemotionVersion} from './latest-remotion-version';
+import {localizeStarter} from './localize-starter';
 import {Log} from './log';
 import {openInEditorFlow} from './open-in-editor-flow';
 import {patchPackageJson} from './patch-package-json';
@@ -31,6 +32,7 @@ import {
 	isYesFlagSelected,
 	selectTemplate,
 } from './select-template';
+import {writeStudioZhLocalScript} from './write-studio-zh-local-script';
 
 const gitExists = (commandToCheck: string, argsToCheck: string[]) => {
 	try {
@@ -87,7 +89,9 @@ const getGitStatus = async (root: string): Promise<void> => {
 };
 
 export const init = async () => {
-	const forkConfig = getForkConfig();
+	const forkConfig = getForkConfigOrNull();
+	const templateOrg = getTemplateOrg();
+	let latestVersion = '';
 
 	Log.info(`Welcome to ${chalk.blue('Remotion ZH')}!`);
 
@@ -173,7 +177,7 @@ export const init = async () => {
 
 	try {
 		await degit({
-			repoOrg: forkConfig.templateOrg || selectedTemplate.org,
+			repoOrg: templateOrg || selectedTemplate.org,
 			repoName: selectedTemplate.repoName,
 			dest: projectRoot,
 		});
@@ -185,7 +189,7 @@ export const init = async () => {
 
 		createPublicFolder(projectRoot);
 
-		const latestVersion = await latestRemotionVersionPromise;
+		latestVersion = await latestRemotionVersionPromise;
 		patchPackageJson({
 			projectRoot,
 			projectName: folderName,
@@ -193,6 +197,12 @@ export const init = async () => {
 			packageManager: pkgManager,
 			addTailwind: shouldOverrideTailwind,
 		});
+
+		localizeStarter(projectRoot, selectedTemplate);
+
+		if (!forkConfig) {
+			writeStudioZhLocalScript(projectRoot);
+		}
 	} catch (e) {
 		Log.error(e);
 		Log.error('Error with template cloning. Aborting');
@@ -221,18 +231,25 @@ export const init = async () => {
 	Log.info();
 	Log.info(`Copied to ${chalk.blue(cdToFolder)}.`);
 	Log.info();
-	Log.info(
-		`This starter is pinned to ${chalk.blue(
-			forkConfig.version,
-		)} from ${chalk.blue(forkConfig.scope)}.`,
-	);
-	if (!isDefaultForkRegistry(forkConfig.registry)) {
+
+	if (forkConfig) {
+		Log.info(
+			`This starter is pinned to ${chalk.blue(
+				forkConfig.version,
+			)} from ${chalk.blue(forkConfig.scope)}.`,
+		);
 		Log.info(
 			`Wrote ${chalk.blue('.npmrc')} for ${chalk.blue(
 				forkConfig.scope,
 			)} -> ${chalk.blue(forkConfig.registry)}.`,
 		);
+	} else {
+		Log.info(`This starter is pinned to ${chalk.blue(latestVersion)}.`);
+		Log.info(
+			'Using official Remotion packages. Set REMOTION_USE_FORK=1 to opt into fork aliases.',
+		);
 	}
+
 	Log.info();
 
 	Log.info('Get started by running:');

@@ -7,7 +7,6 @@ export type ForkConfig = {
 	readonly scope: string;
 	readonly version: string;
 	readonly registry: string;
-	readonly templateOrg: string;
 };
 
 const normalizeScope = (scope: string) => {
@@ -39,10 +38,49 @@ export const getForkConfig = (): ForkConfig => {
 		registry: normalizeRegistry(
 			process.env.REMOTION_FORK_REGISTRY ?? DEFAULT_FORK_REGISTRY,
 		),
-		templateOrg: (
-			process.env.REMOTION_TEMPLATE_ORG ?? DEFAULT_TEMPLATE_ORG
-		).trim(),
 	};
+};
+
+const parseBooleanEnv = (value: string | undefined): boolean | null => {
+	if (value === undefined) {
+		return null;
+	}
+
+	const normalized = value.trim().toLowerCase();
+
+	if (['1', 'true', 'yes', 'on'].includes(normalized)) {
+		return true;
+	}
+
+	if (['0', 'false', 'no', 'off'].includes(normalized)) {
+		return false;
+	}
+
+	throw new Error(
+		'REMOTION_USE_FORK must be one of: 1, true, yes, on, 0, false, no, off.',
+	);
+};
+
+export const shouldUseFork = (): boolean => {
+	const explicitForkMode = parseBooleanEnv(process.env.REMOTION_USE_FORK);
+
+	if (explicitForkMode !== null) {
+		return explicitForkMode;
+	}
+
+	return (
+		Boolean(process.env.REMOTION_FORK_SCOPE) ||
+		Boolean(process.env.REMOTION_FORK_VERSION) ||
+		Boolean(process.env.REMOTION_FORK_REGISTRY)
+	);
+};
+
+export const getForkConfigOrNull = (): ForkConfig | null => {
+	return shouldUseFork() ? getForkConfig() : null;
+};
+
+export const getTemplateOrg = () => {
+	return (process.env.REMOTION_TEMPLATE_ORG ?? DEFAULT_TEMPLATE_ORG).trim();
 };
 
 export const getForkPackageName = (
@@ -84,9 +122,5 @@ export const getScopedRegistryLine = (scope: string, registry: string) => {
 };
 
 export const getProjectNpmRc = (config: ForkConfig) => {
-	if (isDefaultForkRegistry(config.registry)) {
-		return null;
-	}
-
 	return `${getScopedRegistryLine(config.scope, config.registry)}\n`;
 };

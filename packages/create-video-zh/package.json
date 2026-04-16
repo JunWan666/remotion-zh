@@ -3,8 +3,8 @@
 		"url": "https://github.com/JunWan666/remotion-zh/tree/main/packages/create-video-zh"
 	},
 	"name": "create-video-zh",
-	"version": "4.0.448-zh.0",
-	"description": "Create a new Remotion project powered by the Chinese fork packages",
+	"version": "4.0.448-zh.2",
+	"description": "Create a new Remotion project with optional Chinese fork package aliases",
 	"main": "dist/index.js",
 	"bin": {
 		"create-video-zh": "bin.js"
